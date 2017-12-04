@@ -1,11 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { shallow } from 'enzyme';
 import MyComponent from 'index';
 
 describe('<index />', () => {
-
-    it('renders without crashing', () => {
-        const div = document.createElement('div');
-        ReactDOM.render(<MyComponent />, div);
-    });
+  it('renders without crashing', () => {
+    shallow(<MyComponent />);
+  });
 });
