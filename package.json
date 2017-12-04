@@ -9,13 +9,15 @@
     "test:watch": "jest --watchAll",
     "deploy": "",
     "lint": "eslint ./src",
-    "build-examples":
-      "webpack --config examples/webpack.config.babel.js --progress",
+    "build-examples": "webpack --config examples/webpack.config.babel.js --progress",
     "start": "webpack-dev-server --config examples/webpack.config.live.babel.js"
   },
   "dependencies": {
+    "prop-types": "^15.6.0",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.2.0",
+    "react-tether": "^0.6.0",
+    "selectly": "^0.5.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.0.1",
@@ -41,15 +43,30 @@
   "jest": {
     "collectCoverage": true,
     "mapCoverage": true,
-    "modulePaths": ["./src"],
-    "moduleFileExtensions": ["js", "jsx"],
-    "setupFiles": ["./tests/helpers/setup.js"],
-    "collectCoverageFrom": ["src/**/*.js", "!tests/**"],
+    "modulePaths": [
+      "./src"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "setupFiles": [
+      "./tests/helpers/setup.js"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!tests/**"
+    ],
     "transform": {
       "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest",
       "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
       "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
     },
-    "transformIgnorePatterns": ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"]
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
+    ]
+  },
+  "peerDependencies": {
+    "react-aria": "^0.9.2"
   }
 }
