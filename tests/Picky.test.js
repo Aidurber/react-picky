@@ -9,18 +9,18 @@ describe('Picky', () => {
 
     expect(wrapper.state('selectedValues')).toHaveLength(initialValues.length);
   });
-  xit('should show placeholder if no initial values', () => {
+  it('should show placeholder if no initial values', () => {
     const placeholder = 'Please select...';
-    const wrapper = shallow(<Picky placeholder={placeholder} />);
+    const wrapper = mount(<Picky placeholder={placeholder} />);
     expect(
       wrapper
-        .find('option')
+        .find('button')
         .first()
         .text(),
     ).toEqual(placeholder);
   });
 
-  xit('should accept multiple prop', () => {
+  it('should accept multiple prop', () => {
     const wrapper = shallow(<Picky multiple={true} />);
     expect(wrapper.prop('multiple')).toEqual(true);
 
