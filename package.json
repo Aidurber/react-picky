@@ -10,8 +10,10 @@
     "test:watch": "jest --watchAll",
     "deploy": "",
     "lint": "eslint ./src",
-    "build-examples": "webpack --config examples/webpack.config.babel.js --progress",
-    "start": "webpack-dev-server --config examples/webpack.config.live.babel.js",
+    "build-examples":
+      "webpack --config examples/webpack.config.babel.js --progress",
+    "start":
+      "webpack-dev-server --config examples/webpack.config.live.babel.js",
     "cosmos": "cosmos",
     "cosmos:export": "cosmos-export",
     "semantic-release": "semantic-release"
@@ -50,33 +52,25 @@
   "jest": {
     "collectCoverage": true,
     "mapCoverage": true,
-    "modulePaths": [
-      "./src"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "jsx"
-    ],
-    "setupFiles": [
-      "./tests/helpers/setup.js"
-    ],
-    "collectCoverageFrom": [
-      "src/**/*.js",
-      "!src/index.js",
-      "!tests/**"
-    ],
+    "modulePaths": ["./src"],
+    "moduleFileExtensions": ["js", "jsx"],
+    "setupFiles": ["./tests/helpers/setup.js"],
+    "collectCoverageFrom": ["src/**/*.js", "!src/index.js", "!tests/**"],
     "transform": {
       "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest",
       "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
       "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
     },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
-    ]
+    "transformIgnorePatterns": ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"]
   },
   "peerDependencies": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/Aidurber/react-picky.git"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    }
   }
 }
