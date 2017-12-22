@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import Placeholder from './Placeholder';
 class Picky extends React.Component {
   constructor(props) {
     super(props);
@@ -10,34 +10,18 @@ class Picky extends React.Component {
   }
 
   componentDidMount() {}
-  renderPlaceholder() {
-    const { placeholder, value, numberDisplayed, multiple } = this.props;
-    // Show placeholder if no value
-    if (!value) return placeholder;
 
-    if (Array.isArray(value)) {
-      // If type is array and values length less than number displayed
-      // join the values
-      if (multiple) {
-        if (value.length <= numberDisplayed) {
-          return value.join(', ');
-        } else {
-          //If more than numberDisplayed then show "length selected"
-          return `${value.length} selected`;
-        }
-      } else {
-        return value[0].toString();
-      }
-    } else {
-      return value;
-    }
-  }
   render() {
-    //const { placeholder, value } = this.props;
+    const { placeholder, value, multiple, numberDisplayed } = this.props;
     return (
       <div className="picky">
         <button type="button" className="picky__input">
-          <span className="picky__placeholder">{this.renderPlaceholder()}</span>
+          <Placeholder
+            placeholder={placeholder}
+            value={value}
+            multiple={multiple}
+            numberDisplayed={numberDisplayed}
+          />
         </button>
       </div>
     );
