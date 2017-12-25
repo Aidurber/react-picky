@@ -59,6 +59,7 @@ class Example extends React.Component {
               multiple={true}
               includeSelectAll={true}
               includeFilter={true}
+              dropdownHeight={600}
             />
           </div>
         </div>

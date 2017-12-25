@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import debounce from 'lodash.debounce';
+import VirtualList from 'react-tiny-virtual-list';
 import Placeholder from './Placeholder';
 import Filter from './Filter';
 import './Picky.css';
@@ -9,11 +11,14 @@ class Picky extends React.Component {
     super(props);
     this.state = {
       selectedValue: props.value,
-      open: props.open
+      open: props.open,
+      filtered: false,
+      filteredOptions: []
     };
 
     this.toggleDropDown = this.toggleDropDown.bind(this);
     this.selectAll = this.selectAll.bind(this);
+    this.onFilterChange = this.onFilterChange.bind(this);
   }
 
   componentDidMount() {}
@@ -78,30 +83,54 @@ class Picky extends React.Component {
     );
   }
   renderOptions() {
-    const { options, value } = this.props;
+    const { options, value, dropdownHeight } = this.props;
+    const items = this.state.filtered ? this.state.filteredOptions : options;
 
-    return options.map(option => {
-      let isSelected = false;
-
-      if (
-        (Array.isArray(value) && value.includes(option)) ||
-        (!Array.isArray(value) && value === option)
-      ) {
-        isSelected = true;
-      }
-      return (
-        <li
-          key={option}
-          className={isSelected ? 'selected' : ''}
-          onClick={() => this.selectValue(option)}
-        >
-          <input type="checkbox" checked={isSelected} readOnly />
-          {option}
-        </li>
-      );
+    return (
+      <VirtualList
+        width="100%"
+        height={dropdownHeight}
+        itemCount={items.length}
+        itemSize={35}
+        renderItem={({ index, style }) => {
+          let isSelected = false;
+          const option = items[index];
+          if (
+            (Array.isArray(value) && value.includes(option)) ||
+            (!Array.isArray(value) && value === option)
+          ) {
+            isSelected = true;
+          }
+          return (
+            <li
+              key={option}
+              style={style}
+              className={isSelected ? 'selected' : ''}
+              onClick={() => this.selectValue(option)}
+            >
+              <input type="checkbox" checked={isSelected} readOnly />
+              {option}
+            </li>
+          );
+        }}
+      />
+    );
+  }
+  onFilterChange(value) {
+    if (!value) {
+      return this.setState({
+        filtered: false,
+        filteredOptions: []
+      });
+    }
+    const filteredOptions = this.props.options.filter(option =>
+      String(option).includes(value)
+    );
+    this.setState({
+      filtered: true,
+      filteredOptions
     });
   }
-
   toggleDropDown() {
     this.setState({
       open: !this.state.open
@@ -114,7 +143,8 @@ class Picky extends React.Component {
       multiple,
       numberDisplayed,
       includeSelectAll,
-      includeFilter
+      includeFilter,
+      filterDebounce
     } = this.props;
     const { open } = this.state;
     return (
@@ -133,22 +163,31 @@ class Picky extends React.Component {
         </button>
         {open && (
           <div className="picky__dropdown">
-            {includeFilter && <Filter />}
+            {includeFilter && (
+              <Filter
+                onFilterChange={
+                  filterDebounce > 0
+                    ? debounce(this.onFilterChange, filterDebounce)
+                    : this.onFilterChange
+                }
+              />
+            )}
             <ul>
-              {includeSelectAll && (
-                <li
-                  data-selectall="true"
-                  className={this.allSelected() ? 'selected' : ''}
-                  onClick={this.selectAll}
-                >
-                  <input
-                    type="checkbox"
-                    checked={this.allSelected()}
-                    readOnly
-                  />{' '}
-                  Select All
-                </li>
-              )}
+              {includeSelectAll &&
+                !this.state.filtered && (
+                  <li
+                    data-selectall="true"
+                    className={this.allSelected() ? 'selected' : ''}
+                    onClick={this.selectAll}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={this.allSelected()}
+                      readOnly
+                    />{' '}
+                    Select All
+                  </li>
+                )}
               {this.renderOptions()}
             </ul>
           </div>
@@ -161,7 +200,9 @@ class Picky extends React.Component {
 Picky.defaultProps = {
   numberDisplayed: 3,
   options: [],
-  onChange: () => {}
+  onChange: () => {},
+  filterDebounce: 150,
+  dropdownHeight: 300
 };
 Picky.propTypes = {
   placeholder: PropTypes.string,
@@ -176,7 +217,9 @@ Picky.propTypes = {
   onChange: PropTypes.func,
   open: PropTypes.bool,
   includeSelectAll: PropTypes.bool,
-  includeFilter: PropTypes.bool
+  includeFilter: PropTypes.bool,
+  filterDebounce: PropTypes.number,
+  dropdownHeight: PropTypes.number
 };
 
 export default Picky;
