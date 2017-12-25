@@ -94,7 +94,15 @@ describe('Picky', () => {
       expect(selected.at(1).text()).toEqual('2');
       expect(selected.at(2).text()).toEqual('3');
     });
+    it('should show placeholder if value is an array and none selected', () => {
+      const wrapper = mount(
+        <Picky value={[]} options={[1, 2, 3, 4, 5]} open={true} multiple />
+      );
 
+      expect(wrapper.find('.picky__placeholder').text()).toEqual(
+        'None selected'
+      );
+    });
     it('should show correct placeholder with selected value, single select', () => {
       const wrapper = mount(
         <Picky

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 const Placeholder = ({ placeholder, value, numberDisplayed, multiple }) => {
   let message = '';
   // Show placeholder if no value
-  if (!value) {
+  if (!value || !value.length) {
     message = placeholder;
   } else if (Array.isArray(value)) {
     // If type is array and values length less than number displayed

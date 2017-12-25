@@ -20,6 +20,7 @@ class Picky extends React.Component {
     if (this.props.multiple && Array.isArray(this.props.value)) {
       if (this.props.value.includes(value)) {
         const currIndex = this.props.value.indexOf(value);
+        // Remove
         this.setState(
           {
             selectedValue: [
