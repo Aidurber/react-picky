@@ -209,5 +209,30 @@ describe('Picky', () => {
       const wrapper = mount(<Picky includeFilter={true} open={true} />);
       expect(wrapper.find(Filter)).toHaveLength(1);
     });
+
+    it('should call onFilterChange prop when text has changed', () => {
+      const onChange = jest.fn();
+      const wrapper = mount(<Filter onFilterChange={onChange} />);
+      const event = { target: { value: '123' } };
+      wrapper.find('.picky__filter__input').simulate('change', event);
+      expect(onChange).toHaveBeenCalledWith('123');
+    });
+
+    it('should filter values', () => {
+      const wrapper = mount(
+        <Picky
+          options={[1, 2, 3, 4]}
+          value={[]}
+          multiple={true}
+          filterDebounce={0}
+          open={true}
+          includeFilter={true}
+        />
+      );
+      const event = { target: { value: '1' } };
+      expect(wrapper.state('filteredOptions')).toEqual([]);
+      wrapper.find('.picky__filter__input').simulate('change', event);
+      expect(wrapper.state('filteredOptions')).toEqual([1]);
+    });
   });
 });
