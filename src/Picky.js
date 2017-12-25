@@ -53,14 +53,18 @@ class Picky extends React.Component {
       );
     }
   }
-
+  allSelected() {
+    return (
+      this.props.options
+        .map(opt => opt)
+        .sort()
+        .toString() == this.state.selectedValue.sort().toString()
+    );
+  }
   selectAll() {
     let selectedValue = this.props.options.map(opt => opt);
 
-    const allAreSelected =
-      selectedValue.sort().toString() ==
-      this.state.selectedValue.sort().toString();
-    if (allAreSelected) {
+    if (this.allSelected()) {
       selectedValue = [];
     }
     this.setState(

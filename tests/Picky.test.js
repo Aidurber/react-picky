@@ -156,6 +156,7 @@ describe('Picky', () => {
     });
 
     it('should select all options when select all is clicked', () => {
+      const onChange = jest.fn();
       const wrapper = mount(
         <Picky
           value={[1, 2, 3]}
@@ -163,6 +164,7 @@ describe('Picky', () => {
           options={[1, 2, 3, 4, 5]}
           open={true}
           multiple={true}
+          onChange={onChange}
         />
       );
       const selectAllItem = wrapper
@@ -174,6 +176,66 @@ describe('Picky', () => {
       expect(wrapper.state('selectedValue')).toHaveLength(5);
       selectAllItem.simulate('click');
       expect(wrapper.state('selectedValue')).toHaveLength(0);
+      expect(onChange).toHaveBeenCalled();
+      expect(onChange).toHaveBeenCalledWith([1, 2, 3, 4, 5]);
+    });
+
+    it('should select single value', () => {
+      const onChange = jest.fn();
+      const wrapper = mount(
+        <Picky
+          value={1}
+          options={[1, 2, 3, 4, 5]}
+          open={true}
+          onChange={onChange}
+        />
+      );
+      expect(wrapper.state('selectedValue')).toEqual(1);
+      wrapper
+        .find('.picky__dropdown li')
+        .at(1)
+        .simulate('click');
+      expect(onChange).lastCalledWith(2);
+    });
+    it('should select multiple value', () => {
+      const onChange = jest.fn();
+      const wrapper = mount(
+        <Picky
+          value={[]}
+          options={[1, 2, 3, 4, 5]}
+          open={true}
+          multiple
+          onChange={onChange}
+        />
+      );
+
+      expect(wrapper.state('selectedValue')).toEqual([]);
+      wrapper
+        .find('.picky__dropdown li')
+        .at(1)
+        .simulate('click');
+      expect(onChange).lastCalledWith([2]);
+      expect(wrapper.state('selectedValue')).toEqual([2]);
+    });
+    it('should deselect multiple value', () => {
+      const onChange = jest.fn();
+      const wrapper = mount(
+        <Picky
+          value={[2]}
+          options={[1, 2, 3, 4, 5]}
+          open={true}
+          multiple
+          onChange={onChange}
+        />
+      );
+
+      expect(wrapper.state('selectedValue')).toEqual([2]);
+      wrapper
+        .find('.picky__dropdown li')
+        .at(1)
+        .simulate('click');
+      expect(onChange).lastCalledWith([]);
+      expect(wrapper.state('selectedValue')).toEqual([]);
     });
   });
 });
