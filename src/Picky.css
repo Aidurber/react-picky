@@ -58,5 +58,5 @@
 }
 
 .picky__dropdown ul > li.selected {
-  background-color: red;
+  background-color: rgb(134, 134, 134);
 }

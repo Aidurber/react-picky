@@ -24,6 +24,9 @@ const Placeholder = ({ placeholder, value, numberDisplayed, multiple }) => {
   return <span className="picky__placeholder">{message}</span>;
 };
 
+Placeholder.defaultProps = {
+  placeholder: 'None selected'
+};
 Placeholder.propTypes = {
   placeholder: PropTypes.string,
   value: PropTypes.oneOfType([

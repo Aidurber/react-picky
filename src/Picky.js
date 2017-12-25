@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Placeholder from './Placeholder';
+import Filter from './Filter';
 import './Picky.css';
 
 class Picky extends React.Component {
@@ -80,18 +81,21 @@ class Picky extends React.Component {
     const { options, value } = this.props;
 
     return options.map(option => {
-      let cssClass = '';
-      if (Array.isArray(value)) {
-        cssClass = value.includes(option) ? 'selected' : '';
-      } else {
-        cssClass = value === option ? 'selected' : '';
+      let isSelected = false;
+
+      if (
+        (Array.isArray(value) && value.includes(option)) ||
+        (!Array.isArray(value) && value === option)
+      ) {
+        isSelected = true;
       }
       return (
         <li
           key={option}
-          className={cssClass}
+          className={isSelected ? 'selected' : ''}
           onClick={() => this.selectValue(option)}
         >
+          <input type="checkbox" checked={isSelected} readOnly />
           {option}
         </li>
       );
@@ -109,7 +113,8 @@ class Picky extends React.Component {
       value,
       multiple,
       numberDisplayed,
-      includeSelectAll
+      includeSelectAll,
+      includeFilter
     } = this.props;
     const { open } = this.state;
     return (
@@ -128,9 +133,19 @@ class Picky extends React.Component {
         </button>
         {open && (
           <div className="picky__dropdown">
+            {includeFilter && <Filter />}
             <ul>
               {includeSelectAll && (
-                <li data-selectall="true" onClick={this.selectAll}>
+                <li
+                  data-selectall="true"
+                  className={this.allSelected() ? 'selected' : ''}
+                  onClick={this.selectAll}
+                >
+                  <input
+                    type="checkbox"
+                    checked={this.allSelected()}
+                    readOnly
+                  />{' '}
                   Select All
                 </li>
               )}
@@ -144,7 +159,6 @@ class Picky extends React.Component {
 }
 
 Picky.defaultProps = {
-  placeholder: 'None selected',
   numberDisplayed: 3,
   options: [],
   onChange: () => {}
@@ -161,7 +175,8 @@ Picky.propTypes = {
   options: PropTypes.array,
   onChange: PropTypes.func,
   open: PropTypes.bool,
-  includeSelectAll: PropTypes.bool
+  includeSelectAll: PropTypes.bool,
+  includeFilter: PropTypes.bool
 };
 
 export default Picky;
