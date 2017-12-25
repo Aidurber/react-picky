@@ -6,8 +6,9 @@ Yet another React select list.
 
 When dealing with medium+ length select lists, especially multi-select lists. The common approach is to use tags e.g.
 
-![Tag List](https://raw.githubusercontent.com/aidurber/react-picky/master/readme-tag-list.jpg)
-(From [React-Select by Jed Watson](https://github.com/JedWatson/react-select))
+![Tag List](https://raw.githubusercontent.com/aidurber/react-picky/master/readme-tag-list.JPG)
+
+Source: [React-Select by Jed Watson](https://github.com/JedWatson/react-select)
 
 This approach is fine for smaller lists. When you have options for 20, 30, 100+ options that the use can select, it becomes unmanigable.
 
