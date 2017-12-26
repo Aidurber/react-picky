@@ -260,6 +260,49 @@ describe('Picky', () => {
       wrapper.find('.picky__filter__input').simulate('change', event);
       expect(wrapper.state('filteredOptions')).toEqual([1]);
     });
+
+    it('shouldnt filter if filter query is blank or empty string', () => {
+      const wrapper = mount(
+        <Picky
+          options={[1, 2, 3, 4]}
+          value={[]}
+          multiple={true}
+          filterDebounce={0}
+          open={true}
+          includeFilter={true}
+        />
+      );
+      const event = { target: { value: '   ' } };
+      expect(wrapper.state('filteredOptions')).toEqual([]);
+      wrapper.find('.picky__filter__input').simulate('change', event);
+      expect(wrapper.state('filteredOptions')).toEqual([]);
+    });
+
+    it('should filter object arrays', () => {
+      const options = [{ id: 1, name: 'Item 1' }, { id: 2, name: 'Item 3' }];
+      const wrapper = mount(
+        <Picky
+          options={options}
+          value={[]}
+          multiple={true}
+          filterDebounce={0}
+          open={true}
+          includeFilter={true}
+          labelKey="name"
+          valueKey="id"
+        />
+      );
+
+      const event = { target: { value: '1' } };
+      expect(wrapper.state('filteredOptions')).toEqual([]);
+      wrapper.find('.picky__filter__input').simulate('change', event);
+      expect(wrapper.state('filteredOptions')).toEqual([
+        {
+          id: 1,
+          name: 'Item 1'
+        }
+      ]);
+    });
   });
 
   describe('Callbacks', () => {
