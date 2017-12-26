@@ -237,4 +237,60 @@ describe('Picky', () => {
       expect(wrapper.state('filteredOptions')).toEqual([1]);
     });
   });
+
+  describe('Callbacks', () => {
+    it('should call onFiltered callback', () => {
+      const onFilteredMock = jest.fn();
+      const wrapper = mount(
+        <Picky
+          options={[1, 2, 3, 4]}
+          value={[]}
+          multiple={true}
+          filterDebounce={0}
+          open={true}
+          includeFilter={true}
+          onFiltered={onFilteredMock}
+        />
+      );
+
+      const event = { target: { value: '1' } };
+      wrapper.find('.picky__filter__input').simulate('change', event);
+      expect(onFilteredMock).toHaveBeenCalledWith([1]);
+    });
+
+    it('should call onOpen', () => {
+      const onOpenMock = jest.fn();
+      const wrapper = mount(
+        <Picky
+          options={[1, 2, 3, 4]}
+          value={[]}
+          multiple={true}
+          filterDebounce={0}
+          open={false}
+          includeFilter={true}
+          onOpen={onOpenMock}
+        />
+      );
+
+      wrapper.find('.picky__input').simulate('click');
+      expect(onOpenMock).toHaveBeenCalled();
+    });
+    it('should call onClose', () => {
+      const onCloseMock = jest.fn();
+      const wrapper = mount(
+        <Picky
+          options={[1, 2, 3, 4]}
+          value={[]}
+          multiple={true}
+          filterDebounce={0}
+          open={true}
+          includeFilter={true}
+          onClose={onCloseMock}
+        />
+      );
+
+      wrapper.find('.picky__input').simulate('click');
+      expect(onCloseMock).toHaveBeenCalled();
+    });
+  });
 });

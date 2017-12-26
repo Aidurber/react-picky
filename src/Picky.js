@@ -123,15 +123,32 @@ class Picky extends React.Component {
     const filteredOptions = this.props.options.filter(option =>
       String(option).includes(value)
     );
-    this.setState({
-      filtered: true,
-      filteredOptions
-    });
+    this.setState(
+      {
+        filtered: true,
+        filteredOptions
+      },
+      () => {
+        if (this.props.onFiltered) {
+          this.props.onFiltered(filteredOptions);
+        }
+      }
+    );
   }
   toggleDropDown() {
-    this.setState({
-      open: !this.state.open
-    });
+    this.setState(
+      {
+        open: !this.state.open
+      },
+      () => {
+        const isOpen = this.state.open;
+        if (isOpen && this.props.onOpen) {
+          this.props.onOpen();
+        } else if (!isOpen && this.props.onClose) {
+          this.props.onClose();
+        }
+      }
+    );
   }
   render() {
     const {
@@ -216,7 +233,10 @@ Picky.propTypes = {
   includeSelectAll: PropTypes.bool,
   includeFilter: PropTypes.bool,
   filterDebounce: PropTypes.number,
-  dropdownHeight: PropTypes.number
+  dropdownHeight: PropTypes.number,
+  onFiltered: PropTypes.func,
+  onOpen: PropTypes.func,
+  onClose: PropTypes.func
 };
 
 export default Picky;
