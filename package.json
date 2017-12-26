@@ -8,7 +8,7 @@
     "commit": "git-cz",
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "test": "cross-env NODE_ENV=test jest",
+    "test": "cross-env NODE_ENV=test jest && codecov",
     "semantic-release": "semantic-release"
   },
   "dependencies": {
