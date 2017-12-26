@@ -83,7 +83,10 @@ Picky.propTypes = {
   includeSelectAll: PropTypes.bool,
   includeFilter: PropTypes.bool,
   filterDebounce: PropTypes.number,
-  dropdownHeight: PropTypes.number
+  dropdownHeight: PropTypes.number,
+  onFiltered: PropTypes.func,
+  onOpen: PropTypes.func,
+  onClose: PropTypes.func
 };
 ```
 
@@ -101,7 +104,9 @@ Picky.propTypes = {
 - `includeFilter` - If set to `true` will add an input at the top of the dropdown for filtering the results
 - `filterDebounce` - Debounce timeout, used to limit the rate the internal `onFilterChange` gets called. Defaults to 150ms
 - `dropdownHeight` - The height of the dropdown. Defaults to 300px.
-
-# Internals
+- `onFiltered` - Called after a filter has been done with the filtered options
+- `onOpen` - Called after the dropdown has opened.
+- `onClose` - Called after the dropdown has closed.
+  # Internals
 
 The component uses [React Tiny Virtual List](https://github.com/clauderic/react-tiny-virtual-list) for rendering out the items. This is a for a performance gain. You can have 1,000,000 items in the dropdown with no performance drop! It's such a great little library. This is why we have a dropdown height.
