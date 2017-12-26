@@ -11,7 +11,7 @@ describe('Picky', () => {
   });
 
   it('should have Placeholder component', () => {
-    const wrapper = mount(<Picky />);
+    const wrapper = mount(<Picky value={[]} />);
     expect(wrapper.find(Placeholder)).toHaveLength(1);
   });
 
@@ -201,12 +201,14 @@ describe('Picky', () => {
 
   describe('Filter', () => {
     it('should accept includeFilter prop', () => {
-      const wrapper = mount(<Picky includeFilter={true} />);
+      const wrapper = mount(<Picky includeFilter={true} value={[]} />);
       expect(wrapper.prop('includeFilter')).toEqual(true);
     });
 
     it('should have filter component', () => {
-      const wrapper = mount(<Picky includeFilter={true} open={true} />);
+      const wrapper = mount(
+        <Picky includeFilter={true} open={true} value={[]} />
+      );
       expect(wrapper.find(Filter)).toHaveLength(1);
     });
 
