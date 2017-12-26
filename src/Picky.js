@@ -4,8 +4,7 @@ import debounce from 'lodash.debounce';
 import VirtualList from 'react-tiny-virtual-list';
 import Placeholder from './Placeholder';
 import Filter from './Filter';
-import './Picky.css';
-
+import './Picky.scss';
 class Picky extends React.Component {
   constructor(props) {
     super(props);
@@ -27,12 +26,11 @@ class Picky extends React.Component {
       if (this.props.value.includes(value)) {
         const currIndex = this.props.value.indexOf(value);
         // Remove
+        const start = this.props.value.slice(0, currIndex);
+        const end = this.props.value.slice(currIndex + 1);
         this.setState(
           {
-            selectedValue: [
-              ...this.props.value.slice(0, currIndex),
-              ...this.props.value.slice(currIndex + 1)
-            ]
+            selectedValue: start.concat(end)
           },
           () => {
             this.props.onChange(this.state.selectedValue);
@@ -41,7 +39,7 @@ class Picky extends React.Component {
       } else {
         this.setState(
           {
-            selectedValue: [...this.state.selectedValue, value]
+            selectedValue: [value, ...this.state.selectedValue]
           },
           () => {
             this.props.onChange(this.state.selectedValue);
@@ -85,7 +83,6 @@ class Picky extends React.Component {
   renderOptions() {
     const { options, value, dropdownHeight } = this.props;
     const items = this.state.filtered ? this.state.filteredOptions : options;
-
     return (
       <VirtualList
         width="100%"
@@ -200,9 +197,9 @@ class Picky extends React.Component {
 Picky.defaultProps = {
   numberDisplayed: 3,
   options: [],
-  onChange: () => {},
   filterDebounce: 150,
-  dropdownHeight: 300
+  dropdownHeight: 300,
+  onChange: () => {}
 };
 Picky.propTypes = {
   placeholder: PropTypes.string,

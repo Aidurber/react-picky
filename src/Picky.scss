@@ -1,0 +1,80 @@
+$border: #eee;
+$selected: #ecf0f1;
+.picky {
+  width: 100%;
+  position: relative;
+  * {
+    box-sizing: border-box;
+  }
+
+  &__input {
+    width: 100%;
+    background-color: white;
+    border: 0;
+    border-width: 1px;
+    border-color: $border;
+    border-style: solid;
+    border-radius: 2px;
+    padding: 1em;
+    text-align: left;
+    position: relative;
+    box-sizing: border-box;
+    height: 38px;
+    &::after {
+      position: absolute;
+      width: 0;
+      height: 0;
+      margin-left: 2px;
+      vertical-align: middle;
+      border-top: 4px solid;
+      border-right: 4px solid transparent;
+      border-left: 4px solid transparent;
+      content: '';
+      right: 1.5em;
+      top: 16px;
+    }
+  }
+
+  &__dropdown {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: white;
+    border-left: 1px solid $border;
+    border-right: 1px solid $border;
+    border-bottom: 1px solid $border;
+    top: 39px;
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      li {
+        padding: 0.5em;
+        cursor: pointer;
+        border-bottom: 1px solid $border;
+        text-align: left;
+        &:hover {
+          background-color: $selected;
+        }
+        &.selected {
+          background-color: $selected;
+        }
+      }
+    }
+  }
+  &__filter {
+    display: flex;
+    width: 100%;
+    padding: 3px;
+    &__input {
+      width: 100%;
+      padding: 3px;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      position: relative;
+      height: 30px;
+    }
+  }
+}
