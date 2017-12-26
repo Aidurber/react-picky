@@ -2,8 +2,6 @@
 [![codecov](https://codecov.io/gh/Aidurber/react-picky/branch/master/graph/badge.svg)](https://codecov.io/gh/Aidurber/react-picky)
 [![license](https://img.shields.io/github/license/aidurber/react-picky.svg)]()
 
-# 🚧 Under Construction 🚧
-
 # Picky ☜
 
 Yet another React select list.
@@ -86,7 +84,9 @@ Picky.propTypes = {
   dropdownHeight: PropTypes.number,
   onFiltered: PropTypes.func,
   onOpen: PropTypes.func,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  valueKey: PropTypes.string,
+  labelKey: PropTypes.string
 };
 ```
 
@@ -107,6 +107,8 @@ Picky.propTypes = {
 - `onFiltered` - Called after a filter has been done with the filtered options
 - `onOpen` - Called after the dropdown has opened.
 - `onClose` - Called after the dropdown has closed.
+- `valueKey` - When supplying an array of objects as options, this is required. This specifies which property on the object is the value.
+- `labelKey` - When supplying an array of objects as options, this is required. This specifies which property on the object is the label.
   # Internals
 
 The component uses [React Tiny Virtual List](https://github.com/clauderic/react-tiny-virtual-list) for rendering out the items. This is a for a performance gain. You can have 1,000,000 items in the dropdown with no performance drop! It's such a great little library. This is why we have a dropdown height.
