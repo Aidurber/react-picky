@@ -44,16 +44,18 @@ If you like the tag list like [React-Select](https://github.com/JedWatson/react-
 ## Basic example
 
 ```javascript
-import Picky from 'react-picky'
+import Picky from 'react-picky';
+import 'react-picky/dist/picky.css'; // Include CSS
 
-<Picky  options={[1, 2, 3, 4, 5]}
-        value={[]}
-        multiple={true}
-        includeSelectAll={true}
-        includeFilter={true}
-        onChange={(values) => console.log(values)}
-        dropdownHeight={600}
-        />
+<Picky
+  options={[1, 2, 3, 4, 5]}
+  value={[]}
+  multiple={true}
+  includeSelectAll={true}
+  includeFilter={true}
+  onChange={values => console.log(values)}
+  dropdownHeight={600}
+/>;
 ```
 
 ## Props
