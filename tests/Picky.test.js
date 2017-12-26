@@ -197,6 +197,30 @@ describe('Picky', () => {
       expect(onChange).lastCalledWith([]);
       expect(wrapper.state('selectedValue')).toEqual([]);
     });
+
+    it('should support object options single select', () => {
+      const options = [
+        { id: 1, name: 'Item 1' },
+        { id: 2, name: 'Item 2' },
+        { id: 3, name: 'Item 3' }
+      ];
+      const wrapper = mount(
+        <Picky
+          value={null}
+          options={options}
+          open={true}
+          valueKey="id"
+          labelKey="name"
+        />
+      );
+
+      wrapper
+        .find('.picky__dropdown li')
+        .at(0)
+        .simulate('click');
+
+      expect(wrapper.state('selectedValue')).toEqual({ id: 1, name: 'Item 1' });
+    });
   });
 
   describe('Filter', () => {
