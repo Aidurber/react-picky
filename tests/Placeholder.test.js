@@ -42,4 +42,30 @@ describe('Placeholder', () => {
     const wrapper = mount(<Placeholder value={[1, 2, 3]} />);
     expect(wrapper.find('.picky__placeholder').text()).toEqual('1');
   });
+
+  it('should show label if object array supplied', () => {
+    const wrapper = mount(
+      <Placeholder
+        value={[{ id: 1, name: 'Item 1' }, { id: 2, name: 'Item 2' }]}
+        multiple={true}
+        labelKey="name"
+        valueKey="id"
+        numberDisplayed={3}
+      />
+    );
+    expect(wrapper.find('.picky__placeholder').text()).toEqual(
+      'Item 1, Item 2'
+    );
+  });
+  it('should show label if object supplied', () => {
+    const wrapper = mount(
+      <Placeholder
+        value={[{ id: 1, name: 'Item 1' }]}
+        labelKey="name"
+        valueKey="id"
+        numberDisplayed={3}
+      />
+    );
+    expect(wrapper.find('.picky__placeholder').text()).toEqual('Item 1');
+  });
 });

@@ -2,8 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 import VirtualList from 'react-tiny-virtual-list';
+import { isDataObject } from './lib/utils';
+
 import Placeholder from './Placeholder';
 import Filter from './Filter';
+import Option from './Option';
 import './Picky.scss';
 class Picky extends React.Component {
   constructor(props) {
@@ -18,9 +21,9 @@ class Picky extends React.Component {
     this.toggleDropDown = this.toggleDropDown.bind(this);
     this.selectAll = this.selectAll.bind(this);
     this.onFilterChange = this.onFilterChange.bind(this);
+    this.selectValue = this.selectValue.bind(this);
   }
 
-  componentDidMount() {}
   selectValue(value) {
     if (this.props.multiple && Array.isArray(this.props.value)) {
       if (this.props.value.includes(value)) {
@@ -80,8 +83,9 @@ class Picky extends React.Component {
       }
     );
   }
+
   renderOptions() {
-    const { options, value, dropdownHeight } = this.props;
+    const { options, value, dropdownHeight, labelKey, valueKey } = this.props;
     const items = this.state.filtered ? this.state.filteredOptions : options;
     return (
       <VirtualList
@@ -90,39 +94,47 @@ class Picky extends React.Component {
         itemCount={items.length}
         itemSize={35}
         renderItem={({ index, style }) => {
-          let isSelected = false;
-          const option = items[index];
-          if (
-            (Array.isArray(value) && value.includes(option)) ||
-            (!Array.isArray(value) && value === option)
-          ) {
-            isSelected = true;
-          }
+          const item = items[index];
+          const key = isDataObject(item, labelKey, valueKey)
+            ? item[valueKey]
+            : item;
+
+          const isSelected =
+            (Array.isArray(value) && value.includes(item)) ||
+            (!Array.isArray(value) && value === item);
+
           return (
-            <li
-              key={option}
+            <Option
+              key={key}
               style={style}
-              className={isSelected ? 'selected' : ''}
-              onClick={() => this.selectValue(option)}
-            >
-              <input type="checkbox" checked={isSelected} readOnly />
-              {option}
-            </li>
+              item={item}
+              isSelected={isSelected}
+              selectValue={this.selectValue}
+              labelKey={labelKey}
+              valueKey={valueKey}
+            />
           );
         }}
       />
     );
   }
   onFilterChange(value) {
-    if (!value) {
+    if (!value.trim()) {
       return this.setState({
         filtered: false,
         filteredOptions: []
       });
     }
-    const filteredOptions = this.props.options.filter(option =>
-      String(option).includes(value)
-    );
+    const filteredOptions = this.props.options.filter(option => {
+      if (isDataObject(option, this.props.labelKey, this.props.valueKey)) {
+        return String(option[this.props.labelKey])
+          .toLowerCase()
+          .includes(value.toLowerCase());
+      }
+      return String(option)
+        .toLowerCase()
+        .includes(value.toLowerCase());
+    });
     this.setState(
       {
         filtered: true,
@@ -158,7 +170,9 @@ class Picky extends React.Component {
       numberDisplayed,
       includeSelectAll,
       includeFilter,
-      filterDebounce
+      filterDebounce,
+      valueKey,
+      labelKey
     } = this.props;
     const { open } = this.state;
     return (
@@ -173,6 +187,8 @@ class Picky extends React.Component {
             value={value}
             multiple={multiple}
             numberDisplayed={numberDisplayed}
+            valueKey={valueKey}
+            labelKey={labelKey}
           />
         </button>
         {open && (
@@ -194,11 +210,6 @@ class Picky extends React.Component {
                     className={this.allSelected() ? 'selected' : ''}
                     onClick={this.selectAll}
                   >
-                    <input
-                      type="checkbox"
-                      checked={this.allSelected()}
-                      readOnly
-                    />{' '}
                     Select All
                   </li>
                 )}
@@ -223,8 +234,9 @@ Picky.propTypes = {
   value: PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.string,
-    PropTypes.number
-  ]).isRequired,
+    PropTypes.number,
+    PropTypes.object
+  ]),
   numberDisplayed: PropTypes.number,
   multiple: PropTypes.bool,
   options: PropTypes.array.isRequired,
@@ -236,7 +248,9 @@ Picky.propTypes = {
   dropdownHeight: PropTypes.number,
   onFiltered: PropTypes.func,
   onOpen: PropTypes.func,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  valueKey: PropTypes.string,
+  labelKey: PropTypes.string
 };
 
 export default Picky;

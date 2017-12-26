@@ -1,28 +1,61 @@
+// NEEDS REFACTOR
 import React from 'react';
 import PropTypes from 'prop-types';
-const Placeholder = ({ placeholder, value, numberDisplayed, multiple }) => {
-  let message = '';
-  // Show placeholder if no value
-  if (!value || !value.length) {
-    message = placeholder;
-  } else if (Array.isArray(value)) {
-    // If type is array and values length less than number displayed
-    // join the values
-    if (multiple) {
-      if (value.length <= numberDisplayed) {
-        message = value.join(', ');
-      } else {
-        //If more than numberDisplayed then show "length selected"
-        message = `${value.length} selected`;
-      }
-    } else {
-      message = value[0].toString();
-    }
-  } else {
-    message = value;
+import { isDataObject } from './lib/utils';
+
+const isEmptyValue = value =>
+  value === null ||
+  value === undefined ||
+  (Array.isArray(value) && !value.length);
+
+class Placeholder extends React.PureComponent {
+  constructor(props) {
+    super(props);
   }
-  return <span className="picky__placeholder">{message}</span>;
-};
+
+  render() {
+    const {
+      placeholder,
+      value,
+      numberDisplayed,
+      multiple,
+      valueKey,
+      labelKey
+    } = this.props;
+
+    let message = '';
+    if (isEmptyValue(this.props.value)) {
+      message = placeholder;
+    } else {
+      if (Array.isArray(value) && multiple) {
+        // If type is array and values length less than number displayed
+        // join the values
+        if (value.length <= numberDisplayed) {
+          message = value
+            .map(opt => {
+              if (isDataObject(opt, valueKey, labelKey)) {
+                return opt[labelKey];
+              }
+              return opt;
+            })
+            .join(', ');
+        } else {
+          //If more than numberDisplayed then show "length selected"
+          message = `${value.length} selected`;
+        }
+      } else {
+        let tempValue = Array.isArray(value) ? value[0] : value;
+        if (isDataObject(tempValue, valueKey, labelKey)) {
+          message = tempValue[labelKey];
+        } else {
+          message = tempValue;
+        }
+      }
+    }
+
+    return <span className="picky__placeholder">{message}</span>;
+  }
+}
 
 Placeholder.defaultProps = {
   placeholder: 'None selected'
@@ -32,10 +65,13 @@ Placeholder.propTypes = {
   value: PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.string,
-    PropTypes.number
+    PropTypes.number,
+    PropTypes.object
   ]),
   numberDisplayed: PropTypes.number,
-  multiple: PropTypes.bool
+  multiple: PropTypes.bool,
+  valueKey: PropTypes.string,
+  labelKey: PropTypes.string
 };
 
 export default Placeholder;
