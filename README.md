@@ -68,6 +68,10 @@ import 'react-picky/dist/picky.css'; // Include CSS
 />;
 ```
 
+### Sandbox
+
+[![Edit x9mwo7318q](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/x9mwo7318q)
+
 ## Props
 
 ```javascript
