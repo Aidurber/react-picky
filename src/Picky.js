@@ -62,10 +62,8 @@ class Picky extends React.Component {
   }
   allSelected() {
     return (
-      this.props.options
-        .map(opt => opt)
-        .sort()
-        .toString() == this.state.selectedValue.sort().toString()
+      this.props.options.sort().toString() ==
+      this.state.selectedValue.sort().toString()
     );
   }
   selectAll() {
@@ -85,7 +83,14 @@ class Picky extends React.Component {
   }
 
   renderOptions() {
-    const { options, value, dropdownHeight, labelKey, valueKey } = this.props;
+    const {
+      options,
+      value,
+      dropdownHeight,
+      labelKey,
+      valueKey,
+      multiple
+    } = this.props;
     const items = this.state.filtered ? this.state.filteredOptions : options;
     return (
       <VirtualList
@@ -112,6 +117,7 @@ class Picky extends React.Component {
               selectValue={this.selectValue}
               labelKey={labelKey}
               valueKey={valueKey}
+              multiple={multiple}
             />
           );
         }}
@@ -204,6 +210,7 @@ class Picky extends React.Component {
             )}
             <ul>
               {includeSelectAll &&
+                multiple &&
                 !this.state.filtered && (
                   <li
                     data-selectall="true"
