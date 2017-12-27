@@ -15,6 +15,21 @@ describe('Picky', () => {
     expect(wrapper.find(Placeholder)).toHaveLength(1);
   });
 
+  it('should accept render prop', () => {
+    const renderPropMock = jest.fn();
+    const wrapper = mount(
+      <Picky
+        value={[1, 2, 3]}
+        options={[1, 2, 3, 4, 5]}
+        open={true}
+        render={renderPropMock}
+      />
+    );
+
+    expect(wrapper.prop('render')).toBeDefined();
+    expect(renderPropMock).toHaveBeenCalled();
+  });
+
   describe('Dropdown drawer', () => {
     it('should open if prop open is true', () => {
       const wrapper = mount(<Picky value={[1, 2, 3]} open={true} />);

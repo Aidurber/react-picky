@@ -9,6 +9,16 @@ var PropTypes__default = _interopDefault(PropTypes);
 
 var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
+/**
+ * lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/** Used as the `TypeError` message for "Functions" methods. */
 var FUNC_ERROR_TEXT = 'Expected a function';
 
 /** Used as references for various `Number` constants. */
@@ -376,6 +386,22 @@ function toNumber(value) {
 }
 
 var lodash_debounce = debounce;
+
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
+
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
+
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */
+/* global Reflect, Promise */
 
 var extendStatics = Object.setPrototypeOf ||
     ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -1124,6 +1150,7 @@ var Picky$1 = function (_React$Component) {
           dropdownHeight = _props.dropdownHeight,
           labelKey = _props.labelKey,
           valueKey = _props.valueKey,
+          itemHeight = _props.itemHeight,
           multiple = _props.multiple;
 
       var items = this.state.filtered ? this.state.filteredOptions : options;
@@ -1131,7 +1158,7 @@ var Picky$1 = function (_React$Component) {
         width: '100%',
         height: dropdownHeight,
         itemCount: items.length,
-        itemSize: 35,
+        itemSize: itemHeight,
         renderItem: function renderItem(_ref) {
           var index = _ref.index,
               style = _ref.style;
@@ -1141,16 +1168,28 @@ var Picky$1 = function (_React$Component) {
 
           var isSelected = Array.isArray(value) && value.includes(item) || !Array.isArray(value) && value === item;
 
-          return React__default.createElement(Option, {
-            key: key,
-            style: style,
-            item: item,
-            isSelected: isSelected,
-            selectValue: _this4.selectValue,
-            labelKey: labelKey,
-            valueKey: valueKey,
-            multiple: multiple
-          });
+          if (typeof _this4.props.render === 'function') {
+            return _this4.props.render({
+              style: style,
+              item: item,
+              isSelected: isSelected,
+              selectValue: _this4.selectValue,
+              labelKey: labelKey,
+              valueKey: valueKey,
+              multiple: multiple
+            });
+          } else {
+            return React__default.createElement(Option, {
+              key: key,
+              style: style,
+              item: item,
+              isSelected: isSelected,
+              selectValue: _this4.selectValue,
+              labelKey: labelKey,
+              valueKey: valueKey,
+              multiple: multiple
+            });
+          }
         }
       });
     }
@@ -1263,7 +1302,8 @@ Picky$1.defaultProps = {
   options: [],
   filterDebounce: 150,
   dropdownHeight: 300,
-  onChange: function onChange() {}
+  onChange: function onChange() {},
+  itemHeight: 35
 };
 Picky$1.propTypes = {
   placeholder: PropTypes__default.string,
@@ -1281,7 +1321,9 @@ Picky$1.propTypes = {
   onOpen: PropTypes__default.func,
   onClose: PropTypes__default.func,
   valueKey: PropTypes__default.string,
-  labelKey: PropTypes__default.string
+  labelKey: PropTypes__default.string,
+  render: PropTypes__default.func,
+  itemHeight: PropTypes__default.number
 };
 
 module.exports = Picky$1;

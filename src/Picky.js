@@ -90,6 +90,7 @@ class Picky extends React.Component {
       dropdownHeight,
       labelKey,
       valueKey,
+      itemHeight,
       multiple
     } = this.props;
     const items = this.state.filtered ? this.state.filteredOptions : options;
@@ -98,7 +99,7 @@ class Picky extends React.Component {
         width="100%"
         height={dropdownHeight}
         itemCount={items.length}
-        itemSize={35}
+        itemSize={itemHeight}
         renderItem={({ index, style }) => {
           const item = items[index];
           const key = isDataObject(item, labelKey, valueKey)
@@ -109,18 +110,30 @@ class Picky extends React.Component {
             (Array.isArray(value) && value.includes(item)) ||
             (!Array.isArray(value) && value === item);
 
-          return (
-            <Option
-              key={key}
-              style={style}
-              item={item}
-              isSelected={isSelected}
-              selectValue={this.selectValue}
-              labelKey={labelKey}
-              valueKey={valueKey}
-              multiple={multiple}
-            />
-          );
+          if (typeof this.props.render === 'function') {
+            return this.props.render({
+              style,
+              item,
+              isSelected,
+              selectValue: this.selectValue,
+              labelKey,
+              valueKey,
+              multiple
+            });
+          } else {
+            return (
+              <Option
+                key={key}
+                style={style}
+                item={item}
+                isSelected={isSelected}
+                selectValue={this.selectValue}
+                labelKey={labelKey}
+                valueKey={valueKey}
+                multiple={multiple}
+              />
+            );
+          }
         }}
       />
     );
@@ -235,7 +248,8 @@ Picky.defaultProps = {
   options: [],
   filterDebounce: 150,
   dropdownHeight: 300,
-  onChange: () => {}
+  onChange: () => {},
+  itemHeight: 35
 };
 Picky.propTypes = {
   placeholder: PropTypes.string,
@@ -258,7 +272,9 @@ Picky.propTypes = {
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
   valueKey: PropTypes.string,
-  labelKey: PropTypes.string
+  labelKey: PropTypes.string,
+  render: PropTypes.func,
+  itemHeight: PropTypes.number
 };
 
 export default Picky;
