@@ -66,19 +66,20 @@ Picky.defaultProps = {
   filterDebounce: 150,
   dropdownHeight: 300,
   onChange: () => {},
-  placeholder: 'None selected'
+  itemHeight: 35
 };
 Picky.propTypes = {
   placeholder: PropTypes.string,
   value: PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.string,
-    PropTypes.number
+    PropTypes.number,
+    PropTypes.object
   ]),
   numberDisplayed: PropTypes.number,
   multiple: PropTypes.bool,
-  options: PropTypes.array,
-  onChange: PropTypes.func,
+  options: PropTypes.array.isRequired,
+  onChange: PropTypes.func.isRequired,
   open: PropTypes.bool,
   includeSelectAll: PropTypes.bool,
   includeFilter: PropTypes.bool,
@@ -86,27 +87,87 @@ Picky.propTypes = {
   dropdownHeight: PropTypes.number,
   onFiltered: PropTypes.func,
   onOpen: PropTypes.func,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  valueKey: PropTypes.string,
+  labelKey: PropTypes.string,
+  render: PropTypes.func,
+  itemHeight: PropTypes.number
 };
 ```
 
 ### Prop descriptions
 
-* `placeholder` - Default message when no items are selected
+* `placeholder` - Default message when no items are selected.
 * `value` - The selected value(s), array if multiple is true.
+* `numberDisplayed` - Then number of selected options displayed until it turns into '(selected count) selected'.
+* `multiple` - Set to true for a multiselect, defaults to false.
+* `options` - Array of possible options.
+* `onChange` - Called whenever selected value(s) have changed. This is a controlled component. Pass the selected value back into `value`.
+* `open` - Can open or close the dropdown manually. Defaults to false.
+* `includeSelectAll` - If set to `true` will add a `Select All` checkbox at the top of the list.
+* `includeFilter` - If set to `true` will add an input at the top of the dropdown for filtering the results.
+* `filterDebounce` - Debounce timeout, used to limit the rate the internal `onFilterChange` gets called. Defaults to 150ms.
+* `dropdownHeight` - The height of the dropdown. Defaults to 300px.
+* `onFiltered` - Called after a filter has been done with the filtered options.
+* `onOpen` - Called after the dropdown has opened.
+* `onClose` - Called after the dropdown has closed.
+* `valueKey` - If supplying an array of objects as options, this is required. It's used to identify which property on the object is the value.
+* `labelKey` - If supplying an array of objects as options, this is required. It's used to identify which property on the object is the label.
+* `render` - Used for custom rendering of items in the dropdown. More info below.
+* `itemHeight` - Used when dropdown item height is larger than 35px. This is so the virtualised list can calculate correctly.
 
-- `numberDisplayed` - Then number of selected options displayed until it turns into '(selected count) selected'
-- `multiple` - Set to true for a multiselect, defaults to false
-- `options` - Array of possible options
-- `onChange` - Called whenever selected value(s) have changed. This is a controlled component. Pass the selected value back into `value`.
-- `open` - Can open or close the dropdown manually. Defaults to false.
-- `includeSelectAll` - If set to `true` will add a `Select All` checkbox at the top of the list.
-- `includeFilter` - If set to `true` will add an input at the top of the dropdown for filtering the results
-- `filterDebounce` - Debounce timeout, used to limit the rate the internal `onFilterChange` gets called. Defaults to 150ms
-- `dropdownHeight` - The height of the dropdown. Defaults to 300px.
-- `onFiltered` - Called after a filter has been done with the filtered options
-- `onOpen` - Called after the dropdown has opened.
-- `onClose` - Called after the dropdown has closed.
-  # Internals
+## Custom rendering
+
+You can render out custom items for the dropdown.
+
+**Example**
+
+```javascript
+<Picky
+  value={this.state.arrayValue}
+  options={oneToOneThousand}
+  onChange={this.selectMultipleOption}
+  open={false}
+  valueKey="id"
+  labelKey="name"
+  multiple={true}
+  includeSelectAll={true}
+  includeFilter={true}
+  dropdownHeight={600}
+  itemHeight={50}
+  render={({ style, isSelected, item, selectValue, labelKey, valueKey }) => {
+    return (
+      <li
+        style={style} // required
+        className={isSelected ? 'selected' : ''} // required to indicate is selected
+        key={item[valueKey]} // required
+        onClick={() => selectValue(item)}
+      >
+        {' '}
+        // required to select item
+        <input type="checkbox" checked={isSelected} readOnly />
+        <span style={{ fontSize: '30px' }}>{item[labelKey]}</span>
+      </li>
+    );
+  }}
+/>
+```
+
+The render callback gets called with the following properties:
+style, isSelected, item, labelKey, valueKey, selectValue
+
+* `style` - object - used by react-tiny-virtual-list for rendering out the items. It needs these to calculate the items location and size. This is required.
+* `isSelected` - boolean - true if item is selected. Use this for styling accordingly.
+* `item` - object | number | string - The item to render.
+* `labelKey` - Used to get the label if item is an object
+* `valueKey` - Used to get the value if item is an object, good for keys.
+* `selectValue` - function(item) - Selects the item on click
+
+**Note**
+
+* If your rendered item affects the height of the item in anyway. Supply `itemHeight` to Picky.
+* If you wish to show a radio button or a checkbox, be sure to add `readOnly` prop to the input.
+
+# Internals
 
 The component uses [React Tiny Virtual List](https://github.com/clauderic/react-tiny-virtual-list) for rendering out the items. This is a for a performance gain. You can have 1,000,000 items in the dropdown with no performance drop! It's such a great little library. This is why we have a dropdown height.
