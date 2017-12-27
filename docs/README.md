@@ -1,9 +1,9 @@
+# Picky ☜
+
 [![Build Status](https://travis-ci.org/Aidurber/react-picky.svg?branch=master)](https://travis-ci.org/Aidurber/react-picky)
 [![codecov](https://codecov.io/gh/Aidurber/react-picky/branch/master/graph/badge.svg)](https://codecov.io/gh/Aidurber/react-picky)
 [![license](https://img.shields.io/github/license/aidurber/react-picky.svg)]()
 [![npm version](https://badge.fury.io/js/react-picky.svg)](https://badge.fury.io/js/react-picky)
-
-# Picky ☜
 
 Yet another React select list.
 
