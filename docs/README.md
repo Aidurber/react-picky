@@ -39,6 +39,16 @@ If you like the tag list like [React-Select](https://github.com/JedWatson/react-
   yarn add react-picky
 ```
 
+# Screenshots
+
+## Single Select
+
+![Single select](https://raw.githubusercontent.com/aidurber/react-picky/master/readme-single-select.png)
+
+## Multi Select
+
+![Multi select](https://raw.githubusercontent.com/aidurber/react-picky/master/readme-mukti-select.jpg)
+
 # Usage
 
 ## Basic example
