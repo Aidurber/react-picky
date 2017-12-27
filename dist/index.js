@@ -1092,16 +1092,14 @@ var Picky$1 = function (_React$Component) {
         if (this.props.value.includes(value)) {
           var currIndex = this.props.value.indexOf(value);
           // Remove
-          var start = this.props.value.slice(0, currIndex);
-          var end = this.props.value.slice(currIndex + 1);
           this.setState({
-            selectedValue: start.concat(end)
+            selectedValue: [].concat(_toConsumableArray(this.props.value.slice(0, currIndex)), _toConsumableArray(this.props.value.slice(currIndex + 1)))
           }, function () {
             _this2.props.onChange(_this2.state.selectedValue);
           });
         } else {
           this.setState({
-            selectedValue: [value].concat(_toConsumableArray(this.state.selectedValue))
+            selectedValue: [].concat(_toConsumableArray(this.state.selectedValue), [value])
           }, function () {
             _this2.props.onChange(_this2.state.selectedValue);
           });

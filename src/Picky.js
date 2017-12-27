@@ -29,11 +29,12 @@ class Picky extends React.Component {
       if (this.props.value.includes(value)) {
         const currIndex = this.props.value.indexOf(value);
         // Remove
-        const start = this.props.value.slice(0, currIndex);
-        const end = this.props.value.slice(currIndex + 1);
         this.setState(
           {
-            selectedValue: start.concat(end)
+            selectedValue: [
+              ...this.props.value.slice(0, currIndex),
+              ...this.props.value.slice(currIndex + 1)
+            ]
           },
           () => {
             this.props.onChange(this.state.selectedValue);
@@ -42,7 +43,7 @@ class Picky extends React.Component {
       } else {
         this.setState(
           {
-            selectedValue: [value, ...this.state.selectedValue]
+            selectedValue: [...this.state.selectedValue, value]
           },
           () => {
             this.props.onChange(this.state.selectedValue);
