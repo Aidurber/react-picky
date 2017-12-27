@@ -2,7 +2,6 @@
   "name": "react-picky",
   "version": "0.0.0-development",
   "main": "dist/index.js",
-  "module": "dist/picky.js",
   "license": "MIT",
   "scripts": {
     "commit": "git-cz",
