@@ -70,7 +70,7 @@ import 'react-picky/dist/picky.css'; // Include CSS
 
 ### Sandbox
 
-[![Edit x9mwo7318q](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/x9mwo7318q)
+[![Edit 31w0x7pjm1](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/31w0x7pjm1)
 
 ## Props
 
