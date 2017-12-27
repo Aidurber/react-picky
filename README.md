@@ -1,10 +1,9 @@
+# Picky ☜
+
 [![Build Status](https://travis-ci.org/Aidurber/react-picky.svg?branch=master)](https://travis-ci.org/Aidurber/react-picky)
 [![codecov](https://codecov.io/gh/Aidurber/react-picky/branch/master/graph/badge.svg)](https://codecov.io/gh/Aidurber/react-picky)
 [![license](https://img.shields.io/github/license/aidurber/react-picky.svg)]()
-
-# 🚧 Under Construction 🚧
-
-# Picky ☜
+[![npm version](https://badge.fury.io/js/react-picky.svg)](https://badge.fury.io/js/react-picky)
 
 Yet another React select list.
 
@@ -40,22 +39,38 @@ If you like the tag list like [React-Select](https://github.com/JedWatson/react-
   yarn add react-picky
 ```
 
+# Screenshots
+
+## Single Select
+
+![Single select](https://raw.githubusercontent.com/aidurber/react-picky/master/readme-single-select.png)
+
+## Multi Select
+
+![Multi select](https://raw.githubusercontent.com/aidurber/react-picky/master/readme-mukti-select.jpg)
+
 # Usage
 
 ## Basic example
 
 ```javascript
-import Picky from 'react-picky'
+import Picky from 'react-picky';
+import 'react-picky/dist/picky.css'; // Include CSS
 
-<Picky  options={[1, 2, 3, 4, 5]}
-        value={[]}
-        multiple={true}
-        includeSelectAll={true}
-        includeFilter={true}
-        onChange={(values) => console.log(values)}
-        dropdownHeight={600}
-        />
+<Picky
+  options={[1, 2, 3, 4, 5]}
+  value={[]}
+  multiple={true}
+  includeSelectAll={true}
+  includeFilter={true}
+  onChange={values => console.log(values)}
+  dropdownHeight={600}
+/>;
 ```
+
+### Sandbox
+
+[![Edit x9mwo7318q](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/x9mwo7318q)
 
 ## Props
 
@@ -169,5 +184,4 @@ style, isSelected, item, labelKey, valueKey, selectValue
 * If you wish to show a radio button or a checkbox, be sure to add `readOnly` prop to the input.
 
 # Internals
-
 The component uses [React Tiny Virtual List](https://github.com/clauderic/react-tiny-virtual-list) for rendering out the items. This is a for a performance gain. You can have 1,000,000 items in the dropdown with no performance drop! It's such a great little library. This is why we have a dropdown height.

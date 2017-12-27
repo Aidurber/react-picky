@@ -61,11 +61,10 @@ class Picky extends React.Component {
     }
   }
   allSelected() {
+    const copiedOptions = this.props.options.slice(0);
+    const copiedSelectedValue = this.state.selectedValue.slice(0);
     return (
-      this.props.options
-        .map(opt => opt)
-        .sort()
-        .toString() == this.state.selectedValue.sort().toString()
+      copiedOptions.sort().toString() == copiedSelectedValue.sort().toString()
     );
   }
   selectAll() {
@@ -91,7 +90,8 @@ class Picky extends React.Component {
       dropdownHeight,
       labelKey,
       valueKey,
-      itemHeight
+      itemHeight,
+      multiple
     } = this.props;
     const items = this.state.filtered ? this.state.filteredOptions : options;
     return (
@@ -117,7 +117,8 @@ class Picky extends React.Component {
               isSelected,
               selectValue: this.selectValue,
               labelKey,
-              valueKey
+              valueKey,
+              multiple
             });
           } else {
             return (
@@ -129,9 +130,11 @@ class Picky extends React.Component {
                 selectValue={this.selectValue}
                 labelKey={labelKey}
                 valueKey={valueKey}
+                multiple={multiple
               />
             );
           }
+
         }}
       />
     );
@@ -222,6 +225,7 @@ class Picky extends React.Component {
             )}
             <ul>
               {includeSelectAll &&
+                multiple &&
                 !this.state.filtered && (
                   <li
                     data-selectall="true"
