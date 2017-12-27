@@ -61,9 +61,10 @@ class Picky extends React.Component {
     }
   }
   allSelected() {
+    const copiedOptions = this.props.options.slice(0);
+    const copiedSelectedValue = this.state.selectedValue.slice(0);
     return (
-      this.props.options.sort().toString() ==
-      this.state.selectedValue.sort().toString()
+      copiedOptions.sort().toString() == copiedSelectedValue.sort().toString()
     );
   }
   selectAll() {
