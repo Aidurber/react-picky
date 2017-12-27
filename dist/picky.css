@@ -11,7 +11,7 @@
     border-color: #eee;
     border-style: solid;
     border-radius: 2px;
-    padding: 1em;
+    padding: 5px;
     text-align: left;
     position: relative;
     box-sizing: border-box;
@@ -26,7 +26,7 @@
       border-right: 4px solid transparent;
       border-left: 4px solid transparent;
       content: '';
-      right: 1.5em;
+      right: 16px;
       top: 16px; }
   .picky__dropdown {
     width: 100%;
@@ -51,6 +51,9 @@
           background-color: #ecf0f1; }
         .picky__dropdown ul li.selected {
           background-color: #ecf0f1; }
+        .picky__dropdown ul li input[type='checkbox'],
+        .picky__dropdown ul li input[type='radio'] {
+          margin-right: 3px; }
   .picky__filter {
     display: flex;
     width: 100%;
