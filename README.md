@@ -150,7 +150,15 @@ You can render out custom items for the dropdown.
   includeFilter={true}
   dropdownHeight={600}
   itemHeight={50}
-  render={({ style, isSelected, item, selectValue, labelKey, valueKey }) => {
+  render={({
+    style,
+    isSelected,
+    item,
+    selectValue,
+    labelKey,
+    valueKey,
+    multiple
+  }) => {
     return (
       <li
         style={style} // required
@@ -169,7 +177,7 @@ You can render out custom items for the dropdown.
 ```
 
 The render callback gets called with the following properties:
-style, isSelected, item, labelKey, valueKey, selectValue
+style, isSelected, item, labelKey, valueKey, selectValue, multiple
 
 * `style` - object - used by react-tiny-virtual-list for rendering out the items. It needs these to calculate the items location and size. This is required.
 * `isSelected` - boolean - true if item is selected. Use this for styling accordingly.
@@ -177,6 +185,7 @@ style, isSelected, item, labelKey, valueKey, selectValue
 * `labelKey` - Used to get the label if item is an object
 * `valueKey` - Used to get the value if item is an object, good for keys.
 * `selectValue` - function(item) - Selects the item on click
+* `multiple` - boolean - Indicates if is a multiselect.
 
 **Note**
 
@@ -184,4 +193,5 @@ style, isSelected, item, labelKey, valueKey, selectValue
 * If you wish to show a radio button or a checkbox, be sure to add `readOnly` prop to the input.
 
 # Internals
+
 The component uses [React Tiny Virtual List](https://github.com/clauderic/react-tiny-virtual-list) for rendering out the items. This is a for a performance gain. You can have 1,000,000 items in the dropdown with no performance drop! It's such a great little library. This is why we have a dropdown height.

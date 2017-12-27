@@ -130,11 +130,10 @@ class Picky extends React.Component {
                 selectValue={this.selectValue}
                 labelKey={labelKey}
                 valueKey={valueKey}
-                multiple={multiple
+                multiple={multiple}
               />
             );
           }
-
         }}
       />
     );
