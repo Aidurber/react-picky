@@ -13,17 +13,36 @@ class Picky extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedValue: props.value,
+      selectedValue: props.value || (props.multiple ? [] : null),
       open: props.open,
       filtered: false,
       filteredOptions: [],
-      id: uuid()
+      id: uuid(),
+      allSelected: false
     };
 
     this.toggleDropDown = this.toggleDropDown.bind(this);
     this.selectAll = this.selectAll.bind(this);
     this.onFilterChange = this.onFilterChange.bind(this);
     this.selectValue = this.selectValue.bind(this);
+    this.allSelected = this.allSelected.bind(this);
+  }
+  componentWillMount() {
+    const allSelected = this.allSelected();
+    this.setState({
+      allSelected
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (
+      this.props.options !== nextProps.options ||
+      this.state.selectedValue !== nextProps.value
+    ) {
+      this.setState({
+        allSelected: this.allSelected()
+      });
+    }
   }
 
   selectValue(value) {
@@ -64,14 +83,19 @@ class Picky extends React.Component {
     }
   }
   allSelected() {
-    const copiedOptions = this.props.options.slice(0);
-    const copiedSelectedValue = this.state.selectedValue.slice(0);
+    const { selectedValue } = this.state;
+    const { options } = this.props;
+    const copiedOptions = options.slice(0);
+    const copiedSelectedValue = Array.isArray(selectedValue)
+      ? selectedValue.slice(0)
+      : [];
     return isEqual(copiedOptions, copiedSelectedValue);
   }
   selectAll() {
     this.setState(
       {
-        selectedValue: !this.allSelected() ? this.props.options : []
+        selectedValue: !this.state.allSelected ? this.props.options : [],
+        allSelected: !this.state.allSelected
       },
       () => {
         this.props.onChange(this.state.selectedValue);
@@ -246,8 +270,10 @@ class Picky extends React.Component {
                   role="option"
                   id={this.state.id + '-option-' + 'selectall'}
                   data-selectall="true"
-                  aria-selected={this.allSelected()}
-                  className={this.allSelected() ? 'option selected' : 'option'}
+                  aria-selected={this.state.allSelected}
+                  className={
+                    this.state.allSelected ? 'option selected' : 'option'
+                  }
                   onClick={this.selectAll}
                   onKeyPress={this.selectAll}
                 >
@@ -256,7 +282,7 @@ class Picky extends React.Component {
                     readOnly
                     onClick={this.selectAll}
                     tabIndex={-1}
-                    checked={this.allSelected()}
+                    checked={this.state.allSelected}
                     aria-label="select all"
                   />
                   Select All
