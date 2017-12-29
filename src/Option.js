@@ -3,26 +3,44 @@ import PropTypes from 'prop-types';
 import { isDataObject } from './lib/utils';
 const Option = props => {
   const {
+    id,
     item,
     isSelected,
     labelKey,
     valueKey,
     selectValue,
     style,
-    multiple
+    multiple,
+    tabIndex
   } = props;
-  const cssClass = isSelected ? 'selected' : '';
+  const cssClass = isSelected ? 'option selected' : 'option';
   const body = isDataObject(item, labelKey, valueKey) ? item[labelKey] : item;
-
+  const inputType = multiple ? 'checkbox' : 'radio';
+  const select = () => selectValue(item);
   return (
-    <li style={style} className={cssClass} onClick={() => selectValue(item)}>
+    <div
+      tabIndex={tabIndex}
+      id={id}
+      role="option"
+      style={style}
+      aria-selected={isSelected}
+      className={cssClass}
+      onClick={select}
+      onKeyPress={e => {
+        e.preventDefault();
+        selectValue(item);
+      }}
+    >
       <input
-        type={multiple ? 'checkbox' : 'radio'}
-        checked={isSelected}
+        type={inputType}
         readOnly
+        onClick={select}
+        tabIndex={-1}
+        checked={isSelected}
+        aria-label={body}
       />
       {body}
-    </li>
+    </div>
   );
 };
 
@@ -30,6 +48,7 @@ Option.propTypes = {
   isSelected: PropTypes.bool,
   valueKey: PropTypes.string,
   labelKey: PropTypes.string,
+  id: PropTypes.string,
   item: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
@@ -37,6 +56,7 @@ Option.propTypes = {
   ]).isRequired,
   style: PropTypes.object,
   selectValue: PropTypes.func.isRequired,
-  multiple: PropTypes.bool
+  multiple: PropTypes.bool,
+  tabIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 export default Option;

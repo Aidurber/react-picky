@@ -8,9 +8,7 @@
     "jest": true
   },
 
-  "globals": {
-
-  },
+  "globals": {},
 
   "parserOptions": {
     "ecmaVersion": 7,
@@ -20,13 +18,14 @@
     }
   },
 
-  "plugins": [
-    "react"
+  "plugins": ["react", "jsx-a11y"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended"
   ],
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
 
   "rules": {
-    // overrides
-    "no-multiple-empty-lines": ["error", {"max": 2}]
+    "no-multiple-empty-lines": ["error", { "max": 2 }]
   }
 }

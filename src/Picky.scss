@@ -45,26 +45,24 @@ $selected: #ecf0f1;
     border-right: 1px solid $border;
     border-bottom: 1px solid $border;
     top: 39px;
-    ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      li {
-        padding: 0.5em;
-        cursor: pointer;
-        border-bottom: 1px solid $border;
-        text-align: left;
-        &:hover {
-          background-color: $selected;
-        }
-        &.selected {
-          background-color: $selected;
-        }
+    .option {
+      padding: 0.5em;
+      cursor: pointer;
+      border-bottom: 1px solid $border;
+      text-align: left;
+      &:hover {
+        background-color: $selected;
+      }
+      &.selected {
+        background-color: $selected;
+      }
+      &:focus {
+        outline: -webkit-focus-ring-color auto 5px !important;
+      }
 
-        input[type='checkbox'],
-        input[type='radio'] {
-          margin-right: 3px;
-        }
+      input[type='checkbox'],
+      input[type='radio'] {
+        margin-right: 3px;
       }
     }
   }
