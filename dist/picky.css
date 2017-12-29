@@ -38,22 +38,20 @@
     border-right: 1px solid #eee;
     border-bottom: 1px solid #eee;
     top: 39px; }
-    .picky__dropdown ul {
-      list-style: none;
-      margin: 0;
-      padding: 0; }
-      .picky__dropdown ul li {
-        padding: 0.5em;
-        cursor: pointer;
-        border-bottom: 1px solid #eee;
-        text-align: left; }
-        .picky__dropdown ul li:hover {
-          background-color: #ecf0f1; }
-        .picky__dropdown ul li.selected {
-          background-color: #ecf0f1; }
-        .picky__dropdown ul li input[type='checkbox'],
-        .picky__dropdown ul li input[type='radio'] {
-          margin-right: 3px; }
+    .picky__dropdown .option {
+      padding: 0.5em;
+      cursor: pointer;
+      border-bottom: 1px solid #eee;
+      text-align: left; }
+      .picky__dropdown .option:hover {
+        background-color: #ecf0f1; }
+      .picky__dropdown .option.selected {
+        background-color: #ecf0f1; }
+      .picky__dropdown .option:focus {
+        outline: -webkit-focus-ring-color auto 5px !important; }
+      .picky__dropdown .option input[type='checkbox'],
+      .picky__dropdown .option input[type='radio'] {
+        margin-right: 3px; }
   .picky__filter {
     display: flex;
     width: 100%;

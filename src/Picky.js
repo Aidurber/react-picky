@@ -4,7 +4,7 @@ import debounce from 'lodash.debounce';
 import VirtualList from 'react-tiny-virtual-list';
 import { isDataObject } from './lib/utils';
 import isEqual from 'lodash.isequal';
-
+import uuid from 'uuid/v4';
 import Placeholder from './Placeholder';
 import Filter from './Filter';
 import Option from './Option';
@@ -16,7 +16,8 @@ class Picky extends React.Component {
       selectedValue: props.value,
       open: props.open,
       filtered: false,
-      filteredOptions: []
+      filteredOptions: [],
+      id: uuid()
     };
 
     this.toggleDropDown = this.toggleDropDown.bind(this);
@@ -86,9 +87,11 @@ class Picky extends React.Component {
       labelKey,
       valueKey,
       itemHeight,
-      multiple
+      multiple,
+      tabIndex
     } = this.props;
     const items = this.state.filtered ? this.state.filteredOptions : options;
+
     return (
       <VirtualList
         width="100%"
@@ -126,6 +129,8 @@ class Picky extends React.Component {
                 labelKey={labelKey}
                 valueKey={valueKey}
                 multiple={multiple}
+                tabIndex={tabIndex}
+                id={this.state.id + '-option-' + index}
               />
             );
           }
@@ -187,12 +192,27 @@ class Picky extends React.Component {
       includeFilter,
       filterDebounce,
       valueKey,
-      labelKey
+      labelKey,
+      tabIndex
     } = this.props;
     const { open } = this.state;
+    let ariaOwns = '';
+    if (open) {
+      ariaOwns += this.state.id + '-list';
+    }
     return (
-      <div className="picky">
+      <div
+        className="picky"
+        id={this.state.id}
+        role="combobox"
+        aria-controls={`${this.state.id}__button`}
+        aria-expanded={open}
+        aria-haspopup={open}
+        aria-owns={ariaOwns}
+        tabIndex={tabIndex}
+      >
         <button
+          id={`${this.state.id}__button`}
           type="button"
           className="picky__input"
           onClick={this.toggleDropDown}
@@ -207,7 +227,7 @@ class Picky extends React.Component {
           />
         </button>
         {open && (
-          <div className="picky__dropdown">
+          <div className="picky__dropdown" id={this.state.id + '-list'}>
             {includeFilter && (
               <Filter
                 onFilterChange={
@@ -217,20 +237,32 @@ class Picky extends React.Component {
                 }
               />
             )}
-            <ul>
-              {includeSelectAll &&
-                multiple &&
-                !this.state.filtered && (
-                  <li
-                    data-selectall="true"
-                    className={this.allSelected() ? 'selected' : ''}
+
+            {includeSelectAll &&
+              multiple &&
+              !this.state.filtered && (
+                <div
+                  tabIndex={tabIndex}
+                  role="option"
+                  id={this.state.id + '-option-' + 'selectall'}
+                  data-selectall="true"
+                  aria-selected={this.allSelected()}
+                  className={this.allSelected() ? 'option selected' : 'option'}
+                  onClick={this.selectAll}
+                  onKeyPress={this.selectAll}
+                >
+                  <input
+                    type="checkbox"
+                    readOnly
                     onClick={this.selectAll}
-                  >
-                    Select All
-                  </li>
-                )}
-              {this.renderOptions()}
-            </ul>
+                    tabIndex={-1}
+                    checked={this.allSelected()}
+                    aria-label="select all"
+                  />
+                  Select All
+                </div>
+              )}
+            {this.renderOptions()}
           </div>
         )}
       </div>
@@ -244,7 +276,8 @@ Picky.defaultProps = {
   filterDebounce: 150,
   dropdownHeight: 300,
   onChange: () => {},
-  itemHeight: 35
+  itemHeight: 35,
+  tabIndex: 0
 };
 Picky.propTypes = {
   placeholder: PropTypes.string,
@@ -269,7 +302,8 @@ Picky.propTypes = {
   valueKey: PropTypes.string,
   labelKey: PropTypes.string,
   render: PropTypes.func,
-  itemHeight: PropTypes.number
+  itemHeight: PropTypes.number,
+  tabIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
 export default Picky;

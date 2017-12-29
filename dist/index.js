@@ -6,6 +6,7 @@ var React = require('react');
 var React__default = _interopDefault(React);
 var PropTypes = require('prop-types');
 var PropTypes__default = _interopDefault(PropTypes);
+var crypto = _interopDefault(require('crypto'));
 
 var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -2719,6 +2720,65 @@ function stubFalse() {
 module.exports = isEqual;
 });
 
+var rb = crypto.randomBytes;
+
+function rng() {
+  return rb(16);
+}
+
+var rng_1 = rng;
+
+/**
+ * Convert array of 16 byte values to UUID string format of the form:
+ * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+ */
+var byteToHex = [];
+for (var i = 0; i < 256; ++i) {
+  byteToHex[i] = (i + 0x100).toString(16).substr(1);
+}
+
+function bytesToUuid(buf, offset) {
+  var i = offset || 0;
+  var bth = byteToHex;
+  return bth[buf[i++]] + bth[buf[i++]] +
+          bth[buf[i++]] + bth[buf[i++]] + '-' +
+          bth[buf[i++]] + bth[buf[i++]] + '-' +
+          bth[buf[i++]] + bth[buf[i++]] + '-' +
+          bth[buf[i++]] + bth[buf[i++]] + '-' +
+          bth[buf[i++]] + bth[buf[i++]] +
+          bth[buf[i++]] + bth[buf[i++]] +
+          bth[buf[i++]] + bth[buf[i++]];
+}
+
+var bytesToUuid_1 = bytesToUuid;
+
+function v4(options, buf, offset) {
+  var i = buf && offset || 0;
+
+  if (typeof(options) == 'string') {
+    buf = options == 'binary' ? new Array(16) : null;
+    options = null;
+  }
+  options = options || {};
+
+  var rnds = options.random || (options.rng || rng_1)();
+
+  // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
+  rnds[6] = (rnds[6] & 0x0f) | 0x40;
+  rnds[8] = (rnds[8] & 0x3f) | 0x80;
+
+  // Copy bytes to buffer, if provided
+  if (buf) {
+    for (var ii = 0; ii < 16; ++ii) {
+      buf[i + ii] = rnds[ii];
+    }
+  }
+
+  return buf || bytesToUuid_1(rnds);
+}
+
+var v4_1 = v4;
+
 var _createClass$1 = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck$1(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2833,6 +2893,8 @@ var Filter = function (_Component) {
           type: 'text',
           className: 'picky__filter__input',
           placeholder: 'Filter...',
+          tabIndex: this.props.tabIndex,
+          'aria-label': 'filter options',
           onChange: function onChange(event) {
             return _this2.props.onFilterChange(event.target.value);
           }
@@ -2845,30 +2907,49 @@ var Filter = function (_Component) {
 }(React.Component);
 
 Filter.propTypes = {
-  onFilterChange: PropTypes__default.func.isRequired
+  onFilterChange: PropTypes__default.func.isRequired,
+  tabIndex: PropTypes__default.number
 };
 
 var Option = function Option(props) {
-  var item = props.item,
+  var id = props.id,
+      item = props.item,
       isSelected = props.isSelected,
       labelKey = props.labelKey,
       valueKey = props.valueKey,
       selectValue = props.selectValue,
       style = props.style,
-      multiple = props.multiple;
+      multiple = props.multiple,
+      tabIndex = props.tabIndex;
 
-  var cssClass = isSelected ? 'selected' : '';
+  var cssClass = isSelected ? 'option selected' : 'option';
   var body = isDataObject(item, labelKey, valueKey) ? item[labelKey] : item;
-
+  var inputType = multiple ? 'checkbox' : 'radio';
+  var select = function select() {
+    return selectValue(item);
+  };
   return React__default.createElement(
-    'li',
-    { style: style, className: cssClass, onClick: function onClick() {
-        return selectValue(item);
-      } },
+    'div',
+    {
+      tabIndex: tabIndex,
+      id: id,
+      role: 'option',
+      style: style,
+      'aria-selected': isSelected,
+      className: cssClass,
+      onClick: select,
+      onKeyPress: function onKeyPress(e) {
+        e.preventDefault();
+        selectValue(item);
+      }
+    },
     React__default.createElement('input', {
-      type: multiple ? 'checkbox' : 'radio',
+      type: inputType,
+      readOnly: true,
+      onClick: select,
+      tabIndex: -1,
       checked: isSelected,
-      readOnly: true
+      'aria-label': body
     }),
     body
   );
@@ -2878,10 +2959,12 @@ Option.propTypes = {
   isSelected: PropTypes__default.bool,
   valueKey: PropTypes__default.string,
   labelKey: PropTypes__default.string,
+  id: PropTypes__default.string,
   item: PropTypes__default.oneOfType([PropTypes__default.string, PropTypes__default.number, PropTypes__default.object]).isRequired,
   style: PropTypes__default.object,
   selectValue: PropTypes__default.func.isRequired,
-  multiple: PropTypes__default.bool
+  multiple: PropTypes__default.bool,
+  tabIndex: PropTypes__default.oneOfType([PropTypes__default.string, PropTypes__default.number])
 };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -2906,7 +2989,8 @@ var Picky$1 = function (_React$Component) {
       selectedValue: props.value,
       open: props.open,
       filtered: false,
-      filteredOptions: []
+      filteredOptions: [],
+      id: v4_1()
     };
 
     _this.toggleDropDown = _this.toggleDropDown.bind(_this);
@@ -2975,9 +3059,11 @@ var Picky$1 = function (_React$Component) {
           labelKey = _props.labelKey,
           valueKey = _props.valueKey,
           itemHeight = _props.itemHeight,
-          multiple = _props.multiple;
+          multiple = _props.multiple,
+          tabIndex = _props.tabIndex;
 
       var items = this.state.filtered ? this.state.filteredOptions : options;
+
       return React__default.createElement(VirtualList, {
         width: '100%',
         height: dropdownHeight,
@@ -3011,7 +3097,9 @@ var Picky$1 = function (_React$Component) {
               selectValue: _this4.selectValue,
               labelKey: labelKey,
               valueKey: valueKey,
-              multiple: multiple
+              multiple: multiple,
+              tabIndex: tabIndex,
+              id: _this4.state.id + '-option-' + index
             });
           }
         }
@@ -3071,15 +3159,30 @@ var Picky$1 = function (_React$Component) {
           includeFilter = _props2.includeFilter,
           filterDebounce = _props2.filterDebounce,
           valueKey = _props2.valueKey,
-          labelKey = _props2.labelKey;
+          labelKey = _props2.labelKey,
+          tabIndex = _props2.tabIndex;
       var open = this.state.open;
 
+      var ariaOwns = '';
+      if (open) {
+        ariaOwns += this.state.id + '-list';
+      }
       return React__default.createElement(
         'div',
-        { className: 'picky' },
+        {
+          className: 'picky',
+          id: this.state.id,
+          role: 'combobox',
+          'aria-controls': this.state.id + '__button',
+          'aria-expanded': open,
+          'aria-haspopup': open,
+          'aria-owns': ariaOwns,
+          tabIndex: tabIndex
+        },
         React__default.createElement(
           'button',
           {
+            id: this.state.id + '__button',
             type: 'button',
             className: 'picky__input',
             onClick: this.toggleDropDown
@@ -3095,24 +3198,33 @@ var Picky$1 = function (_React$Component) {
         ),
         open && React__default.createElement(
           'div',
-          { className: 'picky__dropdown' },
+          { className: 'picky__dropdown', id: this.state.id + '-list' },
           includeFilter && React__default.createElement(Filter, {
             onFilterChange: filterDebounce > 0 ? lodash_debounce(this.onFilterChange, filterDebounce) : this.onFilterChange
           }),
-          React__default.createElement(
-            'ul',
-            null,
-            includeSelectAll && multiple && !this.state.filtered && React__default.createElement(
-              'li',
-              {
-                'data-selectall': 'true',
-                className: this.allSelected() ? 'selected' : '',
-                onClick: this.selectAll
-              },
-              'Select All'
-            ),
-            this.renderOptions()
-          )
+          includeSelectAll && multiple && !this.state.filtered && React__default.createElement(
+            'div',
+            {
+              tabIndex: tabIndex,
+              role: 'option',
+              id: this.state.id + '-option-' + 'selectall',
+              'data-selectall': 'true',
+              'aria-selected': this.allSelected(),
+              className: this.allSelected() ? 'option selected' : 'option',
+              onClick: this.selectAll,
+              onKeyPress: this.selectAll
+            },
+            React__default.createElement('input', {
+              type: 'checkbox',
+              readOnly: true,
+              onClick: this.selectAll,
+              tabIndex: -1,
+              checked: this.allSelected(),
+              'aria-label': 'select all'
+            }),
+            'Select All'
+          ),
+          this.renderOptions()
         )
       );
     }
@@ -3127,7 +3239,8 @@ Picky$1.defaultProps = {
   filterDebounce: 150,
   dropdownHeight: 300,
   onChange: function onChange() {},
-  itemHeight: 35
+  itemHeight: 35,
+  tabIndex: 0
 };
 Picky$1.propTypes = {
   placeholder: PropTypes__default.string,
@@ -3147,7 +3260,8 @@ Picky$1.propTypes = {
   valueKey: PropTypes__default.string,
   labelKey: PropTypes__default.string,
   render: PropTypes__default.func,
-  itemHeight: PropTypes__default.number
+  itemHeight: PropTypes__default.number,
+  tabIndex: PropTypes__default.oneOfType([PropTypes__default.string, PropTypes__default.number])
 };
 
 module.exports = Picky$1;

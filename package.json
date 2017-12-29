@@ -16,7 +16,8 @@
   "dependencies": {
     "lodash.debounce": "^4.0.8",
     "lodash.isequal": "^4.5.0",
-    "react-tiny-virtual-list": "^2.1.4"
+    "react-tiny-virtual-list": "^2.1.4",
+    "uuid": "^3.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -37,6 +38,7 @@
     "enzyme-adapter-react-15": "^1.0.5",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.14.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.4.0",
     "jest": "^22.0.3",
     "postcss-modules": "^1.1.0",

@@ -8,6 +8,8 @@ class Filter extends Component {
           type="text"
           className="picky__filter__input"
           placeholder="Filter..."
+          tabIndex={this.props.tabIndex}
+          aria-label="filter options"
           onChange={event => this.props.onFilterChange(event.target.value)}
         />
       </div>
@@ -16,7 +18,8 @@ class Filter extends Component {
 }
 
 Filter.propTypes = {
-  onFilterChange: PropTypes.func.isRequired
+  onFilterChange: PropTypes.func.isRequired,
+  tabIndex: PropTypes.number
 };
 
 export default Filter;
