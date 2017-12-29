@@ -56,14 +56,14 @@ describe('Picky', () => {
       const wrapper = mount(
         <Picky value={[1, 2, 3]} options={[1, 2, 3, 4, 5]} open={true} />
       );
-      expect(wrapper.find('.picky__dropdown li')).toHaveLength(5);
+      expect(wrapper.find('.picky__dropdown .option')).toHaveLength(5);
     });
 
     it('should have items selected by default when supplied', () => {
       const wrapper = mount(
         <Picky value={[1, 2, 3]} options={[1, 2, 3, 4, 5]} open={true} />
       );
-      const selected = wrapper.find('.picky__dropdown li.selected');
+      const selected = wrapper.find('.picky__dropdown .option.selected');
       expect(selected).toHaveLength(3);
       expect(selected.at(0).text()).toEqual('1');
       expect(selected.at(1).text()).toEqual('2');
@@ -126,7 +126,7 @@ describe('Picky', () => {
         />
       );
       expect(
-        wrapper.find('.picky__dropdown li[data-selectall="true"]')
+        wrapper.find('.picky__dropdown .option[data-selectall="true"]')
       ).toHaveLength(1);
     });
 
@@ -143,10 +143,10 @@ describe('Picky', () => {
         />
       );
       const selectAllItem = wrapper
-        .find('.picky__dropdown li[data-selectall="true"]')
+        .find('.picky__dropdown .option[data-selectall="true"]')
         .first();
 
-      expect(wrapper.find('.picky__dropdown li.selected')).toHaveLength(3);
+      expect(wrapper.find('.picky__dropdown .option.selected')).toHaveLength(3);
       selectAllItem.simulate('click');
       expect(wrapper.state('selectedValue')).toHaveLength(5);
       selectAllItem.simulate('click');
@@ -167,7 +167,7 @@ describe('Picky', () => {
       );
       expect(wrapper.state('selectedValue')).toEqual(1);
       wrapper
-        .find('.picky__dropdown li')
+        .find('.picky__dropdown .option')
         .at(1)
         .simulate('click');
       expect(onChange).lastCalledWith(2);
@@ -186,7 +186,7 @@ describe('Picky', () => {
 
       expect(wrapper.state('selectedValue')).toEqual([]);
       wrapper
-        .find('.picky__dropdown li')
+        .find('.picky__dropdown .option')
         .at(1)
         .simulate('click');
       expect(onChange).lastCalledWith([2]);
@@ -206,7 +206,7 @@ describe('Picky', () => {
 
       expect(wrapper.state('selectedValue')).toEqual([2]);
       wrapper
-        .find('.picky__dropdown li')
+        .find('.picky__dropdown .option')
         .at(1)
         .simulate('click');
       expect(onChange).lastCalledWith([]);
@@ -230,7 +230,7 @@ describe('Picky', () => {
       );
 
       wrapper
-        .find('.picky__dropdown li')
+        .find('.picky__dropdown .option')
         .at(0)
         .simulate('click');
 
