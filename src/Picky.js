@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 import VirtualList from 'react-tiny-virtual-list';
 import { isDataObject } from './lib/utils';
+import isEqual from 'lodash.isequal';
 
 import Placeholder from './Placeholder';
 import Filter from './Filter';
@@ -64,19 +65,12 @@ class Picky extends React.Component {
   allSelected() {
     const copiedOptions = this.props.options.slice(0);
     const copiedSelectedValue = this.state.selectedValue.slice(0);
-    return (
-      copiedOptions.sort().toString() == copiedSelectedValue.sort().toString()
-    );
+    return isEqual(copiedOptions, copiedSelectedValue);
   }
   selectAll() {
-    let selectedValue = this.props.options.map(opt => opt);
-
-    if (this.allSelected()) {
-      selectedValue = [];
-    }
     this.setState(
       {
-        selectedValue
+        selectedValue: !this.allSelected() ? this.props.options : []
       },
       () => {
         this.props.onChange(this.state.selectedValue);
