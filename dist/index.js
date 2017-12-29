@@ -18,16 +18,6 @@ function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
 }
 
-/**
- * lodash (Custom Build) <https://lodash.com/>
- * Build: `lodash modularize exports="npm" -o ./`
- * Copyright jQuery Foundation and other contributors <https://jquery.org/>
- * Released under MIT license <https://lodash.com/license>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- */
-
-/** Used as the `TypeError` message for "Functions" methods. */
 var FUNC_ERROR_TEXT = 'Expected a function';
 
 /** Used as references for various `Number` constants. */
@@ -395,22 +385,6 @@ function toNumber(value) {
 }
 
 var lodash_debounce = debounce;
-
-/*! *****************************************************************************
-Copyright (c) Microsoft Corporation. All rights reserved.
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at http://www.apache.org/licenses/LICENSE-2.0
-
-THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-MERCHANTABLITY OR NON-INFRINGEMENT.
-
-See the Apache Version 2.0 License for specific language governing permissions
-and limitations under the License.
-***************************************************************************** */
-/* global Reflect, Promise */
 
 var extendStatics = Object.setPrototypeOf ||
     ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -2746,9 +2720,6 @@ function stubFalse() {
 module.exports = isEqual;
 });
 
-// Unique ID creation requires a high quality random # generator.  In node.js
-// this is pretty straight-forward - we use the crypto API.
-
 var rb = crypto.randomBytes;
 
 function rng() {
@@ -3015,21 +2986,40 @@ var Picky$1 = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Picky.__proto__ || Object.getPrototypeOf(Picky)).call(this, props));
 
     _this.state = {
-      selectedValue: props.value,
+      selectedValue: props.value || (props.multiple ? [] : null),
       open: props.open,
       filtered: false,
       filteredOptions: [],
-      id: v4_1()
+      id: v4_1(),
+      allSelected: false
     };
 
     _this.toggleDropDown = _this.toggleDropDown.bind(_this);
     _this.selectAll = _this.selectAll.bind(_this);
     _this.onFilterChange = _this.onFilterChange.bind(_this);
     _this.selectValue = _this.selectValue.bind(_this);
+    _this.allSelected = _this.allSelected.bind(_this);
     return _this;
   }
 
   _createClass(Picky, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      var allSelected = this.allSelected();
+      this.setState({
+        allSelected: allSelected
+      });
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      if (this.props.options !== nextProps.options || this.state.selectedValue !== nextProps.value) {
+        this.setState({
+          allSelected: this.allSelected()
+        });
+      }
+    }
+  }, {
     key: 'selectValue',
     value: function selectValue(value) {
       var _this2 = this;
@@ -3061,8 +3051,11 @@ var Picky$1 = function (_React$Component) {
   }, {
     key: 'allSelected',
     value: function allSelected() {
-      var copiedOptions = this.props.options.slice(0);
-      var copiedSelectedValue = this.state.selectedValue.slice(0);
+      var selectedValue = this.state.selectedValue;
+      var options = this.props.options;
+
+      var copiedOptions = options.slice(0);
+      var copiedSelectedValue = Array.isArray(selectedValue) ? selectedValue.slice(0) : [];
       return lodash_isequal(copiedOptions, copiedSelectedValue);
     }
   }, {
@@ -3071,7 +3064,8 @@ var Picky$1 = function (_React$Component) {
       var _this3 = this;
 
       this.setState({
-        selectedValue: !this.allSelected() ? this.props.options : []
+        selectedValue: !this.state.allSelected ? this.props.options : [],
+        allSelected: !this.state.allSelected
       }, function () {
         _this3.props.onChange(_this3.state.selectedValue);
       });
@@ -3238,8 +3232,8 @@ var Picky$1 = function (_React$Component) {
               role: 'option',
               id: this.state.id + '-option-' + 'selectall',
               'data-selectall': 'true',
-              'aria-selected': this.allSelected(),
-              className: this.allSelected() ? 'option selected' : 'option',
+              'aria-selected': this.state.allSelected,
+              className: this.state.allSelected ? 'option selected' : 'option',
               onClick: this.selectAll,
               onKeyPress: this.selectAll
             },
@@ -3248,7 +3242,7 @@ var Picky$1 = function (_React$Component) {
               readOnly: true,
               onClick: this.selectAll,
               tabIndex: -1,
-              checked: this.allSelected(),
+              checked: this.state.allSelected,
               'aria-label': 'select all'
             }),
             'Select All'
