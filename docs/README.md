@@ -81,7 +81,8 @@ Picky.defaultProps = {
   filterDebounce: 150,
   dropdownHeight: 300,
   onChange: () => {},
-  itemHeight: 35
+  itemHeight: 35,
+  tabIndex: 0
 };
 Picky.propTypes = {
   placeholder: PropTypes.string,
@@ -106,18 +107,19 @@ Picky.propTypes = {
   valueKey: PropTypes.string,
   labelKey: PropTypes.string,
   render: PropTypes.func,
-  itemHeight: PropTypes.number
+  itemHeight: PropTypes.number,
+  tabIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 ```
 
 ### Prop descriptions
 
 * `placeholder` - Default message when no items are selected.
-* `value` - The selected value(s), array if multiple is true.
+* `value` - The selected value(s), array if multiple is true. **Not needed if using as an uncontolled component**
 * `numberDisplayed` - Then number of selected options displayed until it turns into '(selected count) selected'.
 * `multiple` - Set to true for a multiselect, defaults to false.
 * `options` - Array of possible options.
-* `onChange` - Called whenever selected value(s) have changed. This is a controlled component. Pass the selected value back into `value`.
+* `onChange` - Called whenever selected value(s) have changed. If you are using this as a controlled component, pass the selected value back into `value`.
 * `open` - Can open or close the dropdown manually. Defaults to false.
 * `includeSelectAll` - If set to `true` will add a `Select All` checkbox at the top of the list.
 * `includeFilter` - If set to `true` will add an input at the top of the dropdown for filtering the results.
@@ -130,6 +132,7 @@ Picky.propTypes = {
 * `labelKey` - If supplying an array of objects as options, this is required. It's used to identify which property on the object is the label.
 * `render` - Used for custom rendering of items in the dropdown. More info below.
 * `itemHeight` - Used when dropdown item height is larger than 35px. This is so the virtualised list can calculate correctly.
+* `tabIndex` - Pass tabIndex to component for accessibility. Defaults to 0
 
 ## Custom rendering
 
