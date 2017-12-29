@@ -155,7 +155,7 @@ describe('Picky', () => {
       expect(onChange).toHaveBeenCalledWith([1, 2, 3, 4, 5]);
     });
 
-    it('should select single value controlled', () => {
+    it('should select single value', () => {
       const onChange = jest.fn();
       const wrapper = mount(
         <Picky
@@ -172,20 +172,7 @@ describe('Picky', () => {
         .simulate('click');
       expect(onChange).lastCalledWith(2);
     });
-
-    it('should select single value uncontrolled', () => {
-      const onChange = jest.fn();
-      const wrapper = mount(
-        <Picky options={[1, 2, 3, 4, 5]} open={true} onChange={onChange} />
-      );
-      expect(wrapper.state('selectedValue')).toEqual(null);
-      wrapper
-        .find('.picky__dropdown .option')
-        .at(1)
-        .simulate('click');
-      expect(onChange).lastCalledWith(2);
-    });
-    it('should select multiple value controlled', () => {
+    it('should select multiple value', () => {
       const onChange = jest.fn();
       const wrapper = mount(
         <Picky
@@ -205,26 +192,6 @@ describe('Picky', () => {
       expect(onChange).lastCalledWith([2]);
       expect(wrapper.state('selectedValue')).toEqual([2]);
     });
-    it('should select multiple value uncontrolled', () => {
-      const onChange = jest.fn();
-      const wrapper = mount(
-        <Picky
-          options={[1, 2, 3, 4, 5]}
-          open={true}
-          multiple
-          onChange={onChange}
-        />
-      );
-
-      expect(wrapper.state('selectedValue')).toEqual([]);
-      wrapper
-        .find('.picky__dropdown .option')
-        .at(1)
-        .simulate('click');
-      expect(onChange).lastCalledWith([2]);
-      expect(wrapper.state('selectedValue')).toEqual([2]);
-    });
-
     it('should deselect multiple value', () => {
       const onChange = jest.fn();
       const wrapper = mount(

@@ -3021,30 +3021,28 @@ var Picky$1 = function (_React$Component) {
     }
   }, {
     key: 'selectValue',
-    value: function selectValue(val) {
+    value: function selectValue(value) {
       var _this2 = this;
 
-      var valueLookup = this.isControlled() ? this.props.value : this.state.selectedValue;
-
-      if (this.props.multiple && Array.isArray(valueLookup)) {
-        if (valueLookup.includes(val)) {
-          var currIndex = valueLookup.indexOf(val);
+      if (this.props.multiple && Array.isArray(this.props.value)) {
+        if (this.props.value.includes(value)) {
+          var currIndex = this.props.value.indexOf(value);
           // Remove
           this.setState({
-            selectedValue: [].concat(_toConsumableArray(valueLookup.slice(0, currIndex)), _toConsumableArray(valueLookup.slice(currIndex + 1)))
+            selectedValue: [].concat(_toConsumableArray(this.props.value.slice(0, currIndex)), _toConsumableArray(this.props.value.slice(currIndex + 1)))
           }, function () {
             _this2.props.onChange(_this2.state.selectedValue);
           });
         } else {
           this.setState({
-            selectedValue: [].concat(_toConsumableArray(this.state.selectedValue), [val])
+            selectedValue: [].concat(_toConsumableArray(this.state.selectedValue), [value])
           }, function () {
             _this2.props.onChange(_this2.state.selectedValue);
           });
         }
       } else {
         this.setState({
-          selectedValue: val
+          selectedValue: value
         }, function () {
           _this2.props.onChange(_this2.state.selectedValue);
         });
@@ -3071,11 +3069,6 @@ var Picky$1 = function (_React$Component) {
       }, function () {
         _this3.props.onChange(_this3.state.selectedValue);
       });
-    }
-  }, {
-    key: 'isControlled',
-    value: function isControlled() {
-      return this.props.value != null;
     }
   }, {
     key: 'renderOptions',
@@ -3105,12 +3098,8 @@ var Picky$1 = function (_React$Component) {
 
           var item = items[index];
           var key = isDataObject(item, labelKey, valueKey) ? item[valueKey] : item;
-          var isSelected = false;
-          if (_this4.isControlled()) {
-            isSelected = Array.isArray(value) && value.includes(item) || !Array.isArray(value) && value === item;
-          } else {
-            isSelected = Array.isArray(_this4.state.selectedValue) && _this4.state.selectedValue.includes(item) || !Array.isArray(_this4.state.selectedValue) && _this4.state.selectedValue === item;
-          }
+
+          var isSelected = Array.isArray(value) && value.includes(item) || !Array.isArray(value) && value === item;
 
           if (typeof _this4.props.render === 'function') {
             return _this4.props.render({
@@ -3141,10 +3130,10 @@ var Picky$1 = function (_React$Component) {
     }
   }, {
     key: 'onFilterChange',
-    value: function onFilterChange(term) {
+    value: function onFilterChange(value) {
       var _this5 = this;
 
-      if (!term.trim()) {
+      if (!value.trim()) {
         return this.setState({
           filtered: false,
           filteredOptions: []
@@ -3152,9 +3141,9 @@ var Picky$1 = function (_React$Component) {
       }
       var filteredOptions = this.props.options.filter(function (option) {
         if (isDataObject(option, _this5.props.labelKey, _this5.props.valueKey)) {
-          return String(option[_this5.props.labelKey]).toLowerCase().includes(term.toLowerCase());
+          return String(option[_this5.props.labelKey]).toLowerCase().includes(value.toLowerCase());
         }
-        return String(option).toLowerCase().includes(term.toLowerCase());
+        return String(option).toLowerCase().includes(value.toLowerCase());
       });
       this.setState({
         filtered: true,
@@ -3223,7 +3212,7 @@ var Picky$1 = function (_React$Component) {
           },
           React__default.createElement(Placeholder, {
             placeholder: placeholder,
-            value: this.isControlled() ? value : this.state.selectedValue,
+            value: value,
             multiple: multiple,
             numberDisplayed: numberDisplayed,
             valueKey: valueKey,

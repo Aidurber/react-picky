@@ -45,20 +45,16 @@ class Picky extends React.Component {
     }
   }
 
-  selectValue(val) {
-    const valueLookup = this.isControlled()
-      ? this.props.value
-      : this.state.selectedValue;
-
-    if (this.props.multiple && Array.isArray(valueLookup)) {
-      if (valueLookup.includes(val)) {
-        const currIndex = valueLookup.indexOf(val);
+  selectValue(value) {
+    if (this.props.multiple && Array.isArray(this.props.value)) {
+      if (this.props.value.includes(value)) {
+        const currIndex = this.props.value.indexOf(value);
         // Remove
         this.setState(
           {
             selectedValue: [
-              ...valueLookup.slice(0, currIndex),
-              ...valueLookup.slice(currIndex + 1)
+              ...this.props.value.slice(0, currIndex),
+              ...this.props.value.slice(currIndex + 1)
             ]
           },
           () => {
@@ -68,7 +64,7 @@ class Picky extends React.Component {
       } else {
         this.setState(
           {
-            selectedValue: [...this.state.selectedValue, val]
+            selectedValue: [...this.state.selectedValue, value]
           },
           () => {
             this.props.onChange(this.state.selectedValue);
@@ -78,7 +74,7 @@ class Picky extends React.Component {
     } else {
       this.setState(
         {
-          selectedValue: val
+          selectedValue: value
         },
         () => {
           this.props.onChange(this.state.selectedValue);
@@ -106,9 +102,6 @@ class Picky extends React.Component {
       }
     );
   }
-  isControlled() {
-    return this.props.value != null;
-  }
 
   renderOptions() {
     const {
@@ -134,18 +127,10 @@ class Picky extends React.Component {
           const key = isDataObject(item, labelKey, valueKey)
             ? item[valueKey]
             : item;
-          let isSelected = false;
-          if (this.isControlled()) {
-            isSelected =
-              (Array.isArray(value) && value.includes(item)) ||
-              (!Array.isArray(value) && value === item);
-          } else {
-            isSelected =
-              (Array.isArray(this.state.selectedValue) &&
-                this.state.selectedValue.includes(item)) ||
-              (!Array.isArray(this.state.selectedValue) &&
-                this.state.selectedValue === item);
-          }
+
+          const isSelected =
+            (Array.isArray(value) && value.includes(item)) ||
+            (!Array.isArray(value) && value === item);
 
           if (typeof this.props.render === 'function') {
             return this.props.render({
@@ -177,8 +162,8 @@ class Picky extends React.Component {
       />
     );
   }
-  onFilterChange(term) {
-    if (!term.trim()) {
+  onFilterChange(value) {
+    if (!value.trim()) {
       return this.setState({
         filtered: false,
         filteredOptions: []
@@ -188,11 +173,11 @@ class Picky extends React.Component {
       if (isDataObject(option, this.props.labelKey, this.props.valueKey)) {
         return String(option[this.props.labelKey])
           .toLowerCase()
-          .includes(term.toLowerCase());
+          .includes(value.toLowerCase());
       }
       return String(option)
         .toLowerCase()
-        .includes(term.toLowerCase());
+        .includes(value.toLowerCase());
     });
     this.setState(
       {
@@ -258,7 +243,7 @@ class Picky extends React.Component {
         >
           <Placeholder
             placeholder={placeholder}
-            value={this.isControlled() ? value : this.state.selectedValue}
+            value={value}
             multiple={multiple}
             numberDisplayed={numberDisplayed}
             valueKey={valueKey}
