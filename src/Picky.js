@@ -209,7 +209,8 @@ class Picky extends React.Component {
   }
 
   handleOutsideClick(e) {
-    if (this.node && this.node.contains(e.target)) {
+    const keepOpen = this.props.keepOpen || this.props.multiple;
+    if (this.node && this.node.contains(e.target) && keepOpen) {
       return;
     }
     this.toggleDropDown();
@@ -336,7 +337,8 @@ Picky.defaultProps = {
   dropdownHeight: 300,
   onChange: () => {},
   itemHeight: 35,
-  tabIndex: 0
+  tabIndex: 0,
+  keepOpen: true
 };
 Picky.propTypes = {
   placeholder: PropTypes.string,
@@ -362,7 +364,8 @@ Picky.propTypes = {
   labelKey: PropTypes.string,
   render: PropTypes.func,
   itemHeight: PropTypes.number,
-  tabIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  tabIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  keepOpen: PropTypes.bool
 };
 
 export default Picky;

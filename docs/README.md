@@ -82,7 +82,8 @@ Picky.defaultProps = {
   dropdownHeight: 300,
   onChange: () => {},
   itemHeight: 35,
-  tabIndex: 0
+  tabIndex: 0,
+  keepOpen: true
 };
 Picky.propTypes = {
   placeholder: PropTypes.string,
@@ -108,7 +109,8 @@ Picky.propTypes = {
   labelKey: PropTypes.string,
   render: PropTypes.func,
   itemHeight: PropTypes.number,
-  tabIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  tabIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  keepOpen: PropTypes.bool
 };
 ```
 
@@ -133,6 +135,7 @@ Picky.propTypes = {
 * `render` - Used for custom rendering of items in the dropdown. More info below.
 * `itemHeight` - Used when dropdown item height is larger than 35px. This is so the virtualised list can calculate correctly.
 * `tabIndex` - Pass tabIndex to component for accessibility. Defaults to 0
+* `keepOpen` - Default true. Single selects close automatically when selecting a value unless this is set to true.
 
 ## Custom rendering
 
@@ -169,8 +172,7 @@ You can render out custom items for the dropdown.
         key={item[valueKey]} // required
         onClick={() => selectValue(item)}
       >
-        {' '}
-        // required to select item
+        {/* required to select item */}
         <input type="checkbox" checked={isSelected} readOnly />
         <span style={{ fontSize: '30px' }}>{item[labelKey]}</span>
       </li>

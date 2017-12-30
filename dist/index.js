@@ -3198,7 +3198,8 @@ var Picky$1 = function (_React$Component) {
   }, {
     key: 'handleOutsideClick',
     value: function handleOutsideClick(e) {
-      if (this.node && this.node.contains(e.target)) {
+      var keepOpen = this.props.keepOpen || this.props.multiple;
+      if (this.node && this.node.contains(e.target) && keepOpen) {
         return;
       }
       this.toggleDropDown();
@@ -3324,7 +3325,8 @@ Picky$1.defaultProps = {
   dropdownHeight: 300,
   onChange: function onChange() {},
   itemHeight: 35,
-  tabIndex: 0
+  tabIndex: 0,
+  keepOpen: true
 };
 Picky$1.propTypes = {
   placeholder: PropTypes__default.string,
@@ -3345,7 +3347,8 @@ Picky$1.propTypes = {
   labelKey: PropTypes__default.string,
   render: PropTypes__default.func,
   itemHeight: PropTypes__default.number,
-  tabIndex: PropTypes__default.oneOfType([PropTypes__default.string, PropTypes__default.number])
+  tabIndex: PropTypes__default.oneOfType([PropTypes__default.string, PropTypes__default.number]),
+  keepOpen: PropTypes__default.bool
 };
 
 module.exports = Picky$1;
