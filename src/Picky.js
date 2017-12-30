@@ -8,7 +8,7 @@ import Placeholder from './Placeholder';
 import Filter from './Filter';
 import Option from './Option';
 import './Picky.scss';
-class Picky extends React.Component {
+class Picky extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
