@@ -26,6 +26,7 @@ class Picky extends React.Component {
     this.onFilterChange = this.onFilterChange.bind(this);
     this.selectValue = this.selectValue.bind(this);
     this.allSelected = this.allSelected.bind(this);
+    this.handleOutsideClick = this.handleOutsideClick.bind(this);
   }
   componentWillMount() {
     const allSelected = this.allSelected();
@@ -206,7 +207,21 @@ class Picky extends React.Component {
       }
     );
   }
+
+  handleOutsideClick(e) {
+    if (this.node && this.node.contains(e.target)) {
+      return;
+    }
+    this.toggleDropDown();
+  }
   toggleDropDown() {
+    if (!this.state.open) {
+      // attach/remove event handler
+      document.addEventListener('click', this.handleOutsideClick, false);
+    } else {
+      document.removeEventListener('click', this.handleOutsideClick, false);
+    }
+
     this.setState(
       {
         open: !this.state.open
@@ -241,6 +256,9 @@ class Picky extends React.Component {
     }
     return (
       <div
+        ref={node => {
+          this.node = node;
+        }}
         className="picky"
         id={this.state.id}
         role="combobox"

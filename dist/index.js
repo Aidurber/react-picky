@@ -3028,6 +3028,7 @@ var Picky$1 = function (_React$Component) {
     _this.onFilterChange = _this.onFilterChange.bind(_this);
     _this.selectValue = _this.selectValue.bind(_this);
     _this.allSelected = _this.allSelected.bind(_this);
+    _this.handleOutsideClick = _this.handleOutsideClick.bind(_this);
     return _this;
   }
 
@@ -3195,9 +3196,24 @@ var Picky$1 = function (_React$Component) {
       });
     }
   }, {
+    key: 'handleOutsideClick',
+    value: function handleOutsideClick(e) {
+      if (this.node && this.node.contains(e.target)) {
+        return;
+      }
+      this.toggleDropDown();
+    }
+  }, {
     key: 'toggleDropDown',
     value: function toggleDropDown() {
       var _this6 = this;
+
+      if (!this.state.open) {
+        // attach/remove event handler
+        document.addEventListener('click', this.handleOutsideClick, false);
+      } else {
+        document.removeEventListener('click', this.handleOutsideClick, false);
+      }
 
       this.setState({
         open: !this.state.open
@@ -3213,6 +3229,8 @@ var Picky$1 = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this7 = this;
+
       var _props2 = this.props,
           placeholder = _props2.placeholder,
           value = _props2.value,
@@ -3233,6 +3251,9 @@ var Picky$1 = function (_React$Component) {
       return React__default.createElement(
         'div',
         {
+          ref: function ref(node) {
+            _this7.node = node;
+          },
           className: 'picky',
           id: this.state.id,
           role: 'combobox',
