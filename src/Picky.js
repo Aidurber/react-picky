@@ -26,6 +26,7 @@ class Picky extends React.Component {
     this.onFilterChange = this.onFilterChange.bind(this);
     this.selectValue = this.selectValue.bind(this);
     this.allSelected = this.allSelected.bind(this);
+    this.handleOutsideClick = this.handleOutsideClick.bind(this);
   }
   componentWillMount() {
     const allSelected = this.allSelected();
@@ -206,7 +207,24 @@ class Picky extends React.Component {
       }
     );
   }
+
+  handleOutsideClick(e) {
+    // If keep open then don't toggle dropdown
+    // If radio and not keepOpen then auto close it on selecting a value
+    const keepOpen = this.props.keepOpen || this.props.multiple;
+    if (this.node && this.node.contains(e.target) && keepOpen) {
+      return;
+    }
+    this.toggleDropDown();
+  }
   toggleDropDown() {
+    if (!this.state.open) {
+      // attach/remove event handler
+      document.addEventListener('click', this.handleOutsideClick, false);
+    } else {
+      document.removeEventListener('click', this.handleOutsideClick, false);
+    }
+
     this.setState(
       {
         open: !this.state.open
@@ -241,6 +259,9 @@ class Picky extends React.Component {
     }
     return (
       <div
+        ref={node => {
+          this.node = node;
+        }}
         className="picky"
         id={this.state.id}
         role="combobox"
@@ -318,7 +339,8 @@ Picky.defaultProps = {
   dropdownHeight: 300,
   onChange: () => {},
   itemHeight: 35,
-  tabIndex: 0
+  tabIndex: 0,
+  keepOpen: true
 };
 Picky.propTypes = {
   placeholder: PropTypes.string,
@@ -344,7 +366,8 @@ Picky.propTypes = {
   labelKey: PropTypes.string,
   render: PropTypes.func,
   itemHeight: PropTypes.number,
-  tabIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  tabIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  keepOpen: PropTypes.bool
 };
 
 export default Picky;

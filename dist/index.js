@@ -18,6 +18,16 @@ function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
 }
 
+/**
+ * lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/** Used as the `TypeError` message for "Functions" methods. */
 var FUNC_ERROR_TEXT = 'Expected a function';
 
 /** Used as references for various `Number` constants. */
@@ -385,6 +395,22 @@ function toNumber(value) {
 }
 
 var lodash_debounce = debounce;
+
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
+
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
+
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */
+/* global Reflect, Promise */
 
 var extendStatics = Object.setPrototypeOf ||
     ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -2720,6 +2746,9 @@ function stubFalse() {
 module.exports = isEqual;
 });
 
+// Unique ID creation requires a high quality random # generator.  In node.js
+// this is pretty straight-forward - we use the crypto API.
+
 var rb = crypto.randomBytes;
 
 function rng() {
@@ -2999,6 +3028,7 @@ var Picky$1 = function (_React$Component) {
     _this.onFilterChange = _this.onFilterChange.bind(_this);
     _this.selectValue = _this.selectValue.bind(_this);
     _this.allSelected = _this.allSelected.bind(_this);
+    _this.handleOutsideClick = _this.handleOutsideClick.bind(_this);
     return _this;
   }
 
@@ -3166,9 +3196,27 @@ var Picky$1 = function (_React$Component) {
       });
     }
   }, {
+    key: 'handleOutsideClick',
+    value: function handleOutsideClick(e) {
+      // If keep open then don't toggle dropdown
+      // If radio and not keepOpen then auto close it on selecting a value
+      var keepOpen = this.props.keepOpen || this.props.multiple;
+      if (this.node && this.node.contains(e.target) && keepOpen) {
+        return;
+      }
+      this.toggleDropDown();
+    }
+  }, {
     key: 'toggleDropDown',
     value: function toggleDropDown() {
       var _this6 = this;
+
+      if (!this.state.open) {
+        // attach/remove event handler
+        document.addEventListener('click', this.handleOutsideClick, false);
+      } else {
+        document.removeEventListener('click', this.handleOutsideClick, false);
+      }
 
       this.setState({
         open: !this.state.open
@@ -3184,6 +3232,8 @@ var Picky$1 = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this7 = this;
+
       var _props2 = this.props,
           placeholder = _props2.placeholder,
           value = _props2.value,
@@ -3204,6 +3254,9 @@ var Picky$1 = function (_React$Component) {
       return React__default.createElement(
         'div',
         {
+          ref: function ref(node) {
+            _this7.node = node;
+          },
           className: 'picky',
           id: this.state.id,
           role: 'combobox',
@@ -3274,7 +3327,8 @@ Picky$1.defaultProps = {
   dropdownHeight: 300,
   onChange: function onChange() {},
   itemHeight: 35,
-  tabIndex: 0
+  tabIndex: 0,
+  keepOpen: true
 };
 Picky$1.propTypes = {
   placeholder: PropTypes__default.string,
@@ -3295,7 +3349,8 @@ Picky$1.propTypes = {
   labelKey: PropTypes__default.string,
   render: PropTypes__default.func,
   itemHeight: PropTypes__default.number,
-  tabIndex: PropTypes__default.oneOfType([PropTypes__default.string, PropTypes__default.number])
+  tabIndex: PropTypes__default.oneOfType([PropTypes__default.string, PropTypes__default.number]),
+  keepOpen: PropTypes__default.bool
 };
 
 module.exports = Picky$1;
