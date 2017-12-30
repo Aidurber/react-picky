@@ -1001,6 +1001,12 @@ var toConsumableArray = function (arr) {
 var isDataObject = function isDataObject(obj, valueKey, labelKey) {
   return (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' && obj.hasOwnProperty(valueKey) && obj.hasOwnProperty(labelKey);
 };
+var generateGuid = function generateGuid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+};
 
 var generateGuid = function generateGuid() {
   function s4() {
