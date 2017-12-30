@@ -888,118 +888,8 @@ var VirtualList = function (_super) {
     return VirtualList;
 }(React.PureComponent);
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-  return typeof obj;
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-};
-
-
-
-
-
-
-
-
-
-
-
-var classCallCheck = function (instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-};
-
-var createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }
-
-  return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) defineProperties(Constructor, staticProps);
-    return Constructor;
-  };
-}();
-
-
-
-
-
-
-
-
-
-var inherits = function (subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      enumerable: false,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-};
-
-
-
-
-
-
-
-
-
-
-
-var possibleConstructorReturn = function (self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return call && (typeof call === "object" || typeof call === "function") ? call : self;
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var toConsumableArray = function (arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-
-    return arr2;
-  } else {
-    return Array.from(arr);
-  }
-};
-
 var isDataObject = function isDataObject(obj, valueKey, labelKey) {
-  return (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' && obj.hasOwnProperty(valueKey) && obj.hasOwnProperty(labelKey);
+  return (typeof obj === 'undefined' ? 'undefined' : babelHelpers.typeof(obj)) === 'object' && obj.hasOwnProperty(valueKey) && obj.hasOwnProperty(labelKey);
 };
 
 var generateGuid = function generateGuid() {
@@ -2866,14 +2756,14 @@ var isEmptyValue = function isEmptyValue(value) {
 };
 
 var Placeholder = function (_React$PureComponent) {
-  inherits(Placeholder, _React$PureComponent);
+  babelHelpers.inherits(Placeholder, _React$PureComponent);
 
   function Placeholder(props) {
-    classCallCheck(this, Placeholder);
-    return possibleConstructorReturn(this, (Placeholder.__proto__ || Object.getPrototypeOf(Placeholder)).call(this, props));
+    babelHelpers.classCallCheck(this, Placeholder);
+    return babelHelpers.possibleConstructorReturn(this, (Placeholder.__proto__ || Object.getPrototypeOf(Placeholder)).call(this, props));
   }
 
-  createClass(Placeholder, [{
+  babelHelpers.createClass(Placeholder, [{
     key: 'render',
     value: function render() {
       var _props = this.props,
@@ -2936,14 +2826,14 @@ Placeholder.propTypes = {
 };
 
 var Filter = function (_Component) {
-  inherits(Filter, _Component);
+  babelHelpers.inherits(Filter, _Component);
 
   function Filter() {
-    classCallCheck(this, Filter);
-    return possibleConstructorReturn(this, (Filter.__proto__ || Object.getPrototypeOf(Filter)).apply(this, arguments));
+    babelHelpers.classCallCheck(this, Filter);
+    return babelHelpers.possibleConstructorReturn(this, (Filter.__proto__ || Object.getPrototypeOf(Filter)).apply(this, arguments));
   }
 
-  createClass(Filter, [{
+  babelHelpers.createClass(Filter, [{
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -3029,12 +2919,12 @@ Option.propTypes = {
 };
 
 var Picky$1 = function (_React$Component) {
-  inherits(Picky, _React$Component);
+  babelHelpers.inherits(Picky, _React$Component);
 
   function Picky(props) {
-    classCallCheck(this, Picky);
+    babelHelpers.classCallCheck(this, Picky);
 
-    var _this = possibleConstructorReturn(this, (Picky.__proto__ || Object.getPrototypeOf(Picky)).call(this, props));
+    var _this = babelHelpers.possibleConstructorReturn(this, (Picky.__proto__ || Object.getPrototypeOf(Picky)).call(this, props));
 
     _this.state = {
       selectedValue: props.value || (props.multiple ? [] : null),
@@ -3054,7 +2944,7 @@ var Picky$1 = function (_React$Component) {
     return _this;
   }
 
-  createClass(Picky, [{
+  babelHelpers.createClass(Picky, [{
     key: 'componentWillMount',
     value: function componentWillMount() {
       var allSelected = this.allSelected();
@@ -3083,13 +2973,13 @@ var Picky$1 = function (_React$Component) {
           var currIndex = valueLookup.indexOf(val);
           // Remove
           this.setState({
-            selectedValue: [].concat(toConsumableArray(valueLookup.slice(0, currIndex)), toConsumableArray(valueLookup.slice(currIndex + 1)))
+            selectedValue: [].concat(babelHelpers.toConsumableArray(valueLookup.slice(0, currIndex)), babelHelpers.toConsumableArray(valueLookup.slice(currIndex + 1)))
           }, function () {
             _this2.props.onChange(_this2.state.selectedValue);
           });
         } else {
           this.setState({
-            selectedValue: [].concat(toConsumableArray(this.state.selectedValue), [val])
+            selectedValue: [].concat(babelHelpers.toConsumableArray(this.state.selectedValue), [val])
           }, function () {
             _this2.props.onChange(_this2.state.selectedValue);
           });
