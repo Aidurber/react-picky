@@ -3198,6 +3198,8 @@ var Picky$1 = function (_React$Component) {
   }, {
     key: 'handleOutsideClick',
     value: function handleOutsideClick(e) {
+      // If keep open then don't toggle dropdown
+      // If radio and not keepOpen then auto close it on selecting a value
       var keepOpen = this.props.keepOpen || this.props.multiple;
       if (this.node && this.node.contains(e.target) && keepOpen) {
         return;
