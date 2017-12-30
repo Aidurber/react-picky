@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 import VirtualList from 'react-tiny-virtual-list';
-import { isDataObject } from './lib/utils';
+import { isDataObject, generateGuid } from './lib/utils';
 import isEqual from 'lodash.isequal';
-import uuid from 'uuid/v4';
 import Placeholder from './Placeholder';
 import Filter from './Filter';
 import Option from './Option';
@@ -17,7 +16,7 @@ class Picky extends React.Component {
       open: props.open,
       filtered: false,
       filteredOptions: [],
-      id: uuid(),
+      id: generateGuid(),
       allSelected: false
     };
 

@@ -16,8 +16,7 @@
   "dependencies": {
     "lodash.debounce": "^4.0.8",
     "lodash.isequal": "^4.5.0",
-    "react-tiny-virtual-list": "^2.1.4",
-    "uuid": "^3.1.0"
+    "react-tiny-virtual-list": "^2.1.4"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -28,6 +27,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-es2015": "^6.24.1",
+    "babel-preset-es2015-rollup": "^3.0.0",
     "babel-preset-latest": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
