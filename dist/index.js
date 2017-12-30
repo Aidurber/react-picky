@@ -1001,12 +1001,6 @@ var toConsumableArray = function (arr) {
 var isDataObject = function isDataObject(obj, valueKey, labelKey) {
   return (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' && obj.hasOwnProperty(valueKey) && obj.hasOwnProperty(labelKey);
 };
-var generateGuid = function generateGuid() {
-  function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-  }
-  return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-};
 
 var generateGuid = function generateGuid() {
   function s4() {
@@ -3034,8 +3028,8 @@ Option.propTypes = {
   tabIndex: PropTypes__default.oneOfType([PropTypes__default.string, PropTypes__default.number])
 };
 
-var Picky$1 = function (_React$Component) {
-  inherits(Picky, _React$Component);
+var Picky$1 = function (_React$PureComponent) {
+  inherits(Picky, _React$PureComponent);
 
   function Picky(props) {
     classCallCheck(this, Picky);
@@ -3345,7 +3339,7 @@ var Picky$1 = function (_React$Component) {
     }
   }]);
   return Picky;
-}(React__default.Component);
+}(React__default.PureComponent);
 
 Picky$1.defaultProps = {
   numberDisplayed: 3,
