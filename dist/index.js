@@ -888,115 +888,7 @@ var VirtualList = function (_super) {
     return VirtualList;
 }(React.PureComponent);
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-  return typeof obj;
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-};
-
-
-
-
-
-
-
-
-
-
-
-var classCallCheck = function (instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-};
-
-var createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }
-
-  return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) defineProperties(Constructor, staticProps);
-    return Constructor;
-  };
-}();
-
-
-
-
-
-
-
-
-
-var inherits = function (subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      enumerable: false,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-};
-
-
-
-
-
-
-
-
-
-
-
-var possibleConstructorReturn = function (self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return call && (typeof call === "object" || typeof call === "function") ? call : self;
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var toConsumableArray = function (arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-
-    return arr2;
-  } else {
-    return Array.from(arr);
-  }
-};
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var isDataObject = function isDataObject(obj, valueKey, labelKey) {
   return (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' && obj.hasOwnProperty(valueKey) && obj.hasOwnProperty(labelKey);
@@ -2860,20 +2752,29 @@ function stubFalse() {
 module.exports = isEqual;
 });
 
+var _createClass$1 = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck$1(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn$1(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits$1(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 // NEEDS REFACTOR
 var isEmptyValue = function isEmptyValue(value) {
   return value === null || value === undefined || Array.isArray(value) && !value.length;
 };
 
 var Placeholder = function (_React$PureComponent) {
-  inherits(Placeholder, _React$PureComponent);
+  _inherits$1(Placeholder, _React$PureComponent);
 
   function Placeholder(props) {
-    classCallCheck(this, Placeholder);
-    return possibleConstructorReturn(this, (Placeholder.__proto__ || Object.getPrototypeOf(Placeholder)).call(this, props));
+    _classCallCheck$1(this, Placeholder);
+
+    return _possibleConstructorReturn$1(this, (Placeholder.__proto__ || Object.getPrototypeOf(Placeholder)).call(this, props));
   }
 
-  createClass(Placeholder, [{
+  _createClass$1(Placeholder, [{
     key: 'render',
     value: function render() {
       var _props = this.props,
@@ -2920,6 +2821,7 @@ var Placeholder = function (_React$PureComponent) {
       );
     }
   }]);
+
   return Placeholder;
 }(React__default.PureComponent);
 
@@ -2935,15 +2837,24 @@ Placeholder.propTypes = {
   labelKey: PropTypes__default.string
 };
 
+var _createClass$2 = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck$2(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn$2(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits$2(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 var Filter = function (_Component) {
-  inherits(Filter, _Component);
+  _inherits$2(Filter, _Component);
 
   function Filter() {
-    classCallCheck(this, Filter);
-    return possibleConstructorReturn(this, (Filter.__proto__ || Object.getPrototypeOf(Filter)).apply(this, arguments));
+    _classCallCheck$2(this, Filter);
+
+    return _possibleConstructorReturn$2(this, (Filter.__proto__ || Object.getPrototypeOf(Filter)).apply(this, arguments));
   }
 
-  createClass(Filter, [{
+  _createClass$2(Filter, [{
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -2964,6 +2875,7 @@ var Filter = function (_Component) {
       );
     }
   }]);
+
   return Filter;
 }(React.Component);
 
@@ -3028,13 +2940,23 @@ Option.propTypes = {
   tabIndex: PropTypes__default.oneOfType([PropTypes__default.string, PropTypes__default.number])
 };
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 var Picky$1 = function (_React$PureComponent) {
-  inherits(Picky, _React$PureComponent);
+  _inherits(Picky, _React$PureComponent);
 
   function Picky(props) {
-    classCallCheck(this, Picky);
+    _classCallCheck(this, Picky);
 
-    var _this = possibleConstructorReturn(this, (Picky.__proto__ || Object.getPrototypeOf(Picky)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (Picky.__proto__ || Object.getPrototypeOf(Picky)).call(this, props));
 
     _this.state = {
       selectedValue: props.value || (props.multiple ? [] : null),
@@ -3054,7 +2976,7 @@ var Picky$1 = function (_React$PureComponent) {
     return _this;
   }
 
-  createClass(Picky, [{
+  _createClass(Picky, [{
     key: 'componentWillMount',
     value: function componentWillMount() {
       var allSelected = this.allSelected();
@@ -3083,13 +3005,13 @@ var Picky$1 = function (_React$PureComponent) {
           var currIndex = valueLookup.indexOf(val);
           // Remove
           this.setState({
-            selectedValue: [].concat(toConsumableArray(valueLookup.slice(0, currIndex)), toConsumableArray(valueLookup.slice(currIndex + 1)))
+            selectedValue: [].concat(_toConsumableArray(valueLookup.slice(0, currIndex)), _toConsumableArray(valueLookup.slice(currIndex + 1)))
           }, function () {
             _this2.props.onChange(_this2.state.selectedValue);
           });
         } else {
           this.setState({
-            selectedValue: [].concat(toConsumableArray(this.state.selectedValue), [val])
+            selectedValue: [].concat(_toConsumableArray(this.state.selectedValue), [val])
           }, function () {
             _this2.props.onChange(_this2.state.selectedValue);
           });
@@ -3338,6 +3260,7 @@ var Picky$1 = function (_React$PureComponent) {
       );
     }
   }]);
+
   return Picky;
 }(React__default.PureComponent);
 
