@@ -17,7 +17,8 @@
   "dependencies": {
     "lodash.debounce": "^4.0.8",
     "lodash.isequal": "^4.5.0",
-    "react-tiny-virtual-list": "^2.1.4"
+    "react-tiny-virtual-list": "^2.1.4",
+    "react-virtualized": "^9.15.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -61,17 +62,30 @@
   "jest": {
     "collectCoverage": true,
     "mapCoverage": true,
-    "modulePaths": ["./src"],
-    "moduleFileExtensions": ["js", "jsx"],
-    "setupFiles": ["./tests/helpers/setup.js"],
-    "collectCoverageFrom": ["src/**/*.js", "!src/index.js", "!tests/**"],
+    "modulePaths": [
+      "./src"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "setupFiles": [
+      "./tests/helpers/setup.js"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/index.js",
+      "!tests/**"
+    ],
     "transform": {
       "^.+\\.jsx$": "babel-jest",
       "^.+\\.js$": "babel-jest",
       "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
       "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
     },
-    "transformIgnorePatterns": ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"]
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
+    ]
   },
   "peerDependencies": {
     "prop-types": "^15.6.0",

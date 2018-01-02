@@ -5,6 +5,7 @@ import sass from 'rollup-plugin-sass';
 
 import jsx from 'rollup-plugin-jsx';
 import fs from 'fs';
+
 export default {
   input: 'src/index.js',
   output: {
@@ -18,11 +19,8 @@ export default {
         fs.writeFileSync('dist/picky.css', styles);
       }
     }),
-    resolve(),
     babel({
       exclude: 'node_modules/**'
-    }),
-    jsx({ factory: 'React.createElement' }),
-    commonjs()
+    })
   ]
 };

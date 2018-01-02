@@ -1,7 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
-import VirtualList from 'react-tiny-virtual-list';
+// import VirtualList from 'react-tiny-virtual-list';]
+import {
+  CellMeasurer,
+  CellMeasurerCache,
+  List,
+  AutoSizer
+} from 'react-virtualized';
+
 import { isDataObject, generateGuid } from './lib/utils';
 import isEqual from 'lodash.isequal';
 import Placeholder from './Placeholder';
@@ -19,7 +26,10 @@ class Picky extends React.PureComponent {
       id: generateGuid(),
       allSelected: false
     };
-
+    this.cellMeasurerCache = new CellMeasurerCache({
+      defaultHeight: props.itemHeight || 35,
+      fixedWidth: false
+    });
     this.toggleDropDown = this.toggleDropDown.bind(this);
     this.selectAll = this.selectAll.bind(this);
     this.onFilterChange = this.onFilterChange.bind(this);
@@ -117,64 +127,74 @@ class Picky extends React.PureComponent {
       dropdownHeight,
       labelKey,
       valueKey,
-      itemHeight,
       multiple,
       tabIndex
     } = this.props;
     const items = this.state.filtered ? this.state.filteredOptions : options;
 
     return (
-      <VirtualList
-        width="100%"
-        height={dropdownHeight}
-        itemCount={items.length}
-        itemSize={itemHeight}
-        renderItem={({ index, style }) => {
-          const item = items[index];
-          const key = isDataObject(item, labelKey, valueKey)
-            ? item[valueKey]
-            : item;
-          let isSelected = false;
-          if (this.isControlled()) {
-            isSelected =
-              (Array.isArray(value) && value.includes(item)) ||
-              (!Array.isArray(value) && value === item);
-          } else {
-            isSelected =
-              (Array.isArray(this.state.selectedValue) &&
-                this.state.selectedValue.includes(item)) ||
-              (!Array.isArray(this.state.selectedValue) &&
-                this.state.selectedValue === item);
-          }
+      <AutoSizer>
+        {({ width }) => (
+          <List
+            height={dropdownHeight || 300}
+            width={width}
+            rowCount={items.length}
+            rowHeight={this.cellMeasurerCache.rowHeight}
+            rowRenderer={({ index, key, parent, style }) => {
+              const item = items[index];
 
-          if (typeof this.props.render === 'function') {
-            return this.props.render({
-              style,
-              item,
-              isSelected,
-              selectValue: this.selectValue,
-              labelKey,
-              valueKey,
-              multiple
-            });
-          } else {
-            return (
-              <Option
-                key={key}
-                style={style}
-                item={item}
-                isSelected={isSelected}
-                selectValue={this.selectValue}
-                labelKey={labelKey}
-                valueKey={valueKey}
-                multiple={multiple}
-                tabIndex={tabIndex}
-                id={this.state.id + '-option-' + index}
-              />
-            );
-          }
-        }}
-      />
+              let isSelected = false;
+              if (this.isControlled()) {
+                isSelected =
+                  (Array.isArray(value) && value.includes(item)) ||
+                  (!Array.isArray(value) && value === item);
+              } else {
+                isSelected =
+                  (Array.isArray(this.state.selectedValue) &&
+                    this.state.selectedValue.includes(item)) ||
+                  (!Array.isArray(this.state.selectedValue) &&
+                    this.state.selectedValue === item);
+              }
+
+              return (
+                <CellMeasurer
+                  cache={this.cellMeasurerCache}
+                  columnIndex={0}
+                  key={key}
+                  parent={parent}
+                  rowIndex={index}
+                >
+                  {this.props.render ? (
+                    this.props.render({
+                      index,
+                      style,
+                      item,
+                      isSelected,
+                      selectValue: this.selectValue,
+                      labelKey,
+                      valueKey,
+                      multiple
+                    })
+                  ) : (
+                    <Option
+                      key={key}
+                      style={style}
+                      item={item}
+                      isSelected={isSelected}
+                      selectValue={this.selectValue}
+                      labelKey={labelKey}
+                      valueKey={valueKey}
+                      multiple={multiple}
+                      tabIndex={tabIndex}
+                      id={this.state.id + '-option-' + index}
+                    />
+                  )}
+                </CellMeasurer>
+              );
+            }}
+          />
+        )}
+      </AutoSizer>
     );
   }
   onFilterChange(term) {
