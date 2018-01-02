@@ -17,6 +17,7 @@ describe('Picky', () => {
 
   it('should accept render prop', () => {
     const renderPropMock = jest.fn();
+    renderPropMock.mockReturnValue(<p />);
     const wrapper = mount(
       <Picky
         value={[1, 2, 3]}
@@ -250,7 +251,7 @@ describe('Picky', () => {
       const options = [
         { id: 1, name: 'Item 1' },
         { id: 2, name: 'Item 2' },
-        { id: 3, name: 'Item 3' }
+        { id: 3, name: 'Item 3' },
       ];
       const wrapper = mount(
         <Picky
@@ -347,8 +348,8 @@ describe('Picky', () => {
       expect(wrapper.state('filteredOptions')).toEqual([
         {
           id: 1,
-          name: 'Item 1'
-        }
+          name: 'Item 1',
+        },
       ]);
     });
   });

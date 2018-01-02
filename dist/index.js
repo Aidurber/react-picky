@@ -220,7 +220,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-// import VirtualList from 'react-tiny-virtual-list';]
 var Picky$1 = function (_React$PureComponent) {
   _inherits(Picky, _React$PureComponent);
 
@@ -326,8 +325,8 @@ var Picky$1 = function (_React$PureComponent) {
       return this.props.value != null;
     }
   }, {
-    key: 'renderOptions',
-    value: function renderOptions() {
+    key: 'renderVirtualList',
+    value: function renderVirtualList(items) {
       var _this4 = this;
 
       var _props = this.props,
@@ -339,16 +338,21 @@ var Picky$1 = function (_React$PureComponent) {
           multiple = _props.multiple,
           tabIndex = _props.tabIndex;
 
-      var items = this.state.filtered ? this.state.filteredOptions : options;
-
       return React__default.createElement(
         reactVirtualized.AutoSizer,
         null,
         function (_ref) {
-          var width = _ref.width;
+          var width = _ref.width,
+              height = _ref.height;
+
+          var actualWidth = width;
+          if (process.env.NODE_ENV === 'test') {
+            actualWidth = window.innerWidth;
+          }
           return React__default.createElement(reactVirtualized.List, {
+            defaultHeight: height,
             height: dropdownHeight || 300,
-            width: width,
+            width: actualWidth,
             rowCount: items.length,
             rowHeight: _this4.cellMeasurerCache.rowHeight,
             rowRenderer: function rowRenderer(_ref2) {
@@ -403,9 +407,77 @@ var Picky$1 = function (_React$PureComponent) {
       );
     }
   }, {
+    key: 'renderPlainList',
+    value: function renderPlainList(items) {
+      var _this5 = this;
+
+      var _props2 = this.props,
+          value = _props2.value,
+          labelKey = _props2.labelKey,
+          valueKey = _props2.valueKey,
+          multiple = _props2.multiple,
+          tabIndex = _props2.tabIndex;
+
+
+      return items.map(function (item, index) {
+        var isSelected = false;
+        if (_this5.isControlled()) {
+          isSelected = Array.isArray(value) && value.includes(item) || !Array.isArray(value) && value === item;
+        } else {
+          isSelected = Array.isArray(_this5.state.selectedValue) && _this5.state.selectedValue.includes(item) || !Array.isArray(_this5.state.selectedValue) && _this5.state.selectedValue === item;
+        }
+        if (_this5.props.render) {
+          return _this5.props.render({
+            index: index,
+            style: {},
+            item: item,
+            isSelected: isSelected,
+            selectValue: _this5.selectValue,
+            labelKey: labelKey,
+            valueKey: valueKey,
+            multiple: multiple
+          });
+        } else {
+          React__default.createElement(Option, {
+            key: key,
+            style: style,
+            item: item,
+            isSelected: isSelected,
+            selectValue: _this5.selectValue,
+            labelKey: labelKey,
+            valueKey: valueKey,
+            multiple: multiple,
+            tabIndex: tabIndex,
+            id: _this5.state.id + '-option-' + index
+          });
+        }
+      });
+    }
+  }, {
+    key: 'renderOptions',
+    value: function renderOptions() {
+      var _props3 = this.props,
+          options = _props3.options,
+          value = _props3.value,
+          dropdownHeight = _props3.dropdownHeight,
+          labelKey = _props3.labelKey,
+          valueKey = _props3.valueKey,
+          multiple = _props3.multiple,
+          tabIndex = _props3.tabIndex,
+          virtual = _props3.virtual;
+
+      var items = this.state.filtered ? this.state.filteredOptions : options;
+
+      if (virtual) {
+        return this.renderVirtualList(items);
+      } else {
+        return this.renderPlainList(items);
+      }
+    }
+  }, {
     key: 'onFilterChange',
     value: function onFilterChange(term) {
-      var _this5 = this;
+      var _this6 = this;
 
       if (!term.trim()) {
         return this.setState({
@@ -414,8 +486,8 @@ var Picky$1 = function (_React$PureComponent) {
         });
       }
       var filteredOptions = this.props.options.filter(function (option) {
-        if (isDataObject(option, _this5.props.labelKey, _this5.props.valueKey)) {
-          return String(option[_this5.props.labelKey]).toLowerCase().includes(term.toLowerCase());
+        if (isDataObject(option, _this6.props.labelKey, _this6.props.valueKey)) {
+          return String(option[_this6.props.labelKey]).toLowerCase().includes(term.toLowerCase());
         }
         return String(option).toLowerCase().includes(term.toLowerCase());
       });
@@ -423,8 +495,8 @@ var Picky$1 = function (_React$PureComponent) {
         filtered: true,
         filteredOptions: filteredOptions
       }, function () {
-        if (_this5.props.onFiltered) {
-          _this5.props.onFiltered(filteredOptions);
+        if (_this6.props.onFiltered) {
+          _this6.props.onFiltered(filteredOptions);
         }
       });
     }
@@ -442,7 +514,7 @@ var Picky$1 = function (_React$PureComponent) {
   }, {
     key: 'toggleDropDown',
     value: function toggleDropDown() {
-      var _this6 = this;
+      var _this7 = this;
 
       if (!this.state.open) {
         // attach/remove event handler
@@ -454,30 +526,30 @@ var Picky$1 = function (_React$PureComponent) {
       this.setState({
         open: !this.state.open
       }, function () {
-        var isOpen = _this6.state.open;
-        if (isOpen && _this6.props.onOpen) {
-          _this6.props.onOpen();
-        } else if (!isOpen && _this6.props.onClose) {
-          _this6.props.onClose();
+        var isOpen = _this7.state.open;
+        if (isOpen && _this7.props.onOpen) {
+          _this7.props.onOpen();
+        } else if (!isOpen && _this7.props.onClose) {
+          _this7.props.onClose();
         }
       });
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this7 = this;
+      var _this8 = this;
 
-      var _props2 = this.props,
-          placeholder = _props2.placeholder,
-          value = _props2.value,
-          multiple = _props2.multiple,
-          numberDisplayed = _props2.numberDisplayed,
-          includeSelectAll = _props2.includeSelectAll,
-          includeFilter = _props2.includeFilter,
-          filterDebounce = _props2.filterDebounce,
-          valueKey = _props2.valueKey,
-          labelKey = _props2.labelKey,
-          tabIndex = _props2.tabIndex;
+      var _props4 = this.props,
+          placeholder = _props4.placeholder,
+          value = _props4.value,
+          multiple = _props4.multiple,
+          numberDisplayed = _props4.numberDisplayed,
+          includeSelectAll = _props4.includeSelectAll,
+          includeFilter = _props4.includeFilter,
+          filterDebounce = _props4.filterDebounce,
+          valueKey = _props4.valueKey,
+          labelKey = _props4.labelKey,
+          tabIndex = _props4.tabIndex;
       var open = this.state.open;
 
       var ariaOwns = '';
@@ -488,7 +560,7 @@ var Picky$1 = function (_React$PureComponent) {
         'div',
         {
           ref: function ref(node) {
-            _this7.node = node;
+            _this8.node = node;
           },
           className: 'picky',
           id: this.state.id,
