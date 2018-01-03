@@ -59,6 +59,7 @@ $selected: #ecf0f1;
     .option,
     li {
       list-style: none;
+      background-color: white;
       @include noselect;
       padding: 0.5em;
       cursor: pointer;
