@@ -54,6 +54,7 @@
     .picky__dropdown .option,
     .picky__dropdown li {
       list-style: none;
+      background-color: white;
       -webkit-touch-callout: none;
       /* iOS Safari */
       -webkit-user-select: none;

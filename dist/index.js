@@ -220,6 +220,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+// import VirtualList from 'react-tiny-virtual-list';]
 var Picky$1 = function (_React$PureComponent) {
   _inherits(Picky, _React$PureComponent);
 
@@ -238,7 +239,7 @@ var Picky$1 = function (_React$PureComponent) {
     };
     _this.cellMeasurerCache = new reactVirtualized.CellMeasurerCache({
       defaultHeight: props.itemHeight || 35,
-      fixedWidth: false
+      fixedWidth: true
     });
     _this.toggleDropDown = _this.toggleDropDown.bind(_this);
     _this.selectAll = _this.selectAll.bind(_this);
@@ -297,6 +298,14 @@ var Picky$1 = function (_React$PureComponent) {
         });
       }
     }
+
+    /**
+     * Determine whether all items are selected
+     *
+     * @returns {Boolean}
+     * @memberof Picky
+     */
+
   }, {
     key: 'allSelected',
     value: function allSelected() {
@@ -307,6 +316,13 @@ var Picky$1 = function (_React$PureComponent) {
       var copiedSelectedValue = Array.isArray(selectedValue) ? selectedValue.slice(0) : [];
       return isEqual(copiedOptions, copiedSelectedValue);
     }
+
+    /**
+     * Toggles select all
+     *
+     * @memberof Picky
+     */
+
   }, {
     key: 'selectAll',
     value: function selectAll() {
@@ -316,27 +332,35 @@ var Picky$1 = function (_React$PureComponent) {
         selectedValue: !this.state.allSelected ? this.props.options : [],
         allSelected: !this.state.allSelected
       }, function () {
+        // Call onChange prop with new values
         _this3.props.onChange(_this3.state.selectedValue);
       });
     }
+    /**
+     * Determine whether the user is treating this as a controlled component or not.
+     *
+     * @returns
+     * @memberof Picky
+     */
+
   }, {
     key: 'isControlled',
     value: function isControlled() {
       return this.props.value != null;
     }
+
+    /**
+     * Render virtual list
+     *
+     * @param {any} items
+     * @returns
+     * @memberof Picky
+     */
+
   }, {
     key: 'renderVirtualList',
     value: function renderVirtualList(items) {
       var _this4 = this;
-
-      var _props = this.props,
-          options = _props.options,
-          value = _props.value,
-          dropdownHeight = _props.dropdownHeight,
-          labelKey = _props.labelKey,
-          valueKey = _props.valueKey,
-          multiple = _props.multiple,
-          tabIndex = _props.tabIndex;
 
       return React__default.createElement(
         reactVirtualized.AutoSizer,
@@ -346,12 +370,13 @@ var Picky$1 = function (_React$PureComponent) {
               height = _ref.height;
 
           var actualWidth = width;
+          // Used to reduce warning when in test env.
           if (process.env.NODE_ENV === 'test') {
             actualWidth = window.innerWidth;
           }
           return React__default.createElement(reactVirtualized.List, {
             defaultHeight: height,
-            height: dropdownHeight || 300,
+            height: _this4.props.dropdownHeight || 300,
             width: actualWidth,
             rowCount: items.length,
             rowHeight: _this4.cellMeasurerCache.rowHeight,
@@ -364,9 +389,11 @@ var Picky$1 = function (_React$PureComponent) {
               var item = items[index];
 
               var isSelected = false;
+              // If controlled component determine selected state based on props.
               if (_this4.isControlled()) {
-                isSelected = Array.isArray(value) && value.includes(item) || !Array.isArray(value) && value === item;
+                isSelected = Array.isArray(_this4.props.value) && _this4.props.value.includes(item) || !Array.isArray(_this4.props.value) && _this4.props.value === item;
               } else {
+                // If not a controlled component determine selected state based on state
                 isSelected = Array.isArray(_this4.state.selectedValue) && _this4.state.selectedValue.includes(item) || !Array.isArray(_this4.state.selectedValue) && _this4.state.selectedValue === item;
               }
 
@@ -385,19 +412,19 @@ var Picky$1 = function (_React$PureComponent) {
                   item: item,
                   isSelected: isSelected,
                   selectValue: _this4.selectValue,
-                  labelKey: labelKey,
-                  valueKey: valueKey,
-                  multiple: multiple
+                  labelKey: _this4.props.labelKey,
+                  valueKey: _this4.props.valueKey,
+                  multiple: _this4.props.multiple
                 }) : React__default.createElement(Option, {
                   key: key,
                   style: style,
                   item: item,
                   isSelected: isSelected,
                   selectValue: _this4.selectValue,
-                  labelKey: labelKey,
-                  valueKey: valueKey,
-                  multiple: multiple,
-                  tabIndex: tabIndex,
+                  labelKey: _this4.props.labelKey,
+                  valueKey: _this4.props.valueKey,
+                  multiple: _this4.props.multiple,
+                  tabIndex: _this4.props.tabIndex,
                   id: _this4.state.id + '-option-' + index
                 })
               );
@@ -406,48 +433,54 @@ var Picky$1 = function (_React$PureComponent) {
         }
       );
     }
+    /**
+     * Renders a non-virtualised list.
+     *
+     * @param {any} items
+     * @returns
+     * @memberof Picky
+     */
+
   }, {
     key: 'renderPlainList',
     value: function renderPlainList(items) {
       var _this5 = this;
 
-      var _props2 = this.props,
-          value = _props2.value,
-          labelKey = _props2.labelKey,
-          valueKey = _props2.valueKey,
-          multiple = _props2.multiple,
-          tabIndex = _props2.tabIndex;
-
-
       return items.map(function (item, index) {
         var isSelected = false;
+        // Create a key based on the options value
+        var key = isDataObject(item, _this5.props.labelKey, _this5.props.valueKey) ? item[_this5.props.valueKey] : item;
+
+        // If controlled component determine selected state based on props.
         if (_this5.isControlled()) {
-          isSelected = Array.isArray(value) && value.includes(item) || !Array.isArray(value) && value === item;
+          isSelected = Array.isArray(_this5.props.value) && _this5.props.value.includes(item) || !Array.isArray(_this5.props.value) && _this5.props.value === item;
         } else {
+          // If not a controlled component determine selected state based on state
           isSelected = Array.isArray(_this5.state.selectedValue) && _this5.state.selectedValue.includes(item) || !Array.isArray(_this5.state.selectedValue) && _this5.state.selectedValue === item;
         }
-        if (_this5.props.render) {
+        // If render prop supplied for items call that.
+        if (typeof _this5.props.render === 'function') {
           return _this5.props.render({
             index: index,
             style: {},
             item: item,
             isSelected: isSelected,
             selectValue: _this5.selectValue,
-            labelKey: labelKey,
-            valueKey: valueKey,
-            multiple: multiple
+            labelKey: _this5.props.labelKey,
+            valueKey: _this5.props.valueKey,
+            multiple: _this5.props.multiple
           });
         } else {
-          React__default.createElement(Option, {
+          // Render a simple option
+          return React__default.createElement(Option, {
             key: key,
-            style: style,
             item: item,
             isSelected: isSelected,
             selectValue: _this5.selectValue,
-            labelKey: labelKey,
-            valueKey: valueKey,
-            multiple: multiple,
-            tabIndex: tabIndex,
+            labelKey: _this5.props.labelKey,
+            valueKey: _this5.props.valueKey,
+            multiple: _this5.props.multiple,
+            tabIndex: _this5.props.tabIndex,
             id: _this5.state.id + '-option-' + index
           });
         }
@@ -456,15 +489,9 @@ var Picky$1 = function (_React$PureComponent) {
   }, {
     key: 'renderOptions',
     value: function renderOptions() {
-      var _props3 = this.props,
-          options = _props3.options,
-          value = _props3.value,
-          dropdownHeight = _props3.dropdownHeight,
-          labelKey = _props3.labelKey,
-          valueKey = _props3.valueKey,
-          multiple = _props3.multiple,
-          tabIndex = _props3.tabIndex,
-          virtual = _props3.virtual;
+      var _props = this.props,
+          options = _props.options,
+          virtual = _props.virtual;
 
       var items = this.state.filtered ? this.state.filteredOptions : options;
 
@@ -474,6 +501,14 @@ var Picky$1 = function (_React$PureComponent) {
         return this.renderPlainList(items);
       }
     }
+    /**
+     * Called when Filter term changes. Sets filteredOptions and filtered state.
+     *
+     * @param {any} term
+     * @returns
+     * @memberof Picky
+     */
+
   }, {
     key: 'onFilterChange',
     value: function onFilterChange(term) {
@@ -500,6 +535,14 @@ var Picky$1 = function (_React$PureComponent) {
         }
       });
     }
+    /**
+     *
+     * Called by a click event listener. Used to determine any clicks that occur outside of the component.
+     * @param {MouseEvent} e
+     * @returns
+     * @memberof Picky
+     */
+
   }, {
     key: 'handleOutsideClick',
     value: function handleOutsideClick(e) {
@@ -511,22 +554,31 @@ var Picky$1 = function (_React$PureComponent) {
       }
       this.toggleDropDown();
     }
+    /**
+     * Toggle state of dropdown
+     *
+     * @memberof Picky
+     */
+
   }, {
     key: 'toggleDropDown',
     value: function toggleDropDown() {
       var _this7 = this;
 
       if (!this.state.open) {
-        // attach/remove event handler
+        // Add event listener to listen for clicks to determine if click occured outside the component or not
         document.addEventListener('click', this.handleOutsideClick, false);
       } else {
+        // Remove
         document.removeEventListener('click', this.handleOutsideClick, false);
       }
 
       this.setState({
+        // Toggle open state
         open: !this.state.open
       }, function () {
         var isOpen = _this7.state.open;
+        // Prop callbacks
         if (isOpen && _this7.props.onOpen) {
           _this7.props.onOpen();
         } else if (!isOpen && _this7.props.onClose) {
@@ -539,22 +591,28 @@ var Picky$1 = function (_React$PureComponent) {
     value: function render() {
       var _this8 = this;
 
-      var _props4 = this.props,
-          placeholder = _props4.placeholder,
-          value = _props4.value,
-          multiple = _props4.multiple,
-          numberDisplayed = _props4.numberDisplayed,
-          includeSelectAll = _props4.includeSelectAll,
-          includeFilter = _props4.includeFilter,
-          filterDebounce = _props4.filterDebounce,
-          valueKey = _props4.valueKey,
-          labelKey = _props4.labelKey,
-          tabIndex = _props4.tabIndex;
+      var _props2 = this.props,
+          placeholder = _props2.placeholder,
+          value = _props2.value,
+          multiple = _props2.multiple,
+          numberDisplayed = _props2.numberDisplayed,
+          includeSelectAll = _props2.includeSelectAll,
+          includeFilter = _props2.includeFilter,
+          filterDebounce = _props2.filterDebounce,
+          valueKey = _props2.valueKey,
+          labelKey = _props2.labelKey,
+          tabIndex = _props2.tabIndex,
+          dropdownHeight = _props2.dropdownHeight;
       var open = this.state.open;
 
       var ariaOwns = '';
       if (open) {
         ariaOwns += this.state.id + '-list';
+      }
+
+      var dropdownStyle = {};
+      if (!this.props.virtual) {
+        dropdownStyle = { maxHeight: dropdownHeight, overflowY: 'scroll' };
       }
       return React__default.createElement(
         'div',
@@ -590,7 +648,11 @@ var Picky$1 = function (_React$PureComponent) {
         ),
         open && React__default.createElement(
           'div',
-          { className: 'picky__dropdown', id: this.state.id + '-list' },
+          {
+            className: 'picky__dropdown',
+            id: this.state.id + '-list',
+            style: dropdownStyle
+          },
           includeFilter && React__default.createElement(Filter, {
             onFilterChange: filterDebounce > 0 ? debounce(this.onFilterChange, filterDebounce) : this.onFilterChange
           }),
@@ -633,7 +695,8 @@ Picky$1.defaultProps = {
   onChange: function onChange() {},
   itemHeight: 35,
   tabIndex: 0,
-  keepOpen: true
+  keepOpen: true,
+  virtual: true
 };
 Picky$1.propTypes = {
   placeholder: PropTypes.string,
@@ -655,7 +718,8 @@ Picky$1.propTypes = {
   render: PropTypes.func,
   itemHeight: PropTypes.number,
   tabIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  keepOpen: PropTypes.bool
+  keepOpen: PropTypes.bool,
+  virtual: PropTypes.bool
 };
 
 module.exports = Picky$1;
