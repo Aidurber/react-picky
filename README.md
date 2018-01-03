@@ -83,7 +83,8 @@ Picky.defaultProps = {
   onChange: () => {},
   itemHeight: 35,
   tabIndex: 0,
-  keepOpen: true
+  keepOpen: true,
+  virtual: true
 };
 Picky.propTypes = {
   placeholder: PropTypes.string,
@@ -110,7 +111,8 @@ Picky.propTypes = {
   render: PropTypes.func,
   itemHeight: PropTypes.number,
   tabIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  keepOpen: PropTypes.bool
+  keepOpen: PropTypes.bool,
+  virtual: PropTypes.bool
 };
 ```
 
