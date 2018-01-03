@@ -139,8 +139,9 @@ Picky.propTypes = {
 * `tabIndex` - Pass tabIndex to component for accessibility. Defaults to 0
 * `keepOpen` - Default true. Single selects close automatically when selecting a value unless this is set to true.
 * `virtual` - Default true. Renders out a non-virtual list when set to false. This is for more control over dropdown height. The side-effect of this is that you lose the performance gains of a virtualised list. However, the case where shorter dropdown lists tends to be for smaller lists.
-
-## Custom rendering
+* `manySelectedPlaceholder` - Default "%s selected" where %s is the number of items selected. This gets used when the number if items selected is more than the `numberDisplayed` prop and when all options are not selected.
+* `allSelectedPlaceholder` - Default "%s selected" where %s is the number of items selected. This gets used when all options are selected.
+  ## Custom rendering
 
 You can render out custom items for the dropdown.
 
@@ -149,7 +150,7 @@ You can render out custom items for the dropdown.
 ```javascript
 <Picky
   value={this.state.arrayValue}
-  options={oneToOneThousand}
+  options={bigList}
   onChange={this.selectMultipleOption}
   open={false}
   valueKey="id"

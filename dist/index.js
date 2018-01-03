@@ -8,6 +8,7 @@ var PropTypes = _interopDefault(require('prop-types'));
 var debounce = _interopDefault(require('lodash.debounce'));
 var reactVirtualized = require('react-virtualized');
 var isEqual = _interopDefault(require('lodash.isequal'));
+var format = _interopDefault(require('simple-format'));
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -53,7 +54,10 @@ var Placeholder = function (_React$PureComponent) {
           numberDisplayed = _props.numberDisplayed,
           multiple = _props.multiple,
           valueKey = _props.valueKey,
-          labelKey = _props.labelKey;
+          labelKey = _props.labelKey,
+          manySelectedPlaceholder = _props.manySelectedPlaceholder,
+          allSelectedPlaceholder = _props.allSelectedPlaceholder,
+          allSelected = _props.allSelected;
 
 
       var message = '';
@@ -71,8 +75,15 @@ var Placeholder = function (_React$PureComponent) {
               return opt;
             }).join(', ');
           } else {
-            //If more than numberDisplayed then show "length selected"
-            message = value.length + ' selected';
+            console.log('All selected:', allSelected);
+            if (manySelectedPlaceholder && !allSelected) {
+              message = manySelectedPlaceholder.includes('%s') ? format(manySelectedPlaceholder, value.length) : manySelectedPlaceholder;
+            } else if (allSelected && allSelectedPlaceholder) {
+              message = allSelectedPlaceholder.includes('%s') ? format(allSelectedPlaceholder, value.length) : allSelectedPlaceholder;
+            } else {
+              //If more than numberDisplayed then show "length selected"
+              message = value.length + ' selected';
+            }
           }
         } else {
           var tempValue = Array.isArray(value) ? value[0] : value;
@@ -96,7 +107,10 @@ var Placeholder = function (_React$PureComponent) {
 }(React__default.PureComponent);
 
 Placeholder.defaultProps = {
-  placeholder: 'None selected'
+  placeholder: 'None selected',
+  allSelectedPlaceholder: '%s selected',
+  manySelectedPlaceholder: '%s selected',
+  allSelected: false
 };
 Placeholder.propTypes = {
   placeholder: PropTypes.string,
@@ -104,7 +118,10 @@ Placeholder.propTypes = {
   numberDisplayed: PropTypes.number,
   multiple: PropTypes.bool,
   valueKey: PropTypes.string,
-  labelKey: PropTypes.string
+  labelKey: PropTypes.string,
+  manySelectedPlaceholder: PropTypes.string,
+  allSelectedPlaceholder: PropTypes.string,
+  allSelected: PropTypes.bool
 };
 
 var _createClass$2 = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -638,7 +655,10 @@ var Picky$1 = function (_React$PureComponent) {
             onClick: this.toggleDropDown
           },
           React__default.createElement(Placeholder, {
+            allSelected: this.state.allSelected,
             placeholder: placeholder,
+            manySelectedPlaceholder: this.props.manySelectedPlaceholder,
+            allSelectedPlaceholder: this.props.allSelectedPlaceholder,
             value: this.isControlled() ? value : this.state.selectedValue,
             multiple: multiple,
             numberDisplayed: numberDisplayed,
@@ -719,7 +739,9 @@ Picky$1.propTypes = {
   itemHeight: PropTypes.number,
   tabIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   keepOpen: PropTypes.bool,
-  virtual: PropTypes.bool
+  virtual: PropTypes.bool,
+  manySelectedPlaceholder: PropTypes.string,
+  allSelectedPlaceholder: PropTypes.string
 };
 
 module.exports = Picky$1;

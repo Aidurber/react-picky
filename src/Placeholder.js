@@ -1,6 +1,7 @@
 // NEEDS REFACTOR
 import React from 'react';
 import PropTypes from 'prop-types';
+import format from 'simple-format';
 import { isDataObject } from './lib/utils';
 
 const isEmptyValue = value =>
@@ -19,7 +20,10 @@ class Placeholder extends React.PureComponent {
       numberDisplayed,
       multiple,
       valueKey,
-      labelKey
+      labelKey,
+      manySelectedPlaceholder,
+      allSelectedPlaceholder,
+      allSelected
     } = this.props;
 
     let message = '';
@@ -39,8 +43,22 @@ class Placeholder extends React.PureComponent {
             })
             .join(', ');
         } else {
-          //If more than numberDisplayed then show "length selected"
-          message = `${value.length} selected`;
+          // if many selected and not all selected then use the placeholder
+          if (manySelectedPlaceholder && !allSelected) {
+            // if it doesn't include the sprintf token then just use the placeholder
+            message = manySelectedPlaceholder.includes('%s')
+              ? format(manySelectedPlaceholder, value.length)
+              : manySelectedPlaceholder;
+            //If all selected and there is an allselectedplaceholder use that
+          } else if (allSelected && allSelectedPlaceholder) {
+            // if it doesn't include the sprintf token then just use the placeholder
+            message = allSelectedPlaceholder.includes('%s')
+              ? format(allSelectedPlaceholder, value.length)
+              : allSelectedPlaceholder;
+          } else {
+            //If more than numberDisplayed then show "length selected"
+            message = `${value.length} selected`;
+          }
         }
       } else {
         let tempValue = Array.isArray(value) ? value[0] : value;
@@ -57,7 +75,10 @@ class Placeholder extends React.PureComponent {
 }
 
 Placeholder.defaultProps = {
-  placeholder: 'None selected'
+  placeholder: 'None selected',
+  allSelectedPlaceholder: '%s selected',
+  manySelectedPlaceholder: '%s selected',
+  allSelected: false
 };
 Placeholder.propTypes = {
   placeholder: PropTypes.string,
@@ -70,7 +91,10 @@ Placeholder.propTypes = {
   numberDisplayed: PropTypes.number,
   multiple: PropTypes.bool,
   valueKey: PropTypes.string,
-  labelKey: PropTypes.string
+  labelKey: PropTypes.string,
+  manySelectedPlaceholder: PropTypes.string,
+  allSelectedPlaceholder: PropTypes.string,
+  allSelected: PropTypes.bool
 };
 
 export default Placeholder;

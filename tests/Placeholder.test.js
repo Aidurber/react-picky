@@ -27,6 +27,45 @@ describe('Placeholder', () => {
     );
     expect(wrapper.find('.picky__placeholder').text()).toEqual('3 selected');
   });
+
+  it('should use manySelectedPlaceholder if supplied and number of selected items greater than number displayed', () => {
+    const wrapper = mount(
+      <Placeholder
+        numberDisplayed={2}
+        value={[1, 2, 3]}
+        multiple
+        manySelectedPlaceholder="Thats %s selected"
+      />
+    );
+    expect(wrapper.find('.picky__placeholder').text()).toEqual(
+      'Thats 3 selected'
+    );
+  });
+
+  it('should use allSelectedPlaceholder prop if supplied and all items selected', () => {
+    const wrapper = mount(
+      <Placeholder
+        numberDisplayed={2}
+        value={[1, 2, 3]}
+        allSelected={true}
+        multiple
+        allSelectedPlaceholder="All selected"
+      />
+    );
+    expect(wrapper.find('.picky__placeholder').text()).toEqual('All selected');
+  });
+
+  it('should x selected if all items selected and no allSelectedPlaceholder specified', () => {
+    const wrapper = mount(
+      <Placeholder
+        numberDisplayed={2}
+        value={[1, 2, 3]}
+        allSelected={true}
+        multiple
+      />
+    );
+    expect(wrapper.find('.picky__placeholder').text()).toEqual('3 selected');
+  });
   it('should cut off if more values than  numberDisplayed', () => {
     const wrapper = mount(
       <Placeholder numberDisplayed={2} value={[1, 2, 3]} multiple />

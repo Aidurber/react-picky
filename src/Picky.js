@@ -421,7 +421,10 @@ class Picky extends React.PureComponent {
           onClick={this.toggleDropDown}
         >
           <Placeholder
+            allSelected={this.state.allSelected}
             placeholder={placeholder}
+            manySelectedPlaceholder={this.props.manySelectedPlaceholder}
+            allSelectedPlaceholder={this.props.allSelectedPlaceholder}
             value={this.isControlled() ? value : this.state.selectedValue}
             multiple={multiple}
             numberDisplayed={numberDisplayed}
@@ -516,7 +519,9 @@ Picky.propTypes = {
   itemHeight: PropTypes.number,
   tabIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   keepOpen: PropTypes.bool,
-  virtual: PropTypes.bool
+  virtual: PropTypes.bool,
+  manySelectedPlaceholder: PropTypes.string,
+  allSelectedPlaceholder: PropTypes.string
 };
 
 export default Picky;
