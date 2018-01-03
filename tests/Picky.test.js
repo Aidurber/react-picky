@@ -1,12 +1,12 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import Placeholder from '../src/Placeholder';
 import Picky from '../src/Picky';
 import Filter from '../src/Filter';
-
+import Option from '../src/Option';
 describe('Picky', () => {
   it('should select initial values on load', () => {
-    const wrapper = shallow(<Picky value={[1, 2, 3]} multiple />);
+    const wrapper = mount(<Picky value={[1, 2, 3]} multiple />);
     expect(wrapper.state('selectedValue')).toEqual([1, 2, 3]);
   });
 
@@ -17,6 +17,7 @@ describe('Picky', () => {
 
   it('should accept render prop', () => {
     const renderPropMock = jest.fn();
+    renderPropMock.mockReturnValue(<p />);
     const wrapper = mount(
       <Picky
         value={[1, 2, 3]}
@@ -30,7 +31,7 @@ describe('Picky', () => {
     expect(renderPropMock).toHaveBeenCalled();
   });
 
-  describe('Dropdown drawer', () => {
+  describe('Virtual Dropdown drawer', () => {
     it('should open if prop open is true', () => {
       const wrapper = mount(<Picky value={[1, 2, 3]} open={true} />);
       expect(wrapper.find('.picky__dropdown')).toHaveLength(1);
@@ -107,6 +108,115 @@ describe('Picky', () => {
           options={[1, 2, 3, 4, 5]}
           open={true}
           multiple={true}
+        />
+      );
+      expect(nextWrapper.find('.picky__placeholder').text()).toEqual(
+        '3 selected'
+      );
+    });
+  });
+  describe('Plain Dropdown drawer', () => {
+    it('should open if prop open is true', () => {
+      const wrapper = mount(
+        <Picky value={[1, 2, 3]} open={true} virtual={false} />
+      );
+      expect(wrapper.find('.picky__dropdown')).toHaveLength(1);
+    });
+    it('should not be open if prop open is false', () => {
+      const wrapper = mount(
+        <Picky value={[1, 2, 3]} open={false} virtual={false} />
+      );
+      expect(wrapper.find('.picky__dropdown')).toHaveLength(0);
+    });
+
+    it('should open on click of button', () => {
+      const wrapper = mount(<Picky value={[1, 2, 3]} />);
+      expect(wrapper.find('.picky__dropdown')).toHaveLength(0);
+      wrapper.find('.picky__input').simulate('click');
+      expect(wrapper.find('.picky__dropdown')).toHaveLength(1);
+    });
+    it('should open on click of button (open by prop)', () => {
+      const wrapper = mount(
+        <Picky value={[1, 2, 3]} open={true} virtual={false} />
+      );
+      expect(wrapper.find('.picky__dropdown')).toHaveLength(1);
+      wrapper.find('.picky__input').simulate('click');
+      expect(wrapper.find('.picky__dropdown')).toHaveLength(0);
+    });
+    it('should have items', () => {
+      const wrapper = mount(
+        <Picky
+          value={[1, 2, 3]}
+          options={[1, 2, 3, 4, 5]}
+          open={true}
+          virtual={false}
+        />
+      );
+      expect(wrapper.find('.picky__dropdown .option')).toHaveLength(5);
+    });
+
+    it('should have items selected by default when supplied', () => {
+      const wrapper = mount(
+        <Picky
+          value={[1, 2, 3]}
+          options={[1, 2, 3, 4, 5]}
+          open={true}
+          virtual={false}
+        />
+      );
+      const selected = wrapper.find('.picky__dropdown .option.selected');
+      expect(selected).toHaveLength(3);
+      expect(selected.at(0).text()).toEqual('1');
+      expect(selected.at(1).text()).toEqual('2');
+      expect(selected.at(2).text()).toEqual('3');
+    });
+    it('should show placeholder if value is an array and none selected', () => {
+      const wrapper = mount(
+        <Picky
+          value={[]}
+          options={[1, 2, 3, 4, 5]}
+          open={true}
+          multiple
+          virtual={false}
+        />
+      );
+
+      expect(wrapper.find('.picky__placeholder').text()).toEqual(
+        'None selected'
+      );
+    });
+    it('should show correct placeholder with selected value, single select', () => {
+      const wrapper = mount(
+        <Picky
+          value={[1]}
+          options={[1, 2, 3, 4, 5]}
+          open={true}
+          multiple={false}
+          virtual={false}
+        />
+      );
+      expect(wrapper.find('.picky__placeholder').text()).toEqual('1');
+    });
+    it('should show correct placeholder with selected value, multi select', () => {
+      const wrapper = mount(
+        <Picky
+          value={[1, 2, 3]}
+          options={[1, 2, 3, 4, 5]}
+          open={true}
+          multiple={true}
+          virtual={false}
+        />
+      );
+      expect(wrapper.find('.picky__placeholder').text()).toEqual('1, 2, 3');
+
+      const nextWrapper = mount(
+        <Picky
+          numberDisplayed={2}
+          value={[1, 2, 3]}
+          options={[1, 2, 3, 4, 5]}
+          open={true}
+          multiple={true}
+          virtual={false}
         />
       );
       expect(nextWrapper.find('.picky__placeholder').text()).toEqual(
@@ -407,5 +517,27 @@ describe('Picky', () => {
       wrapper.find('.picky__input').simulate('click');
       expect(onCloseMock).toHaveBeenCalled();
     });
+  });
+
+  xit('should close when clicked outside of component', () => {
+    //Can't figure out how to test this
+    // const wrapper = mount(<Picky open={true} options={[1, 2, 3]} />);
+    // wrapper.mount();
+    // expect(wrapper.find('.picky__dropdown')).toHaveLength(1);
+    // wrapper.instance().handleOutsideClick({ target: '#root' });
+    // expect(wrapper.find('.picky__dropdown')).toHaveLength(0);
+  });
+  it('should select option on keyPress', () => {
+    const keyPressMock = jest.fn();
+    const wrapper = mount(
+      <Option id="option" item={1} selectValue={keyPressMock} />
+    );
+    wrapper.simulate('keyPress', {});
+    expect(keyPressMock).toHaveBeenCalledWith(1);
+  });
+
+  it('cellmeasurercache should use itemHeight prop if supplied', () => {
+    const wrapper = mount(<Picky options={[1, 2, 3]} itemHeight={60} />);
+    expect(wrapper.instance().cellMeasurerCache.defaultHeight).toEqual(60);
   });
 });

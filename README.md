@@ -136,6 +136,7 @@ Picky.propTypes = {
 * `itemHeight` - Used when dropdown item height is larger than 35px. This is so the virtualised list can calculate correctly.
 * `tabIndex` - Pass tabIndex to component for accessibility. Defaults to 0
 * `keepOpen` - Default true. Single selects close automatically when selecting a value unless this is set to true.
+* `virtual` - Default true. Renders out a non-virtual list when set to false. This is for more control over dropdown height. The side-effect of this is that you lose the performance gains of a virtualised list. However, the case where shorter dropdown lists tends to be for smaller lists.
 
 ## Custom rendering
 
@@ -199,4 +200,4 @@ style, isSelected, item, labelKey, valueKey, selectValue, multiple
 
 # Internals
 
-The component uses [React Tiny Virtual List](https://github.com/clauderic/react-tiny-virtual-list) for rendering out the items. This is a for a performance gain. You can have 1,000,000 items in the dropdown with no performance drop! It's such a great little library. This is why we have a dropdown height.
+The component uses [React Virtualized](https://github.com/bvaughn/react-virtualized) for rendering out the items. This is a for a performance gain. You can have 1,000,000 items in the dropdown with no performance drop! It's such a great little library. This is why we have a dropdown height.
