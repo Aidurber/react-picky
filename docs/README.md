@@ -1,11 +1,11 @@
 # Picky ☜
 
+Yet another React select list with virtualised option.
+
 [![Build Status](https://travis-ci.org/Aidurber/react-picky.svg?branch=master)](https://travis-ci.org/Aidurber/react-picky)
 [![codecov](https://codecov.io/gh/Aidurber/react-picky/branch/master/graph/badge.svg)](https://codecov.io/gh/Aidurber/react-picky)
 [![license](https://img.shields.io/github/license/aidurber/react-picky.svg)]()
 [![npm version](https://badge.fury.io/js/react-picky.svg)](https://badge.fury.io/js/react-picky)
-
-Yet another React select list.
 
 ## Motivation
 
@@ -116,7 +116,8 @@ Picky.propTypes = {
   virtual: PropTypes.bool,
   manySelectedPlaceholder: PropTypes.string,
   allSelectedPlaceholder: PropTypes.string,
-  selectAllText: PropTypes.string
+  selectAllText: PropTypes.string,
+  renderSelectAll: PropTypes.func
 };
 ```
 
@@ -146,8 +147,11 @@ Picky.propTypes = {
 * `manySelectedPlaceholder` - Default "%s selected" where %s is the number of items selected. This gets used when the number if items selected is more than the `numberDisplayed` prop and when all options are not selected.
 * `allSelectedPlaceholder` - Default "%s selected" where %s is the number of items selected. This gets used when all options are selected.
 * `selectAllText` - Default "Select all", use this to override "Select all" text from top of dropdown when included with `includeSelectAll`.
+* `renderSelectAll` - Used for rendering a custom select all
 
 ## Custom rendering
+
+### Items
 
 You can render out custom items for the dropdown.
 
@@ -206,6 +210,44 @@ style, isSelected, item, labelKey, valueKey, selectValue, multiple
 
 * If your rendered item affects the height of the item in anyway. Supply `itemHeight` to Picky.
 * If you wish to show a radio button or a checkbox, be sure to add `readOnly` prop to the input.
+
+### Select All
+
+```javascript
+<Picky
+  // ...
+  renderSelectAll={({
+    filtered,
+    tabIndex,
+    allSelected,
+    toggleSelectAll,
+    multiple
+  }) => {
+    // Don't show if single select or items have been filtered.
+    if (multiple && !filtered) {
+      return (
+        <div
+          tabIndex={tabIndex}
+          role="option"
+          className={allSelected ? 'option selected' : 'option'}
+          onClick={toggleSelectAll}
+          onKeyPress={toggleSelectAll}
+        >
+          <h1>SELECT ALL</h1>
+        </div>
+      );
+    }
+  }}
+/>
+```
+
+Gets called with the following properties:
+
+* `filtered`: boolean - true if items have been filtered.
+* `allSelected`: boolean true if all items are selected
+* `toggleSelectAll`: function selects or deselects all items
+* `tabIndex`: number used for specifying tab index
+* `multiple`: boolean true if multiselect
 
 # Internals
 

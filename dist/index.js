@@ -263,7 +263,7 @@ var Picky$1 = function (_React$PureComponent) {
       fixedWidth: true
     });
     _this.toggleDropDown = _this.toggleDropDown.bind(_this);
-    _this.selectAll = _this.selectAll.bind(_this);
+    _this.toggleSelectAll = _this.toggleSelectAll.bind(_this);
     _this.onFilterChange = _this.onFilterChange.bind(_this);
     _this.selectValue = _this.selectValue.bind(_this);
     _this.allSelected = _this.allSelected.bind(_this);
@@ -345,8 +345,8 @@ var Picky$1 = function (_React$PureComponent) {
      */
 
   }, {
-    key: 'selectAll',
-    value: function selectAll() {
+    key: 'toggleSelectAll',
+    value: function toggleSelectAll() {
       var _this3 = this;
 
       this.setState({
@@ -623,7 +623,8 @@ var Picky$1 = function (_React$PureComponent) {
           valueKey = _props2.valueKey,
           labelKey = _props2.labelKey,
           tabIndex = _props2.tabIndex,
-          dropdownHeight = _props2.dropdownHeight;
+          dropdownHeight = _props2.dropdownHeight,
+          renderSelectAll = _props2.renderSelectAll;
       var open = this.state.open;
 
       var ariaOwns = '';
@@ -674,13 +675,21 @@ var Picky$1 = function (_React$PureComponent) {
           'div',
           {
             className: 'picky__dropdown',
+            'data-test': 'dropdown',
             id: this.state.id + '-list',
             style: dropdownStyle
           },
           includeFilter && React__default.createElement(Filter, {
             onFilterChange: filterDebounce > 0 ? debounce(this.onFilterChange, filterDebounce) : this.onFilterChange
           }),
-          includeSelectAll && multiple && !this.state.filtered && React__default.createElement(
+          renderSelectAll && renderSelectAll({
+            filtered: this.state.filtered,
+            allSelected: this.state.allSelected,
+            toggleSelectAll: this.toggleSelectAll,
+            tabIndex: tabIndex,
+            multiple: multiple
+          }),
+          !renderSelectAll && includeSelectAll && multiple && !this.state.filtered && React__default.createElement(
             'div',
             {
               tabIndex: tabIndex,
@@ -689,13 +698,13 @@ var Picky$1 = function (_React$PureComponent) {
               'data-selectall': 'true',
               'aria-selected': this.state.allSelected,
               className: this.state.allSelected ? 'option selected' : 'option',
-              onClick: this.selectAll,
-              onKeyPress: this.selectAll
+              onClick: this.toggleSelectAll,
+              onKeyPress: this.toggleSelectAll
             },
             React__default.createElement('input', {
               type: 'checkbox',
               readOnly: true,
-              onClick: this.selectAll,
+              onClick: this.toggleSelectAll,
               tabIndex: -1,
               checked: this.state.allSelected,
               'aria-label': 'select all'
@@ -751,7 +760,8 @@ Picky$1.propTypes = {
   virtual: PropTypes.bool,
   manySelectedPlaceholder: PropTypes.string,
   allSelectedPlaceholder: PropTypes.string,
-  selectAllText: PropTypes.string
+  selectAllText: PropTypes.string,
+  renderSelectAll: PropTypes.func
 };
 
 module.exports = Picky$1;

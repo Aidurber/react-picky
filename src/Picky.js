@@ -32,7 +32,7 @@ class Picky extends React.PureComponent {
       fixedWidth: true
     });
     this.toggleDropDown = this.toggleDropDown.bind(this);
-    this.selectAll = this.selectAll.bind(this);
+    this.toggleSelectAll = this.toggleSelectAll.bind(this);
     this.onFilterChange = this.onFilterChange.bind(this);
     this.selectValue = this.selectValue.bind(this);
     this.allSelected = this.allSelected.bind(this);
@@ -119,7 +119,7 @@ class Picky extends React.PureComponent {
    *
    * @memberof Picky
    */
-  selectAll() {
+  toggleSelectAll() {
     this.setState(
       {
         selectedValue: !this.state.allSelected ? this.props.options : [],
@@ -388,7 +388,8 @@ class Picky extends React.PureComponent {
       valueKey,
       labelKey,
       tabIndex,
-      dropdownHeight
+      dropdownHeight,
+      renderSelectAll
     } = this.props;
     const { open } = this.state;
     let ariaOwns = '';
@@ -435,6 +436,7 @@ class Picky extends React.PureComponent {
         {open && (
           <div
             className="picky__dropdown"
+            data-test="dropdown"
             id={this.state.id + '-list'}
             style={dropdownStyle}
           >
@@ -447,8 +449,16 @@ class Picky extends React.PureComponent {
                 }
               />
             )}
-
-            {includeSelectAll &&
+            {renderSelectAll &&
+              renderSelectAll({
+                filtered: this.state.filtered,
+                allSelected: this.state.allSelected,
+                toggleSelectAll: this.toggleSelectAll,
+                tabIndex,
+                multiple
+              })}
+            {!renderSelectAll &&
+              includeSelectAll &&
               multiple &&
               !this.state.filtered && (
                 <div
@@ -460,13 +470,13 @@ class Picky extends React.PureComponent {
                   className={
                     this.state.allSelected ? 'option selected' : 'option'
                   }
-                  onClick={this.selectAll}
-                  onKeyPress={this.selectAll}
+                  onClick={this.toggleSelectAll}
+                  onKeyPress={this.toggleSelectAll}
                 >
                   <input
                     type="checkbox"
                     readOnly
-                    onClick={this.selectAll}
+                    onClick={this.toggleSelectAll}
                     tabIndex={-1}
                     checked={this.state.allSelected}
                     aria-label="select all"
@@ -525,7 +535,8 @@ Picky.propTypes = {
   virtual: PropTypes.bool,
   manySelectedPlaceholder: PropTypes.string,
   allSelectedPlaceholder: PropTypes.string,
-  selectAllText: PropTypes.string
+  selectAllText: PropTypes.string,
+  renderSelectAll: PropTypes.func
 };
 
 export default Picky;

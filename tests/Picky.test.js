@@ -579,4 +579,45 @@ describe('Picky', () => {
     const wrapper = mount(<Picky options={[1, 2, 3]} itemHeight={60} />);
     expect(wrapper.instance().cellMeasurerCache.defaultHeight).toEqual(60);
   });
+
+  it('should not render custom selectall when renderSelectAll prop is not supplied', () => {
+    const wrapper = mount(
+      <Picky
+        options={[]}
+        virtual={false}
+        open={true}
+        includeSelectAll={true}
+        multiple={true}
+      />
+    );
+    const dropdown = wrapper.find(sel('dropdown')).first();
+    expect(dropdown.find(sel('select-all-text'))).toHaveLength(1);
+  });
+  it('should not render custom selectall when renderSelectAll prop is not supplied', () => {
+    const renderSelectAllMock = jest.fn();
+    const wrapper = mount(
+      <Picky
+        options={[1, 2, 3, 4]}
+        virtual={false}
+        open={true}
+        includeSelectAll={true}
+        multiple={true}
+        renderSelectAll={renderSelectAllMock}
+      />
+    );
+    const calledWithProps = renderSelectAllMock.mock.calls[0][0];
+    expect(calledWithProps.filtered).toEqual(false);
+    expect(calledWithProps.multiple).toEqual(true);
+    expect(calledWithProps.allSelected).toEqual(false);
+    expect(calledWithProps.tabIndex).toEqual(0);
+
+    // expect(renderSelectAllMock).toHaveBeenCalledWith({
+    //   filtered: false,
+    //   includeSelectAll: true,
+    //   multiple: true,
+    //   allSelected: false,
+    //   toggleSelectAll: () => {},
+    //   tabIndex: 0
+    // });
+  });
 });
