@@ -4,6 +4,9 @@ import Placeholder from '../src/Placeholder';
 import Picky from '../src/Picky';
 import Filter from '../src/Filter';
 import Option from '../src/Option';
+
+const sel = id => `[data-test="${id}"]`;
+
 describe('Picky', () => {
   it('should select initial values on load', () => {
     const wrapper = mount(<Picky value={[1, 2, 3]} multiple />);
@@ -238,6 +241,42 @@ describe('Picky', () => {
       expect(
         wrapper.find('.picky__dropdown .option[data-selectall="true"]')
       ).toHaveLength(1);
+    });
+
+    it('should have "select all" text when no selectAllText prop provided', () => {
+      const wrapper = mount(
+        <Picky
+          value={[1, 2, 3]}
+          includeSelectAll={true}
+          options={[1, 2, 3, 4, 5]}
+          open={true}
+          multiple={true}
+        />
+      );
+      expect(
+        wrapper
+          .find(sel('select-all-text'))
+          .text()
+          .toLowerCase()
+      ).toEqual('Select All'.toLowerCase());
+    });
+    it('should support select all text with selectAllText prop', () => {
+      const wrapper = mount(
+        <Picky
+          value={[1, 2, 3]}
+          includeSelectAll={true}
+          options={[1, 2, 3, 4, 5]}
+          open={true}
+          multiple={true}
+          selectAllText="Select em all"
+        />
+      );
+      expect(
+        wrapper
+          .find(sel('select-all-text'))
+          .text()
+          .toLowerCase()
+      ).toEqual('Select em all'.toLowerCase());
     });
 
     it('should select all options when select all is clicked', () => {

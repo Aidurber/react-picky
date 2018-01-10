@@ -75,10 +75,13 @@ var Placeholder = function (_React$PureComponent) {
               return opt;
             }).join(', ');
           } else {
-            console.log('All selected:', allSelected);
+            // if many selected and not all selected then use the placeholder
             if (manySelectedPlaceholder && !allSelected) {
+              // if it doesn't include the sprintf token then just use the placeholder
               message = manySelectedPlaceholder.includes('%s') ? format(manySelectedPlaceholder, value.length) : manySelectedPlaceholder;
+              //If all selected and there is an allselectedplaceholder use that
             } else if (allSelected && allSelectedPlaceholder) {
+              // if it doesn't include the sprintf token then just use the placeholder
               message = allSelectedPlaceholder.includes('%s') ? format(allSelectedPlaceholder, value.length) : allSelectedPlaceholder;
             } else {
               //If more than numberDisplayed then show "length selected"
@@ -696,7 +699,11 @@ var Picky$1 = function (_React$PureComponent) {
               checked: this.state.allSelected,
               'aria-label': 'select all'
             }),
-            'Select All'
+            React__default.createElement(
+              'span',
+              { 'data-test': 'select-all-text' },
+              this.props.selectAllText
+            )
           ),
           this.renderOptions()
         )
@@ -716,7 +723,8 @@ Picky$1.defaultProps = {
   itemHeight: 35,
   tabIndex: 0,
   keepOpen: true,
-  virtual: true
+  virtual: true,
+  selectAllText: 'Select all'
 };
 Picky$1.propTypes = {
   placeholder: PropTypes.string,
@@ -741,7 +749,8 @@ Picky$1.propTypes = {
   keepOpen: PropTypes.bool,
   virtual: PropTypes.bool,
   manySelectedPlaceholder: PropTypes.string,
-  allSelectedPlaceholder: PropTypes.string
+  allSelectedPlaceholder: PropTypes.string,
+  selectAllText: PropTypes.string
 };
 
 module.exports = Picky$1;

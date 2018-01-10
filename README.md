@@ -84,7 +84,8 @@ Picky.defaultProps = {
   itemHeight: 35,
   tabIndex: 0,
   keepOpen: true,
-  virtual: true
+  virtual: true,
+  selectAllText: 'Select all'
 };
 Picky.propTypes = {
   placeholder: PropTypes.string,
@@ -112,7 +113,10 @@ Picky.propTypes = {
   itemHeight: PropTypes.number,
   tabIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   keepOpen: PropTypes.bool,
-  virtual: PropTypes.bool
+  virtual: PropTypes.bool,
+  manySelectedPlaceholder: PropTypes.string,
+  allSelectedPlaceholder: PropTypes.string,
+  selectAllText: PropTypes.string
 };
 ```
 
@@ -141,7 +145,9 @@ Picky.propTypes = {
 * `virtual` - Default true. Renders out a non-virtual list when set to false. This is for more control over dropdown height. The side-effect of this is that you lose the performance gains of a virtualised list. However, the case where shorter dropdown lists tends to be for smaller lists.
 * `manySelectedPlaceholder` - Default "%s selected" where %s is the number of items selected. This gets used when the number if items selected is more than the `numberDisplayed` prop and when all options are not selected.
 * `allSelectedPlaceholder` - Default "%s selected" where %s is the number of items selected. This gets used when all options are selected.
-  ## Custom rendering
+* `selectAllText` - Default "Select all", use this to override "Select all" text from top of dropdown when included with `includeSelectAll`.
+
+## Custom rendering
 
 You can render out custom items for the dropdown.
 

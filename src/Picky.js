@@ -471,7 +471,9 @@ class Picky extends React.PureComponent {
                     checked={this.state.allSelected}
                     aria-label="select all"
                   />
-                  Select All
+                  <span data-test="select-all-text">
+                    {this.props.selectAllText}
+                  </span>
                 </div>
               )}
             {this.renderOptions()}
@@ -491,7 +493,8 @@ Picky.defaultProps = {
   itemHeight: 35,
   tabIndex: 0,
   keepOpen: true,
-  virtual: true
+  virtual: true,
+  selectAllText: 'Select all'
 };
 Picky.propTypes = {
   placeholder: PropTypes.string,
@@ -521,7 +524,8 @@ Picky.propTypes = {
   keepOpen: PropTypes.bool,
   virtual: PropTypes.bool,
   manySelectedPlaceholder: PropTypes.string,
-  allSelectedPlaceholder: PropTypes.string
+  allSelectedPlaceholder: PropTypes.string,
+  selectAllText: PropTypes.string
 };
 
 export default Picky;
