@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import format from 'simple-format';
 import { isDataObject } from './lib/utils';
-
+import includes from 'lodash.includes';
 const isEmptyValue = value =>
   value === null ||
   value === undefined ||
@@ -46,13 +46,13 @@ class Placeholder extends React.PureComponent {
           // if many selected and not all selected then use the placeholder
           if (manySelectedPlaceholder && !allSelected) {
             // if it doesn't include the sprintf token then just use the placeholder
-            message = manySelectedPlaceholder.includes('%s')
+            message = includes(manySelectedPlaceholder, '%s')
               ? format(manySelectedPlaceholder, value.length)
               : manySelectedPlaceholder;
             //If all selected and there is an allselectedplaceholder use that
           } else if (allSelected && allSelectedPlaceholder) {
             // if it doesn't include the sprintf token then just use the placeholder
-            message = allSelectedPlaceholder.includes('%s')
+            message = includes(allSelectedPlaceholder, '%s')
               ? format(allSelectedPlaceholder, value.length)
               : allSelectedPlaceholder;
           } else {

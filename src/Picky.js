@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
+import includes from 'lodash.includes';
 // import VirtualList from 'react-tiny-virtual-list';]
 import {
   CellMeasurer,
@@ -61,7 +62,7 @@ class Picky extends React.PureComponent {
       : this.state.selectedValue;
 
     if (this.props.multiple && Array.isArray(valueLookup)) {
-      if (valueLookup.includes(val)) {
+      if (includes(valueLookup, val)) {
         const currIndex = valueLookup.indexOf(val);
         // Remove
         this.setState(
@@ -171,14 +172,14 @@ class Picky extends React.PureComponent {
                 if (this.isControlled()) {
                   isSelected =
                     (Array.isArray(this.props.value) &&
-                      this.props.value.includes(item)) ||
+                      includes(this.props.value, item)) ||
                     (!Array.isArray(this.props.value) &&
                       this.props.value === item);
                 } else {
                   // If not a controlled component determine selected state based on state
                   isSelected =
                     (Array.isArray(this.state.selectedValue) &&
-                      this.state.selectedValue.includes(item)) ||
+                      includes(this.state.selectedValue, item)) ||
                     (!Array.isArray(this.state.selectedValue) &&
                       this.state.selectedValue === item);
                 }
@@ -244,13 +245,13 @@ class Picky extends React.PureComponent {
       if (this.isControlled()) {
         isSelected =
           (Array.isArray(this.props.value) &&
-            this.props.value.includes(item)) ||
+            includes(this.props.value, item)) ||
           (!Array.isArray(this.props.value) && this.props.value === item);
       } else {
         // If not a controlled component determine selected state based on state
         isSelected =
           (Array.isArray(this.state.selectedValue) &&
-            this.state.selectedValue.includes(item)) ||
+            includes(this.state.selectedValue, item)) ||
           (!Array.isArray(this.state.selectedValue) &&
             this.state.selectedValue === item);
       }
@@ -310,13 +311,12 @@ class Picky extends React.PureComponent {
     }
     const filteredOptions = this.props.options.filter(option => {
       if (isDataObject(option, this.props.labelKey, this.props.valueKey)) {
-        return String(option[this.props.labelKey])
-          .toLowerCase()
-          .includes(term.toLowerCase());
+        return includes(
+          String(option[this.props.labelKey]).toLowerCase(),
+          term.toLowerCase()
+        );
       }
-      return String(option)
-        .toLowerCase()
-        .includes(term.toLowerCase());
+      return includes(String(option).toLowerCase(), term.toLowerCase());
     });
     this.setState(
       {

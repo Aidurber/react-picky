@@ -6,6 +6,7 @@ var React = require('react');
 var React__default = _interopDefault(React);
 var PropTypes = _interopDefault(require('prop-types'));
 var debounce = _interopDefault(require('lodash.debounce'));
+var includes = _interopDefault(require('lodash.includes'));
 var reactVirtualized = require('react-virtualized');
 var isEqual = _interopDefault(require('lodash.isequal'));
 var format = _interopDefault(require('simple-format'));
@@ -78,11 +79,11 @@ var Placeholder = function (_React$PureComponent) {
             // if many selected and not all selected then use the placeholder
             if (manySelectedPlaceholder && !allSelected) {
               // if it doesn't include the sprintf token then just use the placeholder
-              message = manySelectedPlaceholder.includes('%s') ? format(manySelectedPlaceholder, value.length) : manySelectedPlaceholder;
+              message = includes(manySelectedPlaceholder, '%s') ? format(manySelectedPlaceholder, value.length) : manySelectedPlaceholder;
               //If all selected and there is an allselectedplaceholder use that
             } else if (allSelected && allSelectedPlaceholder) {
               // if it doesn't include the sprintf token then just use the placeholder
-              message = allSelectedPlaceholder.includes('%s') ? format(allSelectedPlaceholder, value.length) : allSelectedPlaceholder;
+              message = includes(allSelectedPlaceholder, '%s') ? format(allSelectedPlaceholder, value.length) : allSelectedPlaceholder;
             } else {
               //If more than numberDisplayed then show "length selected"
               message = value.length + ' selected';
@@ -295,7 +296,7 @@ var Picky$1 = function (_React$PureComponent) {
       var valueLookup = this.isControlled() ? this.props.value : this.state.selectedValue;
 
       if (this.props.multiple && Array.isArray(valueLookup)) {
-        if (valueLookup.includes(val)) {
+        if (includes(valueLookup, val)) {
           var currIndex = valueLookup.indexOf(val);
           // Remove
           this.setState({
@@ -411,10 +412,10 @@ var Picky$1 = function (_React$PureComponent) {
               var isSelected = false;
               // If controlled component determine selected state based on props.
               if (_this4.isControlled()) {
-                isSelected = Array.isArray(_this4.props.value) && _this4.props.value.includes(item) || !Array.isArray(_this4.props.value) && _this4.props.value === item;
+                isSelected = Array.isArray(_this4.props.value) && includes(_this4.props.value, item) || !Array.isArray(_this4.props.value) && _this4.props.value === item;
               } else {
                 // If not a controlled component determine selected state based on state
-                isSelected = Array.isArray(_this4.state.selectedValue) && _this4.state.selectedValue.includes(item) || !Array.isArray(_this4.state.selectedValue) && _this4.state.selectedValue === item;
+                isSelected = Array.isArray(_this4.state.selectedValue) && includes(_this4.state.selectedValue, item) || !Array.isArray(_this4.state.selectedValue) && _this4.state.selectedValue === item;
               }
 
               return React__default.createElement(
@@ -473,10 +474,10 @@ var Picky$1 = function (_React$PureComponent) {
 
         // If controlled component determine selected state based on props.
         if (_this5.isControlled()) {
-          isSelected = Array.isArray(_this5.props.value) && _this5.props.value.includes(item) || !Array.isArray(_this5.props.value) && _this5.props.value === item;
+          isSelected = Array.isArray(_this5.props.value) && includes(_this5.props.value, item) || !Array.isArray(_this5.props.value) && _this5.props.value === item;
         } else {
           // If not a controlled component determine selected state based on state
-          isSelected = Array.isArray(_this5.state.selectedValue) && _this5.state.selectedValue.includes(item) || !Array.isArray(_this5.state.selectedValue) && _this5.state.selectedValue === item;
+          isSelected = Array.isArray(_this5.state.selectedValue) && includes(_this5.state.selectedValue, item) || !Array.isArray(_this5.state.selectedValue) && _this5.state.selectedValue === item;
         }
         // If render prop supplied for items call that.
         if (typeof _this5.props.render === 'function') {
@@ -542,9 +543,9 @@ var Picky$1 = function (_React$PureComponent) {
       }
       var filteredOptions = this.props.options.filter(function (option) {
         if (isDataObject(option, _this6.props.labelKey, _this6.props.valueKey)) {
-          return String(option[_this6.props.labelKey]).toLowerCase().includes(term.toLowerCase());
+          return includes(String(option[_this6.props.labelKey]).toLowerCase(), term.toLowerCase());
         }
-        return String(option).toLowerCase().includes(term.toLowerCase());
+        return includes(String(option).toLowerCase(), term.toLowerCase());
       });
       this.setState({
         filtered: true,
