@@ -68,9 +68,17 @@ import 'react-picky/dist/picky.css'; // Include CSS
 />;
 ```
 
-### Sandbox
+## Sandboxes
 
-[![Edit zx27l4zz4l](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/zx27l4zz4l)
+### Basic multiselect and single select
+
+[![Edit qq1689zk3q](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/qq1689zk3q)
+
+### Custom rendering
+
+[![Edit mmpq6z7lr8](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/mmpq6z7lr8)
+
+**Note** If you check the network tag in your dev tools, notice how all images aren't loaded, this is because it's a virtual list.
 
 ## Props
 

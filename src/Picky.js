@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 import includes from 'lodash.includes';
-// import VirtualList from 'react-tiny-virtual-list';]
+
 import {
   CellMeasurer,
   CellMeasurerCache,
