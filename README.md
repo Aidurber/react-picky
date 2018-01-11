@@ -80,6 +80,11 @@ import 'react-picky/dist/picky.css'; // Include CSS
 
 **Note** If you check the network tag in your dev tools, notice how all images aren't loaded, this is because it's a virtual list.
 
+### With and without virtual list example
+[![Edit [No virtual list] Simple example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/9462xq75wy) 
+
+An example of a large multiselect with no virtual list, note the performance difference. 
+
 ## Props
 
 ```javascript
