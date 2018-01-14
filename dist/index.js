@@ -24,20 +24,38 @@ var generateGuid = function generateGuid() {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 };
 
-var hasItem = function hasItem(all, item, valueKey, labelKey) {
+var hasItem = function hasItem(all, item, valueKey, labelKey, returnIndex) {
   if (!all || !item) return false;
   if (Array.isArray(all)) {
     if (isDataObject(item, valueKey, labelKey)) {
-      var find = all.filter(function (opt) {
-        return opt['id'] === item['id'];
+      var find = all.findIndex(function (opt) {
+        return opt[valueKey] === item[valueKey];
       });
-      return find.length > 0;
+      if (returnIndex) {
+        return find;
+      }
+      return find > -1;
     } else {
-      return all.indexOf(item) > -1;
+      var indexOfItem = all.indexOf(item);
+      if (returnIndex) {
+        return indexOfItem;
+      }
+      return indexOfItem > -1;
     }
   } else {
+    if (isDataObject(item, valueKey, labelKey)) {
+      return all[valueKey] === item[valueKey];
+    }
     return all === item;
   }
+};
+
+var hasItemIndex = function hasItemIndex(all, item, valueKey, labelKey) {
+  return hasItem(all, item, valueKey, labelKey, true);
+};
+
+var keyExtractor = function keyExtractor(item, valueKey, labelKey) {
+  return isDataObject(item, valueKey, labelKey) ? item[valueKey] : item;
 };
 
 var _createClass$1 = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -100,9 +118,6 @@ var Placeholder = function (_React$PureComponent) {
             } else if (allSelected && allSelectedPlaceholder) {
               // if it doesn't include the sprintf token then just use the placeholder
               message = includes(allSelectedPlaceholder, '%s') ? format(allSelectedPlaceholder, value.length) : allSelectedPlaceholder;
-            } else {
-              //If more than numberDisplayed then show "length selected"
-              message = value.length + ' selected';
             }
           }
         } else {
@@ -117,7 +132,7 @@ var Placeholder = function (_React$PureComponent) {
 
       return React__default.createElement(
         'span',
-        { className: 'picky__placeholder' },
+        { className: 'picky__placeholder', 'data-test': 'picky_placeholder' },
         message
       );
     }
@@ -313,11 +328,11 @@ var Picky$1 = function (_React$PureComponent) {
       var valueLookup = this.isControlled() ? this.props.value : this.state.selectedValue;
 
       if (this.props.multiple && Array.isArray(valueLookup)) {
-        if (includes(valueLookup, val)) {
-          var currIndex = valueLookup.indexOf(val);
+        var itemIndex = hasItemIndex(valueLookup, val, this.props.valueKey, this.props.labelKey);
+        if (itemIndex > -1) {
           // Remove
           this.setState({
-            selectedValue: [].concat(_toConsumableArray(valueLookup.slice(0, currIndex)), _toConsumableArray(valueLookup.slice(currIndex + 1)))
+            selectedValue: [].concat(_toConsumableArray(valueLookup.slice(0, itemIndex)), _toConsumableArray(valueLookup.slice(itemIndex + 1)))
           }, function () {
             _this2.props.onChange(_this2.state.selectedValue);
           });
@@ -484,7 +499,7 @@ var Picky$1 = function (_React$PureComponent) {
 
       return items.map(function (item, index) {
         // Create a key based on the options value
-        var key = isDataObject(item, _this5.props.labelKey, _this5.props.valueKey) ? item[_this5.props.valueKey] : item;
+        var key = keyExtractor(item, _this5.props.valueKey, _this5.props.labelKey);
 
         var isSelected = _this5.isItemSelected(item);
         // If render prop supplied for items call that.
@@ -771,5 +786,50 @@ Picky$1.propTypes = {
   selectAllText: PropTypes.string,
   renderSelectAll: PropTypes.func
 };
+
+// https://tc39.github.io/ecma262/#sec-array.prototype.findIndex
+if (!Array.prototype.findIndex) {
+  Object.defineProperty(Array.prototype, 'findIndex', {
+    value: function value(predicate) {
+      // 1. Let O be ? ToObject(this value).
+      if (this == null) {
+        throw new TypeError('"this" is null or not defined');
+      }
+
+      var o = Object(this);
+
+      // 2. Let len be ? ToLength(? Get(O, "length")).
+      var len = o.length >>> 0;
+
+      // 3. If IsCallable(predicate) is false, throw a TypeError exception.
+      if (typeof predicate !== 'function') {
+        throw new TypeError('predicate must be a function');
+      }
+
+      // 4. If thisArg was supplied, let T be thisArg; else let T be undefined.
+      var thisArg = arguments[1];
+
+      // 5. Let k be 0.
+      var k = 0;
+
+      // 6. Repeat, while k < len
+      while (k < len) {
+        // a. Let Pk be ! ToString(k).
+        // b. Let kValue be ? Get(O, Pk).
+        // c. Let testResult be ToBoolean(? Call(predicate, T, « kValue, k, O »)).
+        // d. If testResult is true, return k.
+        var kValue = o[k];
+        if (predicate.call(thisArg, kValue, k, o)) {
+          return k;
+        }
+        // e. Increase k by 1.
+        k++;
+      }
+
+      // 7. Return -1.
+      return -1;
+    }
+  });
+}
 
 module.exports = Picky$1;

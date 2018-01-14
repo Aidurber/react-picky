@@ -1,4 +1,9 @@
-import { isDataObject, hasItem } from '../src/lib/utils';
+import {
+  isDataObject,
+  hasItem,
+  keyExtractor,
+  hasItemIndex
+} from '../src/lib/utils';
 describe('Utils', () => {
   describe('isDataObject', () => {
     it('should return false if not an object', () => {
@@ -52,6 +57,32 @@ describe('Utils', () => {
     });
     it('should not find single value if no match', () => {
       expect(hasItem(3, 7)).toBe(false);
+    });
+    describe('Find index', () => {
+      it('should find correct index', () => {
+        expect(
+          hasItemIndex(all, { id: 1, name: 'Item 1' }, 'id', 'name')
+        ).toEqual(0);
+        expect(
+          hasItemIndex(all, { id: 10, name: 'Item 10' }, 'id', 'name')
+        ).toEqual(9);
+
+        expect(
+          hasItemIndex([1, 2, 3, 4], 1, undefined, undefined, true)
+        ).toEqual(0);
+        expect(
+          hasItemIndex([1, 2, 3, 4], 4, undefined, undefined, true)
+        ).toEqual(3);
+      });
+    });
+  });
+
+  describe('Key extractor', () => {
+    it('should extract correct key if object supplied', () => {
+      expect(keyExtractor({ id: 2, label: 'Test' }, 'id', 'label')).toEqual(2);
+    });
+    it('should extract correct key if simple value supplied', () => {
+      expect(keyExtractor(2)).toEqual(2);
     });
   });
 });

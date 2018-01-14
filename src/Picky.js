@@ -10,7 +10,13 @@ import {
   AutoSizer
 } from 'react-virtualized';
 
-import { isDataObject, generateGuid, hasItem } from './lib/utils';
+import {
+  isDataObject,
+  generateGuid,
+  hasItem,
+  keyExtractor,
+  hasItemIndex
+} from './lib/utils';
 import isEqual from 'lodash.isequal';
 import Placeholder from './Placeholder';
 import Filter from './Filter';
@@ -63,14 +69,19 @@ class Picky extends React.PureComponent {
       : this.state.selectedValue;
 
     if (this.props.multiple && Array.isArray(valueLookup)) {
-      if (includes(valueLookup, val)) {
-        const currIndex = valueLookup.indexOf(val);
+      const itemIndex = hasItemIndex(
+        valueLookup,
+        val,
+        this.props.valueKey,
+        this.props.labelKey
+      );
+      if (itemIndex > -1) {
         // Remove
         this.setState(
           {
             selectedValue: [
-              ...valueLookup.slice(0, currIndex),
-              ...valueLookup.slice(currIndex + 1)
+              ...valueLookup.slice(0, itemIndex),
+              ...valueLookup.slice(itemIndex + 1)
             ]
           },
           () => {
@@ -228,9 +239,7 @@ class Picky extends React.PureComponent {
   renderPlainList(items) {
     return items.map((item, index) => {
       // Create a key based on the options value
-      const key = isDataObject(item, this.props.labelKey, this.props.valueKey)
-        ? item[this.props.valueKey]
-        : item;
+      const key = keyExtractor(item, this.props.valueKey, this.props.labelKey);
 
       const isSelected = this.isItemSelected(item);
       // If render prop supplied for items call that.

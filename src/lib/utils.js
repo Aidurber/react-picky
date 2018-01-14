@@ -28,16 +28,32 @@ export const generateGuid = () => {
   );
 };
 
-export const hasItem = (all, item, valueKey, labelKey) => {
+export const hasItem = (all, item, valueKey, labelKey, returnIndex) => {
   if (!all || !item) return false;
   if (Array.isArray(all)) {
     if (isDataObject(item, valueKey, labelKey)) {
-      const find = all.filter(opt => opt['id'] === item['id']);
-      return find.length > 0;
+      const find = all.findIndex(opt => opt[valueKey] === item[valueKey]);
+      if (returnIndex) {
+        return find;
+      }
+      return find > -1;
     } else {
-      return all.indexOf(item) > -1;
+      const indexOfItem = all.indexOf(item);
+      if (returnIndex) {
+        return indexOfItem;
+      }
+      return indexOfItem > -1;
     }
   } else {
+    if (isDataObject(item, valueKey, labelKey)) {
+      return all[valueKey] === item[valueKey];
+    }
     return all === item;
   }
 };
+
+export const hasItemIndex = (all, item, valueKey, labelKey) =>
+  hasItem(all, item, valueKey, labelKey, true);
+
+export const keyExtractor = (item, valueKey, labelKey) =>
+  isDataObject(item, valueKey, labelKey) ? item[valueKey] : item;

@@ -55,9 +55,6 @@ class Placeholder extends React.PureComponent {
             message = includes(allSelectedPlaceholder, '%s')
               ? format(allSelectedPlaceholder, value.length)
               : allSelectedPlaceholder;
-          } else {
-            //If more than numberDisplayed then show "length selected"
-            message = `${value.length} selected`;
           }
         }
       } else {
@@ -70,7 +67,11 @@ class Placeholder extends React.PureComponent {
       }
     }
 
-    return <span className="picky__placeholder">{message}</span>;
+    return (
+      <span className="picky__placeholder" data-test="picky_placeholder">
+        {message}
+      </span>
+    );
   }
 }
 
