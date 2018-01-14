@@ -27,3 +27,17 @@ export const generateGuid = () => {
     s4()
   );
 };
+
+export const hasItem = (all, item, valueKey, labelKey) => {
+  if (!all || !item) return false;
+  if (Array.isArray(all)) {
+    if (isDataObject(item, valueKey, labelKey)) {
+      const find = all.filter(opt => opt['id'] === item['id']);
+      return find.length > 0;
+    } else {
+      return all.indexOf(item) > -1;
+    }
+  } else {
+    return all === item;
+  }
+};

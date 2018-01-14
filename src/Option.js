@@ -23,6 +23,7 @@ const Option = props => {
       id={id}
       role="option"
       style={style}
+      data-test="option"
       aria-selected={isSelected}
       className={cssClass}
       onClick={select}

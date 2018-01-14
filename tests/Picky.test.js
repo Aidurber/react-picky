@@ -227,6 +227,7 @@ describe('Picky', () => {
       );
     });
   });
+
   describe('Selecting', () => {
     it('should accept includeSelectAll option', () => {
       const wrapper = mount(
@@ -619,5 +620,39 @@ describe('Picky', () => {
     //   toggleSelectAll: () => {},
     //   tabIndex: 0
     // });
+  });
+
+  describe('Regressions', () => {
+    describe('Issue #36', () => {
+      it('should highlight selected items, isSelected should be true', () => {
+        const items = Array.from(Array(10).keys()).map(v => {
+          return {
+            id: v + 1,
+            name: `Label ${v + 1}`
+          };
+        });
+        const wrapper = mount(
+          <Picky
+            multiple={true}
+            open={true}
+            options={items}
+            value={[
+              { id: 1, name: 'Item 1' },
+              { id: 2, name: 'Item 2' },
+              { id: 3, name: 'Item 3' },
+              { id: 4, name: 'Item 4' },
+              { id: 5, name: 'Item 5' }
+            ]}
+            labelKey="name"
+            valueKey="id"
+          />
+        );
+        const renderedOptions = wrapper.find(sel('option'));
+        expect(wrapper.state('selectedValue')).toHaveLength(5);
+        expect(renderedOptions).toHaveLength(10);
+
+        expect(renderedOptions.first().prop('aria-selected')).toEqual(true);
+      });
+    });
   });
 });

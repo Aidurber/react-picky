@@ -24,6 +24,22 @@ var generateGuid = function generateGuid() {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 };
 
+var hasItem = function hasItem(all, item, valueKey, labelKey) {
+  if (!all || !item) return false;
+  if (Array.isArray(all)) {
+    if (isDataObject(item, valueKey, labelKey)) {
+      var find = all.filter(function (opt) {
+        return opt['id'] === item['id'];
+      });
+      return find.length > 0;
+    } else {
+      return all.indexOf(item) > -1;
+    }
+  } else {
+    return all === item;
+  }
+};
+
 var _createClass$1 = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck$1(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -199,6 +215,7 @@ var Option = function Option(props) {
       id: id,
       role: 'option',
       style: style,
+      'data-test': 'option',
       'aria-selected': isSelected,
       className: cssClass,
       onClick: select,
@@ -411,10 +428,10 @@ var Picky$1 = function (_React$PureComponent) {
               var isSelected = false;
               // If controlled component determine selected state based on props.
               if (_this4.isControlled()) {
-                isSelected = Array.isArray(_this4.props.value) && includes(_this4.props.value, item) || !Array.isArray(_this4.props.value) && _this4.props.value === item;
+                isSelected = hasItem(_this4.props.value, item, _this4.props.labelKey, _this4.props.valueKey);
               } else {
                 // If not a controlled component determine selected state based on state
-                isSelected = Array.isArray(_this4.state.selectedValue) && includes(_this4.state.selectedValue, item) || !Array.isArray(_this4.state.selectedValue) && _this4.state.selectedValue === item;
+                isSelected = hasItem(_this4.state.selectedValue, item, _this4.props.labelKey, _this4.props.valueKey);
               }
 
               return React__default.createElement(
@@ -473,10 +490,10 @@ var Picky$1 = function (_React$PureComponent) {
 
         // If controlled component determine selected state based on props.
         if (_this5.isControlled()) {
-          isSelected = Array.isArray(_this5.props.value) && includes(_this5.props.value, item) || !Array.isArray(_this5.props.value) && _this5.props.value === item;
+          isSelected = hasItem(_this5.props.value, item, _this5.props.labelKey, _this5.props.valueKey);
         } else {
           // If not a controlled component determine selected state based on state
-          isSelected = Array.isArray(_this5.state.selectedValue) && includes(_this5.state.selectedValue, item) || !Array.isArray(_this5.state.selectedValue) && _this5.state.selectedValue === item;
+          isSelected = hasItem(_this5.state.selectedValue, item, _this5.props.labelKey, _this5.props.valueKey);
         }
         // If render prop supplied for items call that.
         if (typeof _this5.props.render === 'function') {

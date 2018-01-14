@@ -10,7 +10,7 @@ import {
   AutoSizer
 } from 'react-virtualized';
 
-import { isDataObject, generateGuid } from './lib/utils';
+import { isDataObject, generateGuid, hasItem } from './lib/utils';
 import isEqual from 'lodash.isequal';
 import Placeholder from './Placeholder';
 import Filter from './Filter';
@@ -170,18 +170,20 @@ class Picky extends React.PureComponent {
                 let isSelected = false;
                 // If controlled component determine selected state based on props.
                 if (this.isControlled()) {
-                  isSelected =
-                    (Array.isArray(this.props.value) &&
-                      includes(this.props.value, item)) ||
-                    (!Array.isArray(this.props.value) &&
-                      this.props.value === item);
+                  isSelected = hasItem(
+                    this.props.value,
+                    item,
+                    this.props.labelKey,
+                    this.props.valueKey
+                  );
                 } else {
                   // If not a controlled component determine selected state based on state
-                  isSelected =
-                    (Array.isArray(this.state.selectedValue) &&
-                      includes(this.state.selectedValue, item)) ||
-                    (!Array.isArray(this.state.selectedValue) &&
-                      this.state.selectedValue === item);
+                  isSelected = hasItem(
+                    this.state.selectedValue,
+                    item,
+                    this.props.labelKey,
+                    this.props.valueKey
+                  );
                 }
 
                 return (
@@ -243,17 +245,20 @@ class Picky extends React.PureComponent {
 
       // If controlled component determine selected state based on props.
       if (this.isControlled()) {
-        isSelected =
-          (Array.isArray(this.props.value) &&
-            includes(this.props.value, item)) ||
-          (!Array.isArray(this.props.value) && this.props.value === item);
+        isSelected = hasItem(
+          this.props.value,
+          item,
+          this.props.labelKey,
+          this.props.valueKey
+        );
       } else {
         // If not a controlled component determine selected state based on state
-        isSelected =
-          (Array.isArray(this.state.selectedValue) &&
-            includes(this.state.selectedValue, item)) ||
-          (!Array.isArray(this.state.selectedValue) &&
-            this.state.selectedValue === item);
+        isSelected = hasItem(
+          this.state.selectedValue,
+          item,
+          this.props.labelKey,
+          this.props.valueKey
+        );
       }
       // If render prop supplied for items call that.
       if (typeof this.props.render === 'function') {
