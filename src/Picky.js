@@ -37,6 +37,7 @@ class Picky extends React.PureComponent {
     this.selectValue = this.selectValue.bind(this);
     this.allSelected = this.allSelected.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
+    this.isItemSelected = this.isItemSelected.bind(this);
   }
   componentWillMount() {
     const allSelected = this.allSelected();
@@ -141,6 +142,12 @@ class Picky extends React.PureComponent {
     return this.props.value != null;
   }
 
+  isItemSelected(item) {
+    const value = this.isControlled()
+      ? this.props.value
+      : this.state.selectedValue;
+    return hasItem(value, item, this.props.labelKey, this.props.valueKey);
+  }
   /**
    * Render virtual list
    *
@@ -167,24 +174,7 @@ class Picky extends React.PureComponent {
               rowRenderer={({ index, key, parent, style }) => {
                 const item = items[index];
 
-                let isSelected = false;
-                // If controlled component determine selected state based on props.
-                if (this.isControlled()) {
-                  isSelected = hasItem(
-                    this.props.value,
-                    item,
-                    this.props.labelKey,
-                    this.props.valueKey
-                  );
-                } else {
-                  // If not a controlled component determine selected state based on state
-                  isSelected = hasItem(
-                    this.state.selectedValue,
-                    item,
-                    this.props.labelKey,
-                    this.props.valueKey
-                  );
-                }
+                const isSelected = this.isItemSelected(item);
 
                 return (
                   <CellMeasurer
@@ -237,29 +227,12 @@ class Picky extends React.PureComponent {
    */
   renderPlainList(items) {
     return items.map((item, index) => {
-      let isSelected = false;
       // Create a key based on the options value
       const key = isDataObject(item, this.props.labelKey, this.props.valueKey)
         ? item[this.props.valueKey]
         : item;
 
-      // If controlled component determine selected state based on props.
-      if (this.isControlled()) {
-        isSelected = hasItem(
-          this.props.value,
-          item,
-          this.props.labelKey,
-          this.props.valueKey
-        );
-      } else {
-        // If not a controlled component determine selected state based on state
-        isSelected = hasItem(
-          this.state.selectedValue,
-          item,
-          this.props.labelKey,
-          this.props.valueKey
-        );
-      }
+      const isSelected = this.isItemSelected(item);
       // If render prop supplied for items call that.
       if (typeof this.props.render === 'function') {
         return this.props.render({

@@ -284,6 +284,7 @@ var Picky$1 = function (_React$PureComponent) {
     _this.selectValue = _this.selectValue.bind(_this);
     _this.allSelected = _this.allSelected.bind(_this);
     _this.handleOutsideClick = _this.handleOutsideClick.bind(_this);
+    _this.isItemSelected = _this.isItemSelected.bind(_this);
     return _this;
   }
 
@@ -385,7 +386,12 @@ var Picky$1 = function (_React$PureComponent) {
     value: function isControlled() {
       return this.props.value != null;
     }
-
+  }, {
+    key: 'isItemSelected',
+    value: function isItemSelected(item) {
+      var value = this.isControlled() ? this.props.value : this.state.selectedValue;
+      return hasItem(value, item, this.props.labelKey, this.props.valueKey);
+    }
     /**
      * Render virtual list
      *
@@ -425,14 +431,7 @@ var Picky$1 = function (_React$PureComponent) {
 
               var item = items[index];
 
-              var isSelected = false;
-              // If controlled component determine selected state based on props.
-              if (_this4.isControlled()) {
-                isSelected = hasItem(_this4.props.value, item, _this4.props.labelKey, _this4.props.valueKey);
-              } else {
-                // If not a controlled component determine selected state based on state
-                isSelected = hasItem(_this4.state.selectedValue, item, _this4.props.labelKey, _this4.props.valueKey);
-              }
+              var isSelected = _this4.isItemSelected(item);
 
               return React__default.createElement(
                 reactVirtualized.CellMeasurer,
@@ -484,17 +483,10 @@ var Picky$1 = function (_React$PureComponent) {
       var _this5 = this;
 
       return items.map(function (item, index) {
-        var isSelected = false;
         // Create a key based on the options value
         var key = isDataObject(item, _this5.props.labelKey, _this5.props.valueKey) ? item[_this5.props.valueKey] : item;
 
-        // If controlled component determine selected state based on props.
-        if (_this5.isControlled()) {
-          isSelected = hasItem(_this5.props.value, item, _this5.props.labelKey, _this5.props.valueKey);
-        } else {
-          // If not a controlled component determine selected state based on state
-          isSelected = hasItem(_this5.state.selectedValue, item, _this5.props.labelKey, _this5.props.valueKey);
-        }
+        var isSelected = _this5.isItemSelected(item);
         // If render prop supplied for items call that.
         if (typeof _this5.props.render === 'function') {
           return _this5.props.render({
