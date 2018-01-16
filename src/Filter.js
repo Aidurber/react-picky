@@ -7,6 +7,7 @@ class Filter extends Component {
         <input
           type="text"
           className="picky__filter__input"
+          data-test="picky__filter__input"
           placeholder="Filter..."
           tabIndex={this.props.tabIndex}
           aria-label="filter options"

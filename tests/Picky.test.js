@@ -6,6 +6,7 @@ import Filter from '../src/Filter';
 import Option from '../src/Option';
 
 const sel = id => `[data-test="${id}"]`;
+const selSelected = id => `[data-test="${id}"][data-selected="selected"]`;
 
 describe('Picky', () => {
   it('should select initial values on load', () => {
@@ -37,37 +38,37 @@ describe('Picky', () => {
   describe('Virtual Dropdown drawer', () => {
     it('should open if prop open is true', () => {
       const wrapper = mount(<Picky value={[1, 2, 3]} open={true} />);
-      expect(wrapper.find('.picky__dropdown')).toHaveLength(1);
+      expect(wrapper.find(sel('dropdown'))).toHaveLength(1);
     });
     it('should not be open if prop open is false', () => {
       const wrapper = mount(<Picky value={[1, 2, 3]} open={false} />);
-      expect(wrapper.find('.picky__dropdown')).toHaveLength(0);
+      expect(wrapper.find(sel('dropdown'))).toHaveLength(0);
     });
 
     it('should open on click of button', () => {
       const wrapper = mount(<Picky value={[1, 2, 3]} />);
-      expect(wrapper.find('.picky__dropdown')).toHaveLength(0);
-      wrapper.find('.picky__input').simulate('click');
-      expect(wrapper.find('.picky__dropdown')).toHaveLength(1);
+      expect(wrapper.find(sel('dropdown'))).toHaveLength(0);
+      wrapper.find(sel('picky-input')).simulate('click');
+      expect(wrapper.find(sel('dropdown'))).toHaveLength(1);
     });
     it('should open on click of button (open by prop)', () => {
       const wrapper = mount(<Picky value={[1, 2, 3]} open={true} />);
-      expect(wrapper.find('.picky__dropdown')).toHaveLength(1);
-      wrapper.find('.picky__input').simulate('click');
-      expect(wrapper.find('.picky__dropdown')).toHaveLength(0);
+      expect(wrapper.find(sel('dropdown'))).toHaveLength(1);
+      wrapper.find(sel('picky-input')).simulate('click');
+      expect(wrapper.find(sel('dropdown'))).toHaveLength(0);
     });
     it('should have items', () => {
       const wrapper = mount(
         <Picky value={[1, 2, 3]} options={[1, 2, 3, 4, 5]} open={true} />
       );
-      expect(wrapper.find('.picky__dropdown .option')).toHaveLength(5);
+      expect(wrapper.find(sel('option'))).toHaveLength(5);
     });
 
     it('should have items selected by default when supplied', () => {
       const wrapper = mount(
         <Picky value={[1, 2, 3]} options={[1, 2, 3, 4, 5]} open={true} />
       );
-      const selected = wrapper.find('.picky__dropdown .option.selected');
+      const selected = wrapper.find(selSelected('option'));
       expect(selected).toHaveLength(3);
       expect(selected.at(0).text()).toEqual('1');
       expect(selected.at(1).text()).toEqual('2');
@@ -78,7 +79,7 @@ describe('Picky', () => {
         <Picky value={[]} options={[1, 2, 3, 4, 5]} open={true} multiple />
       );
 
-      expect(wrapper.find('.picky__placeholder').text()).toEqual(
+      expect(wrapper.find(sel('picky_placeholder')).text()).toEqual(
         'None selected'
       );
     });
@@ -91,7 +92,7 @@ describe('Picky', () => {
           multiple={false}
         />
       );
-      expect(wrapper.find('.picky__placeholder').text()).toEqual('1');
+      expect(wrapper.find(sel('picky_placeholder')).text()).toEqual('1');
     });
     it('should show correct placeholder with selected value, multi select', () => {
       const wrapper = mount(
@@ -102,7 +103,7 @@ describe('Picky', () => {
           multiple={true}
         />
       );
-      expect(wrapper.find('.picky__placeholder').text()).toEqual('1, 2, 3');
+      expect(wrapper.find(sel('picky_placeholder')).text()).toEqual('1, 2, 3');
 
       const nextWrapper = mount(
         <Picky
@@ -113,7 +114,7 @@ describe('Picky', () => {
           multiple={true}
         />
       );
-      expect(nextWrapper.find('.picky__placeholder').text()).toEqual(
+      expect(nextWrapper.find(sel('picky_placeholder')).text()).toEqual(
         '3 selected'
       );
     });
@@ -123,28 +124,28 @@ describe('Picky', () => {
       const wrapper = mount(
         <Picky value={[1, 2, 3]} open={true} virtual={false} />
       );
-      expect(wrapper.find('.picky__dropdown')).toHaveLength(1);
+      expect(wrapper.find(sel('dropdown'))).toHaveLength(1);
     });
     it('should not be open if prop open is false', () => {
       const wrapper = mount(
         <Picky value={[1, 2, 3]} open={false} virtual={false} />
       );
-      expect(wrapper.find('.picky__dropdown')).toHaveLength(0);
+      expect(wrapper.find(sel('dropdown'))).toHaveLength(0);
     });
 
     it('should open on click of button', () => {
       const wrapper = mount(<Picky value={[1, 2, 3]} />);
-      expect(wrapper.find('.picky__dropdown')).toHaveLength(0);
-      wrapper.find('.picky__input').simulate('click');
-      expect(wrapper.find('.picky__dropdown')).toHaveLength(1);
+      expect(wrapper.find(sel('dropdown'))).toHaveLength(0);
+      wrapper.find(sel('picky-input')).simulate('click');
+      expect(wrapper.find(sel('dropdown'))).toHaveLength(1);
     });
     it('should open on click of button (open by prop)', () => {
       const wrapper = mount(
         <Picky value={[1, 2, 3]} open={true} virtual={false} />
       );
-      expect(wrapper.find('.picky__dropdown')).toHaveLength(1);
-      wrapper.find('.picky__input').simulate('click');
-      expect(wrapper.find('.picky__dropdown')).toHaveLength(0);
+      expect(wrapper.find(sel('dropdown'))).toHaveLength(1);
+      wrapper.find(sel('picky-input')).simulate('click');
+      expect(wrapper.find(sel('dropdown'))).toHaveLength(0);
     });
     it('should have items', () => {
       const wrapper = mount(
@@ -155,7 +156,7 @@ describe('Picky', () => {
           virtual={false}
         />
       );
-      expect(wrapper.find('.picky__dropdown .option')).toHaveLength(5);
+      expect(wrapper.find(sel('option'))).toHaveLength(5);
     });
 
     it('should have items selected by default when supplied', () => {
@@ -167,7 +168,7 @@ describe('Picky', () => {
           virtual={false}
         />
       );
-      const selected = wrapper.find('.picky__dropdown .option.selected');
+      const selected = wrapper.find(selSelected('option'));
       expect(selected).toHaveLength(3);
       expect(selected.at(0).text()).toEqual('1');
       expect(selected.at(1).text()).toEqual('2');
@@ -184,7 +185,7 @@ describe('Picky', () => {
         />
       );
 
-      expect(wrapper.find('.picky__placeholder').text()).toEqual(
+      expect(wrapper.find(sel('picky_placeholder')).text()).toEqual(
         'None selected'
       );
     });
@@ -198,7 +199,7 @@ describe('Picky', () => {
           virtual={false}
         />
       );
-      expect(wrapper.find('.picky__placeholder').text()).toEqual('1');
+      expect(wrapper.find(sel('picky_placeholder')).text()).toEqual('1');
     });
     it('should show correct placeholder with selected value, multi select', () => {
       const wrapper = mount(
@@ -210,7 +211,7 @@ describe('Picky', () => {
           virtual={false}
         />
       );
-      expect(wrapper.find('.picky__placeholder').text()).toEqual('1, 2, 3');
+      expect(wrapper.find(sel('picky_placeholder')).text()).toEqual('1, 2, 3');
 
       const nextWrapper = mount(
         <Picky
@@ -222,7 +223,7 @@ describe('Picky', () => {
           virtual={false}
         />
       );
-      expect(nextWrapper.find('.picky__placeholder').text()).toEqual(
+      expect(nextWrapper.find(sel('picky_placeholder')).text()).toEqual(
         '3 selected'
       );
     });
@@ -239,9 +240,7 @@ describe('Picky', () => {
           multiple={true}
         />
       );
-      expect(
-        wrapper.find('.picky__dropdown .option[data-selectall="true"]')
-      ).toHaveLength(1);
+      expect(wrapper.find(sel('selectall'))).toHaveLength(1);
     });
 
     it('should have "select all" text when no selectAllText prop provided', () => {
@@ -292,11 +291,9 @@ describe('Picky', () => {
           onChange={onChange}
         />
       );
-      const selectAllItem = wrapper
-        .find('.picky__dropdown .option[data-selectall="true"]')
-        .first();
+      const selectAllItem = wrapper.find(sel('selectall')).first();
 
-      expect(wrapper.find('.picky__dropdown .option.selected')).toHaveLength(3);
+      expect(wrapper.find(selSelected('option'))).toHaveLength(3);
       selectAllItem.simulate('click');
       expect(wrapper.state('selectedValue')).toHaveLength(5);
       selectAllItem.simulate('click');
@@ -317,7 +314,7 @@ describe('Picky', () => {
       );
       expect(wrapper.state('selectedValue')).toEqual(1);
       wrapper
-        .find('.picky__dropdown .option')
+        .find(sel('option'))
         .at(1)
         .simulate('click');
       expect(onChange).lastCalledWith(2);
@@ -330,7 +327,7 @@ describe('Picky', () => {
       );
       expect(wrapper.state('selectedValue')).toEqual(null);
       wrapper
-        .find('.picky__dropdown .option')
+        .find(sel('option'))
         .at(1)
         .simulate('click');
       expect(onChange).lastCalledWith(2);
@@ -349,7 +346,7 @@ describe('Picky', () => {
 
       expect(wrapper.state('selectedValue')).toEqual([]);
       wrapper
-        .find('.picky__dropdown .option')
+        .find(sel('option'))
         .at(1)
         .simulate('click');
       expect(onChange).lastCalledWith([2]);
@@ -368,7 +365,7 @@ describe('Picky', () => {
 
       expect(wrapper.state('selectedValue')).toEqual([]);
       wrapper
-        .find('.picky__dropdown .option')
+        .find(sel('option'))
         .at(1)
         .simulate('click');
       expect(onChange).lastCalledWith([2]);
@@ -389,7 +386,7 @@ describe('Picky', () => {
 
       expect(wrapper.state('selectedValue')).toEqual([2]);
       wrapper
-        .find('.picky__dropdown .option')
+        .find(sel('option'))
         .at(1)
         .simulate('click');
       expect(onChange).lastCalledWith([]);
@@ -413,7 +410,7 @@ describe('Picky', () => {
       );
 
       wrapper
-        .find('.picky__dropdown .option')
+        .find(sel('option'))
         .at(0)
         .simulate('click');
 
@@ -438,7 +435,7 @@ describe('Picky', () => {
       const onChange = jest.fn();
       const wrapper = mount(<Filter onFilterChange={onChange} />);
       const event = { target: { value: '123' } };
-      wrapper.find('.picky__filter__input').simulate('change', event);
+      wrapper.find(sel('picky__filter__input')).simulate('change', event);
       expect(onChange).toHaveBeenCalledWith('123');
     });
 
@@ -455,7 +452,7 @@ describe('Picky', () => {
       );
       const event = { target: { value: '1' } };
       expect(wrapper.state('filteredOptions')).toEqual([]);
-      wrapper.find('.picky__filter__input').simulate('change', event);
+      wrapper.find(sel('picky__filter__input')).simulate('change', event);
       expect(wrapper.state('filteredOptions')).toEqual([1]);
     });
 
@@ -472,7 +469,7 @@ describe('Picky', () => {
       );
       const event = { target: { value: '   ' } };
       expect(wrapper.state('filteredOptions')).toEqual([]);
-      wrapper.find('.picky__filter__input').simulate('change', event);
+      wrapper.find(sel('picky__filter__input')).simulate('change', event);
       expect(wrapper.state('filteredOptions')).toEqual([]);
     });
 
@@ -493,7 +490,7 @@ describe('Picky', () => {
 
       const event = { target: { value: '1' } };
       expect(wrapper.state('filteredOptions')).toEqual([]);
-      wrapper.find('.picky__filter__input').simulate('change', event);
+      wrapper.find(sel('picky__filter__input')).simulate('change', event);
       expect(wrapper.state('filteredOptions')).toEqual([
         {
           id: 1,
@@ -519,7 +516,7 @@ describe('Picky', () => {
       );
 
       const event = { target: { value: '1' } };
-      wrapper.find('.picky__filter__input').simulate('change', event);
+      wrapper.find(sel('picky__filter__input')).simulate('change', event);
       expect(onFilteredMock).toHaveBeenCalledWith([1]);
     });
 
@@ -537,7 +534,7 @@ describe('Picky', () => {
         />
       );
 
-      wrapper.find('.picky__input').simulate('click');
+      wrapper.find(sel('picky-input')).simulate('click');
       expect(onOpenMock).toHaveBeenCalled();
     });
     it('should call onClose', () => {
@@ -554,7 +551,7 @@ describe('Picky', () => {
         />
       );
 
-      wrapper.find('.picky__input').simulate('click');
+      wrapper.find(sel('picky-input')).simulate('click');
       expect(onCloseMock).toHaveBeenCalled();
     });
   });
@@ -563,9 +560,9 @@ describe('Picky', () => {
     //Can't figure out how to test this
     // const wrapper = mount(<Picky open={true} options={[1, 2, 3]} />);
     // wrapper.mount();
-    // expect(wrapper.find('.picky__dropdown')).toHaveLength(1);
+    // expect(wrapper.find(sel('dropdown'))).toHaveLength(1);
     // wrapper.instance().handleOutsideClick({ target: '#root' });
-    // expect(wrapper.find('.picky__dropdown')).toHaveLength(0);
+    // expect(wrapper.find(sel('dropdown'))).toHaveLength(0);
   });
   it('should select option on keyPress', () => {
     const keyPressMock = jest.fn();
@@ -596,7 +593,7 @@ describe('Picky', () => {
   });
   it('should not render custom selectall when renderSelectAll prop is not supplied', () => {
     const renderSelectAllMock = jest.fn();
-    const wrapper = mount(
+    mount(
       <Picky
         options={[1, 2, 3, 4]}
         virtual={false}

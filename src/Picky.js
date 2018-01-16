@@ -406,6 +406,7 @@ class Picky extends React.PureComponent {
           id={`${this.state.id}__button`}
           type="button"
           className="picky__input"
+          data-test="picky-input"
           onClick={this.toggleDropDown}
         >
           <Placeholder
@@ -451,6 +452,7 @@ class Picky extends React.PureComponent {
                 <div
                   tabIndex={tabIndex}
                   role="option"
+                  data-test="selectall"
                   id={this.state.id + '-option-' + 'selectall'}
                   data-selectall="true"
                   aria-selected={this.state.allSelected}

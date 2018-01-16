@@ -24,6 +24,7 @@ const Option = props => {
       role="option"
       style={style}
       data-test="option"
+      data-selected={isSelected ? 'selected' : ''}
       aria-selected={isSelected}
       className={cssClass}
       onClick={select}
