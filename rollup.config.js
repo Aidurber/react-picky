@@ -1,10 +1,12 @@
-import resolve from 'rollup-plugin-node-resolve';
+// import resolve from 'rollup-plugin-node-resolve';
+// import commonjs from 'rollup-plugin-commonjs';
 import babel from 'rollup-plugin-babel';
-import commonjs from 'rollup-plugin-commonjs';
 import sass from 'rollup-plugin-sass';
-
-import jsx from 'rollup-plugin-jsx';
+import uglify from 'rollup-plugin-uglify';
+import filesize from 'rollup-plugin-filesize';
 import fs from 'fs';
+
+const isProduction = process.env.NODE_ENV === 'production';
 
 export default {
   input: 'src/index.js',
@@ -21,6 +23,10 @@ export default {
     }),
     babel({
       exclude: 'node_modules/**'
-    })
+    }),
+    // resolve(),
+    // commonjs(),
+    isProduction && uglify(),
+    isProduction && filesize()
   ]
 };
