@@ -132,7 +132,7 @@ var Placeholder = function (_React$PureComponent) {
 
       return React__default.createElement(
         'span',
-        { className: 'picky__placeholder', 'data-test': 'picky_placeholder' },
+        { className: 'picky__placeholder' },
         message
       );
     }
@@ -230,7 +230,7 @@ var Option = function Option(props) {
       id: id,
       role: 'option',
       style: style,
-      'data-test': 'option',
+
       'aria-selected': isSelected,
       className: cssClass,
       onClick: select,
@@ -698,7 +698,7 @@ var Picky$1 = function (_React$PureComponent) {
           'div',
           {
             className: 'picky__dropdown',
-            'data-test': 'dropdown',
+
             id: this.state.id + '-list',
             style: dropdownStyle
           },
@@ -734,7 +734,7 @@ var Picky$1 = function (_React$PureComponent) {
             }),
             React__default.createElement(
               'span',
-              { 'data-test': 'select-all-text' },
+              null,
               this.props.selectAllText
             )
           ),

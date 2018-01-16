@@ -11,7 +11,11 @@
       }
     ]
   ],
+
   "env": {
+    "production": {
+      "plugins": [["react-remove-properties", { "properties": ["data-test"] }]]
+    },
     "test": {
       "presets": ["es2015", "react"]
     }
