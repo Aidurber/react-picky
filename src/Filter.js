@@ -6,6 +6,7 @@ class Filter extends Component {
       <div className="picky__filter">
         <input
           type="text"
+          ref={input => (this.filterInput = input)}
           className="picky__filter__input"
           data-test="picky__filter__input"
           placeholder="Filter..."

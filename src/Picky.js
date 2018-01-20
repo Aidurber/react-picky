@@ -44,12 +44,18 @@ class Picky extends React.PureComponent {
     this.allSelected = this.allSelected.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
     this.isItemSelected = this.isItemSelected.bind(this);
+    this.focusFilterInput = this.focusFilterInput.bind(this);
   }
   componentWillMount() {
     const allSelected = this.allSelected();
+
     this.setState({
       allSelected
     });
+  }
+
+  componentDidMount() {
+    this.focusFilterInput(this.state.open);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -333,6 +339,14 @@ class Picky extends React.PureComponent {
     }
     this.toggleDropDown();
   }
+
+  focusFilterInput(isOpen) {
+    if (isOpen && this.props.defaultFocusFilter) {
+      if (this.filter && this.filter.filterInput) {
+        this.filter.filterInput.focus();
+      }
+    }
+  }
   /**
    * Toggle state of dropdown
    *
@@ -355,6 +369,7 @@ class Picky extends React.PureComponent {
       () => {
         const isOpen = this.state.open;
         // Prop callbacks
+        this.focusFilterInput(isOpen);
         if (isOpen && this.props.onOpen) {
           this.props.onOpen();
         } else if (!isOpen && this.props.onClose) {
@@ -430,6 +445,7 @@ class Picky extends React.PureComponent {
           >
             {includeFilter && (
               <Filter
+                ref={filter => (this.filter = filter)}
                 onFilterChange={
                   filterDebounce > 0
                     ? debounce(this.onFilterChange, filterDebounce)
@@ -525,7 +541,8 @@ Picky.propTypes = {
   manySelectedPlaceholder: PropTypes.string,
   allSelectedPlaceholder: PropTypes.string,
   selectAllText: PropTypes.string,
-  renderSelectAll: PropTypes.func
+  renderSelectAll: PropTypes.func,
+  defaultFocusFilter: PropTypes.bool
 };
 
 export default Picky;

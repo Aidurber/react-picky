@@ -81,9 +81,10 @@ import 'react-picky/dist/picky.css'; // Include CSS
 **Note** If you check the network tag in your dev tools, notice how all images aren't loaded, this is because it's a virtual list.
 
 ### With and without virtual list example
-[![Edit [No virtual list] Simple example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/9462xq75wy) 
 
-An example of a large multiselect with no virtual list, note the performance difference. 
+[![Edit [No virtual list] Simple example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/9462xq75wy)
+
+An example of a large multiselect with no virtual list, note the performance difference.
 
 ## Props
 
@@ -130,7 +131,8 @@ Picky.propTypes = {
   manySelectedPlaceholder: PropTypes.string,
   allSelectedPlaceholder: PropTypes.string,
   selectAllText: PropTypes.string,
-  renderSelectAll: PropTypes.func
+  renderSelectAll: PropTypes.func,
+  defaultFocusFilter: PropTypes.bool
 };
 ```
 
@@ -161,6 +163,7 @@ Picky.propTypes = {
 * `allSelectedPlaceholder` - Default "%s selected" where %s is the number of items selected. This gets used when all options are selected.
 * `selectAllText` - Default "Select all", use this to override "Select all" text from top of dropdown when included with `includeSelectAll`.
 * `renderSelectAll` - Used for rendering a custom select all
+* `defaultFocusFilter` - If set to true, will focus the filter by default when opened.
 
 ## Custom rendering
 

@@ -431,6 +431,21 @@ describe('Picky', () => {
       expect(wrapper.find(Filter)).toHaveLength(1);
     });
 
+    it('should be focused by default if defaultFocusFilter is true', () => {
+      //picky__filter__input
+      const wrapper = mount(
+        <Picky
+          includeFilter={true}
+          value={[]}
+          defaultFocusFilter={true}
+          open={true}
+        />
+      );
+      const input = wrapper.find(sel('picky__filter__input'));
+
+      expect(input.instance()).toEqual(document.activeElement);
+    });
+
     it('should call onFilterChange prop when text has changed', () => {
       const onChange = jest.fn();
       const wrapper = mount(<Filter onFilterChange={onChange} />);
