@@ -1,6 +1,6 @@
 {
   "name": "react-picky",
-  "version": "0.0.0-development",
+  "version": "1.9.1",
   "main": "dist/index.js",
   "typings": "./index.d.ts",
   "license": "MIT",
@@ -66,30 +66,17 @@
   "jest": {
     "collectCoverage": true,
     "mapCoverage": true,
-    "modulePaths": [
-      "./src"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "jsx"
-    ],
-    "setupFiles": [
-      "./tests/helpers/setup.js"
-    ],
-    "collectCoverageFrom": [
-      "src/**/*.js",
-      "!src/index.js",
-      "!tests/**"
-    ],
+    "modulePaths": ["./src"],
+    "moduleFileExtensions": ["js", "jsx"],
+    "setupFiles": ["./tests/helpers/setup.js"],
+    "collectCoverageFrom": ["src/**/*.js", "!src/index.js", "!tests/**"],
     "transform": {
       "^.+\\.jsx$": "babel-jest",
       "^.+\\.js$": "babel-jest",
       "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
       "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
     },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
-    ]
+    "transformIgnorePatterns": ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"]
   },
   "peerDependencies": {
     "prop-types": "^15.6.0",
