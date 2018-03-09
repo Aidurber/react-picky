@@ -665,5 +665,55 @@ describe('Picky', () => {
         expect(renderedOptions.first().prop('aria-selected')).toEqual(true);
       });
     });
+
+    describe('Issue #38', () => {
+      test('should set selectedValue state when async value prop updates', done => {
+        const wrapper = mount(<Picky multiple open value={[]} options={[]} />);
+        const componentWillUpdateSpy = jest.spyOn(
+          Picky.prototype,
+          'componentWillReceiveProps'
+        );
+        expect(wrapper.state('selectedValue')).toHaveLength(0);
+        setTimeout(() => {
+          wrapper.setProps({
+            value: ['1', '2'],
+            options: ['1', '2', '3', '4', '5']
+          });
+          expect(componentWillUpdateSpy).toHaveBeenCalled();
+          expect(wrapper.state('selectedValue')).toHaveLength(2);
+          expect(wrapper.state('allSelected')).toEqual(false);
+          componentWillUpdateSpy.mockReset();
+          componentWillUpdateSpy.mockRestore();
+          done();
+        }, 1000);
+      });
+      test('with async value when selecting option should not unselect all other options', done => {
+        const onChangeMock = jest.fn();
+        const wrapper = mount(
+          <Picky
+            multiple
+            open
+            value={[]}
+            options={[]}
+            onChange={onChangeMock}
+          />
+        );
+
+        setTimeout(() => {
+          wrapper.setProps({
+            value: ['1', '2'],
+            options: ['1', '2', '3', '4', '5']
+          });
+          wrapper.update();
+          wrapper
+            .find(sel('option'))
+            .at(2)
+            .simulate('click');
+
+          expect(onChangeMock).toHaveBeenCalledWith(['1', '2', '3']);
+          done();
+        }, 1000);
+      });
+    });
   });
 });

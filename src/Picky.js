@@ -67,6 +67,12 @@ class Picky extends React.PureComponent {
         allSelected: this.allSelected()
       });
     }
+    if (!isEqual(nextProps.value, this.state.selectedValue)) {
+      this.setState({
+        selectedValue: nextProps.value,
+        allSelected: this.allSelected(nextProps.value)
+      });
+    }
   }
 
   selectValue(val) {
@@ -122,8 +128,8 @@ class Picky extends React.PureComponent {
    * @returns {Boolean}
    * @memberof Picky
    */
-  allSelected() {
-    const { selectedValue } = this.state;
+  allSelected(overrideSelected) {
+    const selectedValue = overrideSelected || this.state.selectedValue;
     const { options } = this.props;
     const copiedOptions = options.slice(0);
     const copiedSelectedValue = Array.isArray(selectedValue)
