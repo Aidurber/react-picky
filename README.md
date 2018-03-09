@@ -260,10 +260,10 @@ style, isSelected, item, labelKey, valueKey, selectValue, multiple
 Gets called with the following properties:
 
 * `filtered`: boolean - true if items have been filtered.
-* `allSelected`: boolean true if all items are selected
-* `toggleSelectAll`: function selects or deselects all items
-* `tabIndex`: number used for specifying tab index
-* `multiple`: boolean true if multiselect
+* `allSelected`: boolean true if all items are selected.
+* `toggleSelectAll`: function selects or deselects all items.
+* `tabIndex`: number used for specifying tab index.
+* `multiple`: boolean true if multiselect.
 
 # Internals
 
