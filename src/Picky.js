@@ -386,6 +386,7 @@ class Picky extends React.PureComponent {
   }
   render() {
     const {
+      className,
       placeholder,
       value,
       multiple,
@@ -414,7 +415,7 @@ class Picky extends React.PureComponent {
         ref={node => {
           this.node = node;
         }}
-        className="picky"
+        className={['picky', className].join(' ')}
         id={this.state.id}
         role="combobox"
         aria-controls={`${this.state.id}__button`}
@@ -548,7 +549,8 @@ Picky.propTypes = {
   allSelectedPlaceholder: PropTypes.string,
   selectAllText: PropTypes.string,
   renderSelectAll: PropTypes.func,
-  defaultFocusFilter: PropTypes.bool
+  defaultFocusFilter: PropTypes.bool,
+  className: PropTypes.string
 };
 
 export default Picky;
