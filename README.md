@@ -265,6 +265,19 @@ Gets called with the following properties:
 * `tabIndex`: number used for specifying tab index.
 * `multiple`: boolean true if multiselect.
 
+# styled-components support
+Support is pretty basic by allowing a `className` prop to `<Picky>`, so as a side effect you can add a custom class to the core Picky for easier style overrides. 
+
+**Usage**
+```javascript
+const Select = styled(Picky)`
+  background-color: #ff0000;
+  .picky__dropdown,
+  .option {
+    font-size: 2em;
+  }
+`;
+```
 # Internals
 
 The component uses [React Virtualized](https://github.com/bvaughn/react-virtualized) for rendering out the items. This is a for a performance gain. You can have 1,000,000 items in the dropdown with no performance drop! It's such a great little library. This is why we have a dropdown height.
