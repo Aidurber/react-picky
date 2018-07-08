@@ -19,7 +19,6 @@
     "lodash.debounce": "^4.0.8",
     "lodash.includes": "^4.3.0",
     "lodash.isequal": "^4.5.0",
-    "react-virtualized": "^9.15.0",
     "simple-format": "^1.0.0"
   },
   "devDependencies": {

@@ -588,11 +588,6 @@ describe('Picky', () => {
     expect(keyPressMock).toHaveBeenCalledWith(1);
   });
 
-  it('cellmeasurercache should use itemHeight prop if supplied', () => {
-    const wrapper = mount(<Picky options={[1, 2, 3]} itemHeight={60} />);
-    expect(wrapper.instance().cellMeasurerCache.defaultHeight).toEqual(60);
-  });
-
   it('should not render custom selectall when renderSelectAll prop is not supplied', () => {
     const wrapper = mount(
       <Picky
