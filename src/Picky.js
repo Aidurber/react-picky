@@ -21,7 +21,7 @@ import isEqual from 'lodash.isequal';
 import Placeholder from './Placeholder';
 import Filter from './Filter';
 import Option from './Option';
-import './Picky.scss';
+import './Picky.css';
 class Picky extends React.PureComponent {
   constructor(props) {
     super(props);

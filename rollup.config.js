@@ -1,10 +1,9 @@
 // import resolve from 'rollup-plugin-node-resolve';
 // import commonjs from 'rollup-plugin-commonjs';
 import babel from 'rollup-plugin-babel';
-import sass from 'rollup-plugin-sass';
 import uglify from 'rollup-plugin-uglify';
 import filesize from 'rollup-plugin-filesize';
-import fs from 'fs';
+import css from 'rollup-plugin-css-only';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -16,11 +15,7 @@ export default {
   },
   external: ['react', 'prop-types', 'react-dom'],
   plugins: [
-    sass({
-      output(styles) {
-        fs.writeFileSync('dist/picky.css', styles);
-      }
-    }),
+    css({ output: 'dist/picky.css' }),
     babel({
       exclude: 'node_modules/**'
     }),
