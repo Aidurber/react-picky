@@ -4,13 +4,6 @@ import debounce from 'lodash.debounce';
 import includes from 'lodash.includes';
 
 import {
-  CellMeasurer,
-  CellMeasurerCache,
-  List,
-  AutoSizer
-} from 'react-virtualized';
-
-import {
   isDataObject,
   generateGuid,
   hasItem,
@@ -21,7 +14,7 @@ import isEqual from 'lodash.isequal';
 import Placeholder from './Placeholder';
 import Filter from './Filter';
 import Option from './Option';
-import './Picky.scss';
+import './Picky.css';
 class Picky extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -33,10 +26,6 @@ class Picky extends React.PureComponent {
       id: generateGuid(),
       allSelected: false
     };
-    this.cellMeasurerCache = new CellMeasurerCache({
-      defaultHeight: props.itemHeight || 35,
-      fixedWidth: true
-    });
     this.toggleDropDown = this.toggleDropDown.bind(this);
     this.toggleSelectAll = this.toggleSelectAll.bind(this);
     this.onFilterChange = this.onFilterChange.bind(this);
@@ -171,76 +160,7 @@ class Picky extends React.PureComponent {
       : this.state.selectedValue;
     return hasItem(value, item, this.props.labelKey, this.props.valueKey);
   }
-  /**
-   * Render virtual list
-   *
-   * @param {any} items
-   * @returns
-   * @memberof Picky
-   */
-  renderVirtualList(items) {
-    return (
-      <AutoSizer>
-        {({ width, height }) => {
-          let actualWidth = width;
-          // Used to reduce warning when in test env.
-          if (process.env.NODE_ENV === 'test') {
-            actualWidth = window.innerWidth;
-          }
-          return (
-            <List
-              defaultHeight={height}
-              height={this.props.dropdownHeight || 300}
-              width={actualWidth}
-              rowCount={items.length}
-              rowHeight={this.cellMeasurerCache.rowHeight}
-              rowRenderer={({ index, key, parent, style }) => {
-                const item = items[index];
 
-                const isSelected = this.isItemSelected(item);
-
-                return (
-                  <CellMeasurer
-                    cache={this.cellMeasurerCache}
-                    columnIndex={0}
-                    key={key}
-                    parent={parent}
-                    rowIndex={index}
-                  >
-                    {this.props.render ? (
-                      this.props.render({
-                        index,
-                        style,
-                        item,
-                        isSelected,
-                        selectValue: this.selectValue,
-                        labelKey: this.props.labelKey,
-                        valueKey: this.props.valueKey,
-                        multiple: this.props.multiple
-                      })
-                    ) : (
-                      <Option
-                        key={key}
-                        style={style}
-                        item={item}
-                        isSelected={isSelected}
-                        selectValue={this.selectValue}
-                        labelKey={this.props.labelKey}
-                        valueKey={this.props.valueKey}
-                        multiple={this.props.multiple}
-                        tabIndex={this.props.tabIndex}
-                        id={this.state.id + '-option-' + index}
-                      />
-                    )}
-                  </CellMeasurer>
-                );
-              }}
-            />
-          );
-        }}
-      </AutoSizer>
-    );
-  }
   /**
    * Renders a non-virtualised list.
    *
@@ -285,14 +205,10 @@ class Picky extends React.PureComponent {
     });
   }
   renderOptions() {
-    const { options, virtual } = this.props;
+    const { options } = this.props;
     const items = this.state.filtered ? this.state.filteredOptions : options;
 
-    if (virtual) {
-      return this.renderVirtualList(items);
-    } else {
-      return this.renderPlainList(items);
-    }
+    return this.renderPlainList(items);
   }
   /**
    * Called when Filter term changes. Sets filteredOptions and filtered state.
@@ -406,10 +322,7 @@ class Picky extends React.PureComponent {
       ariaOwns += this.state.id + '-list';
     }
 
-    let dropdownStyle = {};
-    if (!this.props.virtual) {
-      dropdownStyle = { maxHeight: dropdownHeight, overflowY: 'scroll' };
-    }
+    const dropdownStyle = { maxHeight: dropdownHeight, overflowY: 'scroll' };
     return (
       <div
         ref={node => {
@@ -512,10 +425,8 @@ Picky.defaultProps = {
   filterDebounce: 150,
   dropdownHeight: 300,
   onChange: () => {},
-  itemHeight: 35,
   tabIndex: 0,
   keepOpen: true,
-  virtual: true,
   selectAllText: 'Select all'
 };
 Picky.propTypes = {
@@ -541,10 +452,8 @@ Picky.propTypes = {
   valueKey: PropTypes.string,
   labelKey: PropTypes.string,
   render: PropTypes.func,
-  itemHeight: PropTypes.number,
   tabIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   keepOpen: PropTypes.bool,
-  virtual: PropTypes.bool,
   manySelectedPlaceholder: PropTypes.string,
   allSelectedPlaceholder: PropTypes.string,
   selectAllText: PropTypes.string,

@@ -1,6 +1,6 @@
 # Picky ☜
 
-Yet another React select list with virtualised option.
+Yet another React select list.
 
 [![Build Status](https://travis-ci.org/Aidurber/react-picky.svg?branch=master)](https://travis-ci.org/Aidurber/react-picky)
 [![codecov](https://codecov.io/gh/Aidurber/react-picky/branch/master/graph/badge.svg)](https://codecov.io/gh/Aidurber/react-picky)
@@ -78,14 +78,6 @@ import 'react-picky/dist/picky.css'; // Include CSS
 
 [![Edit mmpq6z7lr8](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/mmpq6z7lr8)
 
-**Note** If you check the network tag in your dev tools, notice how all images aren't loaded, this is because it's a virtual list.
-
-### With and without virtual list example
-
-[![Edit [No virtual list] Simple example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/9462xq75wy)
-
-An example of a large multiselect with no virtual list, note the performance difference.
-
 ## Props
 
 ```javascript
@@ -95,10 +87,8 @@ Picky.defaultProps = {
   filterDebounce: 150,
   dropdownHeight: 300,
   onChange: () => {},
-  itemHeight: 35,
   tabIndex: 0,
   keepOpen: true,
-  virtual: true,
   selectAllText: 'Select all'
 };
 Picky.propTypes = {
@@ -124,10 +114,8 @@ Picky.propTypes = {
   valueKey: PropTypes.string,
   labelKey: PropTypes.string,
   render: PropTypes.func,
-  itemHeight: PropTypes.number,
   tabIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   keepOpen: PropTypes.bool,
-  virtual: PropTypes.bool,
   manySelectedPlaceholder: PropTypes.string,
   allSelectedPlaceholder: PropTypes.string,
   selectAllText: PropTypes.string,
@@ -138,32 +126,30 @@ Picky.propTypes = {
 
 ### Prop descriptions
 
-* `placeholder` - Default message when no items are selected.
-* `value` - The selected value(s), array if multiple is true. **Not needed if using as an uncontolled component**
-* `numberDisplayed` - Then number of selected options displayed until it turns into '(selected count) selected'.
-* `multiple` - Set to true for a multiselect, defaults to false.
-* `options` - Array of possible options.
-* `onChange` - Called whenever selected value(s) have changed. If you are using this as a controlled component, pass the selected value back into `value`.
-* `open` - Can open or close the dropdown manually. Defaults to false.
-* `includeSelectAll` - If set to `true` will add a `Select All` checkbox at the top of the list.
-* `includeFilter` - If set to `true` will add an input at the top of the dropdown for filtering the results.
-* `filterDebounce` - Debounce timeout, used to limit the rate the internal `onFilterChange` gets called. Defaults to 150ms.
-* `dropdownHeight` - The height of the dropdown. Defaults to 300px.
-* `onFiltered` - Called after a filter has been done with the filtered options.
-* `onOpen` - Called after the dropdown has opened.
-* `onClose` - Called after the dropdown has closed.
-* `valueKey` - If supplying an array of objects as options, this is required. It's used to identify which property on the object is the value.
-* `labelKey` - If supplying an array of objects as options, this is required. It's used to identify which property on the object is the label.
-* `render` - Used for custom rendering of items in the dropdown. More info below.
-* `itemHeight` - Used when dropdown item height is larger than 35px. This is so the virtualised list can calculate correctly.
-* `tabIndex` - Pass tabIndex to component for accessibility. Defaults to 0
-* `keepOpen` - Default true. Single selects close automatically when selecting a value unless this is set to true.
-* `virtual` - Default true. Renders out a non-virtual list when set to false. This is for more control over dropdown height. The side-effect of this is that you lose the performance gains of a virtualised list. However, the case where shorter dropdown lists tends to be for smaller lists.
-* `manySelectedPlaceholder` - Default "%s selected" where %s is the number of items selected. This gets used when the number if items selected is more than the `numberDisplayed` prop and when all options are not selected.
-* `allSelectedPlaceholder` - Default "%s selected" where %s is the number of items selected. This gets used when all options are selected.
-* `selectAllText` - Default "Select all", use this to override "Select all" text from top of dropdown when included with `includeSelectAll`.
-* `renderSelectAll` - Used for rendering a custom select all
-* `defaultFocusFilter` - If set to true, will focus the filter by default when opened.
+- `placeholder` - Default message when no items are selected.
+- `value` - The selected value(s), array if multiple is true. **Not needed if using as an uncontolled component**
+- `numberDisplayed` - Then number of selected options displayed until it turns into '(selected count) selected'.
+- `multiple` - Set to true for a multiselect, defaults to false.
+- `options` - Array of possible options.
+- `onChange` - Called whenever selected value(s) have changed. If you are using this as a controlled component, pass the selected value back into `value`.
+- `open` - Can open or close the dropdown manually. Defaults to false.
+- `includeSelectAll` - If set to `true` will add a `Select All` checkbox at the top of the list.
+- `includeFilter` - If set to `true` will add an input at the top of the dropdown for filtering the results.
+- `filterDebounce` - Debounce timeout, used to limit the rate the internal `onFilterChange` gets called. Defaults to 150ms.
+- `dropdownHeight` - The height of the dropdown. Defaults to 300px.
+- `onFiltered` - Called after a filter has been done with the filtered options.
+- `onOpen` - Called after the dropdown has opened.
+- `onClose` - Called after the dropdown has closed.
+- `valueKey` - If supplying an array of objects as options, this is required. It's used to identify which property on the object is the value.
+- `labelKey` - If supplying an array of objects as options, this is required. It's used to identify which property on the object is the label.
+- `render` - Used for custom rendering of items in the dropdown. More info below.
+- `tabIndex` - Pass tabIndex to component for accessibility. Defaults to 0
+- `keepOpen` - Default true. Single selects close automatically when selecting a value unless this is set to true.
+- `manySelectedPlaceholder` - Default "%s selected" where %s is the number of items selected. This gets used when the number if items selected is more than the `numberDisplayed` prop and when all options are not selected.
+- `allSelectedPlaceholder` - Default "%s selected" where %s is the number of items selected. This gets used when all options are selected.
+- `selectAllText` - Default "Select all", use this to override "Select all" text from top of dropdown when included with `includeSelectAll`.
+- `renderSelectAll` - Used for rendering a custom select all
+- `defaultFocusFilter` - If set to true, will focus the filter by default when opened.
 
 ## Custom rendering
 
@@ -185,7 +171,6 @@ You can render out custom items for the dropdown.
   includeSelectAll={true}
   includeFilter={true}
   dropdownHeight={600}
-  itemHeight={50}
   render={({
     style,
     isSelected,
@@ -214,18 +199,17 @@ You can render out custom items for the dropdown.
 The render callback gets called with the following properties:
 style, isSelected, item, labelKey, valueKey, selectValue, multiple
 
-* `style` - object - used by react-tiny-virtual-list for rendering out the items. It needs these to calculate the items location and size. This is required.
-* `isSelected` - boolean - true if item is selected. Use this for styling accordingly.
-* `item` - object | number | string - The item to render.
-* `labelKey` - Used to get the label if item is an object
-* `valueKey` - Used to get the value if item is an object, good for keys.
-* `selectValue` - function(item) - Selects the item on click
-* `multiple` - boolean - Indicates if is a multiselect.
+- `isSelected` - boolean - true if item is selected. Use this for styling accordingly.
+- `item` - object | number | string - The item to render.
+- `labelKey` - Used to get the label if item is an object
+- `valueKey` - Used to get the value if item is an object, good for keys.
+- `selectValue` - function(item) - Selects the item on click
+- `multiple` - boolean - Indicates if is a multiselect.
 
 **Note**
 
-* If your rendered item affects the height of the item in anyway. Supply `itemHeight` to Picky.
-* If you wish to show a radio button or a checkbox, be sure to add `readOnly` prop to the input.
+- If your rendered item affects the height of the item in anyway. Supply `itemHeight` to Picky.
+- If you wish to show a radio button or a checkbox, be sure to add `readOnly` prop to the input.
 
 ### Select All
 
@@ -259,16 +243,18 @@ style, isSelected, item, labelKey, valueKey, selectValue, multiple
 
 Gets called with the following properties:
 
-* `filtered`: boolean - true if items have been filtered.
-* `allSelected`: boolean true if all items are selected.
-* `toggleSelectAll`: function selects or deselects all items.
-* `tabIndex`: number used for specifying tab index.
-* `multiple`: boolean true if multiselect.
+- `filtered`: boolean - true if items have been filtered.
+- `allSelected`: boolean true if all items are selected.
+- `toggleSelectAll`: function selects or deselects all items.
+- `tabIndex`: number used for specifying tab index.
+- `multiple`: boolean true if multiselect.
 
 # styled-components support
-Support is pretty basic by allowing a `className` prop to `<Picky>`, so as a side effect you can add a custom class to the core Picky for easier style overrides. 
+
+Support is pretty basic by allowing a `className` prop to `<Picky>`, so as a side effect you can add a custom class to the core Picky for easier style overrides.
 
 **Usage**
+
 ```javascript
 const Select = styled(Picky)`
   background-color: #ff0000;
@@ -278,6 +264,3 @@ const Select = styled(Picky)`
   }
 `;
 ```
-# Internals
-
-The component uses [React Virtualized](https://github.com/bvaughn/react-virtualized) for rendering out the items. This is a for a performance gain. You can have 1,000,000 items in the dropdown with no performance drop! It's such a great little library. This is why we have a dropdown height.
