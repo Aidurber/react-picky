@@ -17,10 +17,7 @@
     "precommit": "npm run test"
   },
   "dependencies": {
-    "lodash.debounce": "^4.0.8",
-    "lodash.includes": "^4.3.0",
-    "lodash.isequal": "^4.5.0",
-    "simple-format": "^1.0.0"
+    "lodash.isequal": "^4.5.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
