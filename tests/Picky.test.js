@@ -666,7 +666,7 @@ describe('Picky', () => {
         const wrapper = mount(<Picky multiple open value={[]} options={[]} />);
         const componentWillUpdateSpy = jest.spyOn(
           Picky.prototype,
-          'componentWillReceiveProps'
+          'UNSAFE_componentWillReceiveProps'
         );
         expect(wrapper.state('selectedValue')).toHaveLength(0);
         setTimeout(() => {

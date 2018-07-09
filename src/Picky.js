@@ -35,7 +35,7 @@ class Picky extends React.PureComponent {
     this.isItemSelected = this.isItemSelected.bind(this);
     this.focusFilterInput = this.focusFilterInput.bind(this);
   }
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const allSelected = this.allSelected();
 
     this.setState({
@@ -47,7 +47,7 @@ class Picky extends React.PureComponent {
     this.focusFilterInput(this.state.open);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       this.props.options !== nextProps.options ||
       this.state.selectedValue !== nextProps.value
@@ -321,7 +321,7 @@ class Picky extends React.PureComponent {
     if (open) {
       ariaOwns += this.state.id + '-list';
     }
-
+    const buttonId = `${this.state.id}__button`;
     const dropdownStyle = { maxHeight: dropdownHeight, overflowY: 'scroll' };
     return (
       <div
@@ -331,7 +331,7 @@ class Picky extends React.PureComponent {
         className={['picky', className].join(' ')}
         id={this.state.id}
         role="combobox"
-        aria-controls={`${this.state.id}__button`}
+        aria-controls={buttonId}
         aria-expanded={open}
         aria-haspopup={open}
         aria-owns={ariaOwns}
