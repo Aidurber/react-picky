@@ -8,6 +8,7 @@
     "commit": "git-cz",
     "build": "cross-env NODE_ENV=production rollup -c",
     "dev": "rollup -c -w",
+    "dev:production": "cross-env NODE_ENV=production rollup -c -w",
     "pretest": "npm run lint && npm run build",
     "lint": "eslint src/**/*.js",
     "test": "cross-env NODE_ENV=test jest",

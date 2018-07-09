@@ -13,7 +13,15 @@ export default {
     file: 'dist/index.js',
     format: 'cjs'
   },
-  external: ['react', 'prop-types', 'react-dom'],
+  external: [
+    'react',
+    'prop-types',
+    'react-dom',
+    'lodash.debounce',
+    'lodash.includes',
+    'lodash.isequal',
+    'simple-format'
+  ],
   plugins: [
     css({ output: 'dist/picky.css' }),
     babel({
