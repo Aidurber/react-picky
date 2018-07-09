@@ -76,7 +76,7 @@ import 'react-picky/dist/picky.css'; // Include CSS
 
 ### Custom rendering
 
-[![Edit mmpq6z7lr8](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/mmpq6z7lr8)
+[![Edit mmpq6z7lr8](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/mmpq6z7lr8) [![Greenkeeper badge](https://badges.greenkeeper.io/Aidurber/react-picky.svg)](https://greenkeeper.io/)
 
 ## Props
 
