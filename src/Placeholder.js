@@ -1,9 +1,9 @@
 // NEEDS REFACTOR
 import React from 'react';
 import PropTypes from 'prop-types';
-import format from 'simple-format';
+import format from './lib/format';
 import { isDataObject } from './lib/utils';
-import includes from 'lodash.includes';
+import includes from './lib/includes';
 const isEmptyValue = value =>
   value === null ||
   value === undefined ||

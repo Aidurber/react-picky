@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import debounce from 'lodash.debounce';
-import includes from 'lodash.includes';
+import debounce from './lib/debounce';
+import includes from './lib/includes';
 
 import {
   isDataObject,
@@ -225,13 +225,11 @@ class Picky extends React.PureComponent {
       });
     }
     const filteredOptions = this.props.options.filter(option => {
+      let val = option;
       if (isDataObject(option, this.props.labelKey, this.props.valueKey)) {
-        return includes(
-          String(option[this.props.labelKey]).toLowerCase(),
-          term.toLowerCase()
-        );
+        val = option[this.props.labelKey];
       }
-      return includes(String(option).toLowerCase(), term.toLowerCase());
+      return includes(val, term);
     });
     this.setState(
       {
