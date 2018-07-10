@@ -78,7 +78,7 @@ import 'react-picky/dist/picky.css'; // Include CSS
 
 ### Custom rendering
 
-[![Edit mmpq6z7lr8](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/mmpq6z7lr8) 
+[![Edit mmpq6z7lr8](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/mmpq6z7lr8)
 
 ## Props
 
@@ -122,7 +122,9 @@ Picky.propTypes = {
   allSelectedPlaceholder: PropTypes.string,
   selectAllText: PropTypes.string,
   renderSelectAll: PropTypes.func,
-  defaultFocusFilter: PropTypes.bool
+  defaultFocusFilter: PropTypes.bool,
+  className: PropTypes.string,
+  renderList: PropTypes.func
 };
 ```
 
@@ -152,6 +154,7 @@ Picky.propTypes = {
 - `selectAllText` - Default "Select all", use this to override "Select all" text from top of dropdown when included with `includeSelectAll`.
 - `renderSelectAll` - Used for rendering a custom select all
 - `defaultFocusFilter` - If set to true, will focus the filter by default when opened.
+- `renderList` - Render prop for whole list, you can use this to add virtualization/windowing if necessary
 
 ## Custom rendering
 
@@ -250,6 +253,34 @@ Gets called with the following properties:
 - `toggleSelectAll`: function selects or deselects all items.
 - `tabIndex`: number used for specifying tab index.
 - `multiple`: boolean true if multiselect.
+
+##= Render List
+
+```javascript
+<Picky
+  value={this.state.arrayValue}
+  options={bigList}
+  onChange={this.selectMultipleOption}
+  open={true}
+  valueKey="id"
+  labelKey="name"
+  multiple={true}
+  includeSelectAll={true}
+  includeFilter={true}
+  dropdownHeight={600}
+  manySelectedPlaceholder={dynamicPlaceholder}
+  defaultFocusFilter={true}
+  renderList={({ items, selected, multiple, selectValue, getIsSelected }) =>
+    items.map(item => (
+      <li key={item.id} onClick={() => selectValue(item)}>
+        {getIsSelected(item) ? <strong>{item.name}</strong> : item.name}
+      </li>
+    ))
+  }
+/>
+```
+
+This is an example of a custom rendered list.
 
 # styled-components support
 

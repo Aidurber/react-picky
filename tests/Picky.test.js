@@ -35,6 +35,49 @@ describe('Picky', () => {
     expect(renderPropMock).toHaveBeenCalled();
   });
 
+  it('should accept renderList prop', () => {
+    const renderListProp = jest.fn();
+    const renderProp = jest.fn();
+    renderListProp.mockReturnValue(<p />);
+    const wrapper = mount(
+      <Picky
+        value={[1, 2, 3]}
+        options={[1, 2, 3, 4, 5]}
+        open={true}
+        render={renderProp}
+        renderList={renderListProp}
+      />
+    );
+
+    expect(wrapper.prop('renderList')).toBeDefined();
+    expect(renderListProp).toHaveBeenCalled();
+    expect(renderProp).not.toHaveBeenCalled();
+  });
+
+  it('should call render list with correct options', () => {
+    const renderListProp = jest.fn();
+    const renderProp = jest.fn();
+    renderListProp.mockReturnValue(<p />);
+    const options = [{ id: 1, name: '1' }, { id: 2, name: '2' }];
+    mount(
+      <Picky
+        value={[]}
+        options={options}
+        open={true}
+        labelKey="name"
+        valueKey="id"
+        render={renderProp}
+        renderList={renderListProp}
+        multiple={false}
+      />
+    );
+
+    const calledWithProps = renderListProp.mock.calls[0][0];
+    expect(calledWithProps.items).toHaveLength(options.length);
+    expect(calledWithProps.multiple).toEqual(false);
+    expect(calledWithProps.selectValue).toBeDefined();
+  });
+
   describe('Virtual Dropdown drawer', () => {
     it('should open if prop open is true', () => {
       const wrapper = mount(<Picky value={[1, 2, 3]} open={true} />);
@@ -680,7 +723,7 @@ describe('Picky', () => {
           componentWillUpdateSpy.mockReset();
           componentWillUpdateSpy.mockRestore();
           done();
-        }, 1000);
+        }, 20);
       });
       test('with async value when selecting option should not unselect all other options', done => {
         const onChangeMock = jest.fn();
@@ -707,7 +750,7 @@ describe('Picky', () => {
 
           expect(onChangeMock).toHaveBeenCalledWith(['1', '2', '3']);
           done();
-        }, 1000);
+        }, 20);
       });
     });
   });
