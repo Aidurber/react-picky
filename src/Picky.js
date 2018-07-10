@@ -169,22 +169,39 @@ class Picky extends React.PureComponent {
    * @memberof Picky
    */
   renderPlainList(items) {
+    const {
+      labelKey,
+      valueKey,
+      multiple,
+      render,
+      tabIndex,
+      renderList
+    } = this.props;
+    if (renderList) {
+      return renderList({
+        items,
+        selected: this.state.selectedValue,
+        multiple,
+        tabIndex,
+        getIsSelected: this.isItemSelected,
+        selectValue: this.selectValue
+      });
+    }
     return items.map((item, index) => {
       // Create a key based on the options value
-      const key = keyExtractor(item, this.props.valueKey, this.props.labelKey);
+      const key = keyExtractor(item, valueKey, labelKey);
 
       const isSelected = this.isItemSelected(item);
       // If render prop supplied for items call that.
-      if (typeof this.props.render === 'function') {
-        return this.props.render({
+      if (typeof render === 'function') {
+        return render({
           index,
-          style: {},
           item,
           isSelected,
           selectValue: this.selectValue,
-          labelKey: this.props.labelKey,
-          valueKey: this.props.valueKey,
-          multiple: this.props.multiple
+          labelKey: labelKey,
+          valueKey: valueKey,
+          multiple: multiple
         });
       } else {
         // Render a simple option
@@ -194,10 +211,10 @@ class Picky extends React.PureComponent {
             item={item}
             isSelected={isSelected}
             selectValue={this.selectValue}
-            labelKey={this.props.labelKey}
-            valueKey={this.props.valueKey}
-            multiple={this.props.multiple}
-            tabIndex={this.props.tabIndex}
+            labelKey={labelKey}
+            valueKey={valueKey}
+            multiple={multiple}
+            tabIndex={tabIndex}
             id={this.state.id + '-option-' + index}
           />
         );
@@ -457,7 +474,8 @@ Picky.propTypes = {
   selectAllText: PropTypes.string,
   renderSelectAll: PropTypes.func,
   defaultFocusFilter: PropTypes.bool,
-  className: PropTypes.string
+  className: PropTypes.string,
+  renderList: PropTypes.func
 };
 
 export default Picky;
