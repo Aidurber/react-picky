@@ -50,7 +50,7 @@
     "rollup-plugin-filesize": "^4.0.1",
     "rollup-plugin-jsx": "^1.0.3",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-uglify": "^5.0.0",
+    "rollup-plugin-uglify": "^6.0.0",
     "semantic-release": "^15.8.1"
   },
   "jest": {
