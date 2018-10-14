@@ -440,7 +440,7 @@ describe('Picky', () => {
       const options = [
         { id: 1, name: 'Item 1' },
         { id: 2, name: 'Item 2' },
-        { id: 3, name: 'Item 3' }
+        { id: 3, name: 'Item 3' },
       ];
       const wrapper = mount(
         <Picky
@@ -457,7 +457,10 @@ describe('Picky', () => {
         .at(0)
         .simulate('click');
 
-      expect(wrapper.state('selectedValue')).toEqual({ id: 1, name: 'Item 1' });
+      expect(wrapper.state('selectedValue')).toEqual({
+        id: 1,
+        name: 'Item 1',
+      });
     });
   });
 
@@ -552,8 +555,8 @@ describe('Picky', () => {
       expect(wrapper.state('filteredOptions')).toEqual([
         {
           id: 1,
-          name: 'Item 1'
-        }
+          name: 'Item 1',
+        },
       ]);
     });
   });
@@ -678,7 +681,7 @@ describe('Picky', () => {
         const items = Array.from(Array(10).keys()).map(v => {
           return {
             id: v + 1,
-            name: `Label ${v + 1}`
+            name: `Label ${v + 1}`,
           };
         });
         const wrapper = mount(
@@ -691,7 +694,7 @@ describe('Picky', () => {
               { id: 2, name: 'Label 2' },
               { id: 3, name: 'Label 3' },
               { id: 4, name: 'Label 4' },
-              { id: 5, name: 'Label 5' }
+              { id: 5, name: 'Label 5' },
             ]}
             labelKey="name"
             valueKey="id"
@@ -715,7 +718,7 @@ describe('Picky', () => {
         setTimeout(() => {
           wrapper.setProps({
             value: ['1', '2'],
-            options: ['1', '2', '3', '4', '5']
+            options: ['1', '2', '3', '4', '5'],
           });
           expect(componentWillUpdateSpy).toHaveBeenCalled();
           expect(wrapper.state('selectedValue')).toHaveLength(2);
@@ -740,7 +743,7 @@ describe('Picky', () => {
         setTimeout(() => {
           wrapper.setProps({
             value: ['1', '2'],
-            options: ['1', '2', '3', '4', '5']
+            options: ['1', '2', '3', '4', '5'],
           });
           wrapper.update();
           wrapper
@@ -751,6 +754,38 @@ describe('Picky', () => {
           expect(onChangeMock).toHaveBeenCalledWith(['1', '2', '3']);
           done();
         }, 20);
+      });
+    });
+    /**
+     * Select all - All selected not calculated properly
+     */
+    describe('Issue #68', () => {
+      test('select all should be false when deslecting single value', () => {
+        const onChangeMock = jest.fn();
+        const ALL_SELECTED_TEXT = 'All selected';
+        const wrapper = mount(
+          <Picky
+            multiple
+            open
+            value={[]}
+            options={[1, 2, 3, 4]}
+            onChange={onChangeMock}
+            includeSelectAll
+            allSelectedPlaceholder={ALL_SELECTED_TEXT}
+          />
+        );
+
+        const selectAll = wrapper.find(sel('selectall')).first();
+        selectAll.simulate('click');
+
+        expect(wrapper.state('allSelected')).toEqual(true);
+        // Deselect single option
+        wrapper
+          .find(sel('option'))
+          .at(2)
+          .simulate('click');
+
+        expect(wrapper.state('allSelected')).toEqual(false);
       });
     });
   });
