@@ -41,7 +41,7 @@ if (!Array.prototype.findIndex) {
 
       // 7. Return -1.
       return -1;
-    }
+    },
   });
 }
 

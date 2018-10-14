@@ -21,7 +21,7 @@ class Filter extends Component {
 
 Filter.propTypes = {
   onFilterChange: PropTypes.func.isRequired,
-  tabIndex: PropTypes.number
+  tabIndex: PropTypes.number,
 };
 
 export default Filter;

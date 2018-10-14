@@ -23,7 +23,7 @@ class Placeholder extends React.PureComponent {
       labelKey,
       manySelectedPlaceholder,
       allSelectedPlaceholder,
-      allSelected
+      allSelected,
     } = this.props;
 
     let message = '';
@@ -79,7 +79,7 @@ Placeholder.defaultProps = {
   placeholder: 'None selected',
   allSelectedPlaceholder: '%s selected',
   manySelectedPlaceholder: '%s selected',
-  allSelected: false
+  allSelected: false,
 };
 Placeholder.propTypes = {
   placeholder: PropTypes.string,
@@ -87,7 +87,7 @@ Placeholder.propTypes = {
     PropTypes.array,
     PropTypes.string,
     PropTypes.number,
-    PropTypes.object
+    PropTypes.object,
   ]),
   numberDisplayed: PropTypes.number,
   multiple: PropTypes.bool,
@@ -95,7 +95,7 @@ Placeholder.propTypes = {
   labelKey: PropTypes.string,
   manySelectedPlaceholder: PropTypes.string,
   allSelectedPlaceholder: PropTypes.string,
-  allSelected: PropTypes.bool
+  allSelected: PropTypes.bool,
 };
 
 export default Placeholder;

@@ -2,7 +2,7 @@ import {
   isDataObject,
   hasItem,
   keyExtractor,
-  hasItemIndex
+  hasItemIndex,
 } from '../src/lib/utils';
 describe('Utils', () => {
   describe('isDataObject', () => {
@@ -23,7 +23,7 @@ describe('Utils', () => {
       all = Array.from(Array(10).keys()).map(v => {
         return {
           id: v + 1,
-          name: `Label ${v + 1}`
+          name: `Label ${v + 1}`,
         };
       });
     });
