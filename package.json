@@ -7,6 +7,7 @@
   "scripts": {
     "commit": "git-cz",
     "build": "cross-env NODE_ENV=production rollup -c",
+    "prettier": "prettier --write {src,tests}{/**/,/}*.js",
     "dev": "rollup -c -w",
     "dev:production": "cross-env NODE_ENV=production rollup -c -w",
     "pretest": "npm run lint && npm run build",
@@ -41,6 +42,7 @@
     "eslint-plugin-react": "^7.4.0",
     "husky": "^0.14.3",
     "jest": "^23.4.1",
+    "prettier": "^1.14.3",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "rollup": "^0.66.0",
