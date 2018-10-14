@@ -29,8 +29,8 @@ If you like the tag list like [React-Select](https://github.com/JedWatson/react-
 
 ```
  "prop-types": "^15.6.0",
- "react": "^16.2.0",
- "react-dom": "^16.2.0"
+ "react": "^16.5.0",
+ "react-dom": "^16.5.0"
 ```
 
 # Installation
@@ -91,7 +91,7 @@ Picky.defaultProps = {
   onChange: () => {},
   tabIndex: 0,
   keepOpen: true,
-  selectAllText: 'Select all'
+  selectAllText: 'Select all',
 };
 Picky.propTypes = {
   placeholder: PropTypes.string,
@@ -99,7 +99,7 @@ Picky.propTypes = {
     PropTypes.array,
     PropTypes.string,
     PropTypes.number,
-    PropTypes.object
+    PropTypes.object,
   ]),
   numberDisplayed: PropTypes.number,
   multiple: PropTypes.bool,
@@ -124,7 +124,7 @@ Picky.propTypes = {
   renderSelectAll: PropTypes.func,
   defaultFocusFilter: PropTypes.bool,
   className: PropTypes.string,
-  renderList: PropTypes.func
+  renderList: PropTypes.func,
 };
 ```
 
@@ -183,7 +183,7 @@ You can render out custom items for the dropdown.
     selectValue,
     labelKey,
     valueKey,
-    multiple
+    multiple,
   }) => {
     return (
       <li
@@ -226,7 +226,7 @@ style, isSelected, item, labelKey, valueKey, selectValue, multiple
     tabIndex,
     allSelected,
     toggleSelectAll,
-    multiple
+    multiple,
   }) => {
     // Don't show if single select or items have been filtered.
     if (multiple && !filtered) {
