@@ -11,7 +11,7 @@ const Option = props => {
     selectValue,
     style,
     multiple,
-    tabIndex
+    tabIndex,
   } = props;
   const cssClass = isSelected ? 'option selected' : 'option';
   const body = isDataObject(item, labelKey, valueKey) ? item[labelKey] : item;
@@ -54,11 +54,11 @@ Option.propTypes = {
   item: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
-    PropTypes.object
+    PropTypes.object,
   ]).isRequired,
   style: PropTypes.object,
   selectValue: PropTypes.func.isRequired,
   multiple: PropTypes.bool,
-  tabIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  tabIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 export default Option;
