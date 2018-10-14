@@ -8,7 +8,7 @@ import {
   generateGuid,
   hasItem,
   keyExtractor,
-  hasItemIndex
+  hasItemIndex,
 } from './lib/utils';
 import isEqual from 'lodash.isequal';
 import Placeholder from './Placeholder';
@@ -24,7 +24,7 @@ class Picky extends React.PureComponent {
       filtered: false,
       filteredOptions: [],
       id: generateGuid(),
-      allSelected: false
+      allSelected: false,
     };
     this.toggleDropDown = this.toggleDropDown.bind(this);
     this.toggleSelectAll = this.toggleSelectAll.bind(this);
@@ -39,7 +39,7 @@ class Picky extends React.PureComponent {
     const allSelected = this.allSelected();
 
     this.setState({
-      allSelected
+      allSelected,
     });
   }
 
@@ -53,13 +53,14 @@ class Picky extends React.PureComponent {
       this.state.selectedValue !== nextProps.value
     ) {
       this.setState({
-        allSelected: this.allSelected()
+        allSelected: this.allSelected(),
       });
     }
+
     if (!isEqual(nextProps.value, this.state.selectedValue)) {
       this.setState({
         selectedValue: nextProps.value,
-        allSelected: this.allSelected(nextProps.value)
+        allSelected: this.allSelected(nextProps.value),
       });
     }
   }
@@ -76,33 +77,29 @@ class Picky extends React.PureComponent {
         this.props.valueKey,
         this.props.labelKey
       );
+
+      let selectedValue = [];
       if (itemIndex > -1) {
-        // Remove
-        this.setState(
-          {
-            selectedValue: [
-              ...valueLookup.slice(0, itemIndex),
-              ...valueLookup.slice(itemIndex + 1)
-            ]
-          },
-          () => {
-            this.props.onChange(this.state.selectedValue);
-          }
-        );
+        selectedValue = [
+          ...valueLookup.slice(0, itemIndex),
+          ...valueLookup.slice(itemIndex + 1),
+        ];
       } else {
-        this.setState(
-          {
-            selectedValue: [...this.state.selectedValue, val]
-          },
-          () => {
-            this.props.onChange(this.state.selectedValue);
-          }
-        );
+        selectedValue = [...this.state.selectedValue, val];
       }
+      this.setState(
+        {
+          selectedValue,
+          allSelected: this.allSelected(selectedValue),
+        },
+        () => {
+          this.props.onChange(this.state.selectedValue);
+        }
+      );
     } else {
       this.setState(
         {
-          selectedValue: val
+          selectedValue: val,
         },
         () => {
           this.props.onChange(this.state.selectedValue);
@@ -136,7 +133,7 @@ class Picky extends React.PureComponent {
     this.setState(
       {
         selectedValue: !this.state.allSelected ? this.props.options : [],
-        allSelected: !this.state.allSelected
+        allSelected: !this.state.allSelected,
       },
       () => {
         // Call onChange prop with new values
@@ -175,7 +172,7 @@ class Picky extends React.PureComponent {
       multiple,
       render,
       tabIndex,
-      renderList
+      renderList,
     } = this.props;
     if (renderList) {
       return renderList({
@@ -184,7 +181,7 @@ class Picky extends React.PureComponent {
         multiple,
         tabIndex,
         getIsSelected: this.isItemSelected,
-        selectValue: this.selectValue
+        selectValue: this.selectValue,
       });
     }
     return items.map((item, index) => {
@@ -201,7 +198,7 @@ class Picky extends React.PureComponent {
           selectValue: this.selectValue,
           labelKey: labelKey,
           valueKey: valueKey,
-          multiple: multiple
+          multiple: multiple,
         });
       } else {
         // Render a simple option
@@ -238,7 +235,7 @@ class Picky extends React.PureComponent {
     if (!term.trim()) {
       return this.setState({
         filtered: false,
-        filteredOptions: []
+        filteredOptions: [],
       });
     }
     const filteredOptions = this.props.options.filter(option => {
@@ -251,7 +248,7 @@ class Picky extends React.PureComponent {
     this.setState(
       {
         filtered: true,
-        filteredOptions
+        filteredOptions,
       },
       () => {
         if (this.props.onFiltered) {
@@ -301,7 +298,7 @@ class Picky extends React.PureComponent {
     this.setState(
       {
         // Toggle open state
-        open: !this.state.open
+        open: !this.state.open,
       },
       () => {
         const isOpen = this.state.open;
@@ -329,7 +326,7 @@ class Picky extends React.PureComponent {
       labelKey,
       tabIndex,
       dropdownHeight,
-      renderSelectAll
+      renderSelectAll,
     } = this.props;
     const { open } = this.state;
     let ariaOwns = '';
@@ -369,6 +366,7 @@ class Picky extends React.PureComponent {
             numberDisplayed={numberDisplayed}
             valueKey={valueKey}
             labelKey={labelKey}
+            data-test="placeholder-component"
           />
         </button>
         {open && (
@@ -394,7 +392,7 @@ class Picky extends React.PureComponent {
                 allSelected: this.state.allSelected,
                 toggleSelectAll: this.toggleSelectAll,
                 tabIndex,
-                multiple
+                multiple,
               })}
             {!renderSelectAll &&
               includeSelectAll &&
@@ -442,7 +440,7 @@ Picky.defaultProps = {
   onChange: () => {},
   tabIndex: 0,
   keepOpen: true,
-  selectAllText: 'Select all'
+  selectAllText: 'Select all',
 };
 Picky.propTypes = {
   placeholder: PropTypes.string,
@@ -450,7 +448,7 @@ Picky.propTypes = {
     PropTypes.array,
     PropTypes.string,
     PropTypes.number,
-    PropTypes.object
+    PropTypes.object,
   ]),
   numberDisplayed: PropTypes.number,
   multiple: PropTypes.bool,
@@ -475,7 +473,7 @@ Picky.propTypes = {
   renderSelectAll: PropTypes.func,
   defaultFocusFilter: PropTypes.bool,
   className: PropTypes.string,
-  renderList: PropTypes.func
+  renderList: PropTypes.func,
 };
 
 export default Picky;
