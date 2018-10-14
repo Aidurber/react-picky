@@ -6,6 +6,8 @@ Yet another React select list.
 [![codecov](https://codecov.io/gh/Aidurber/react-picky/branch/master/graph/badge.svg)](https://codecov.io/gh/Aidurber/react-picky)
 [![license](https://img.shields.io/github/license/aidurber/react-picky.svg)]()
 [![npm version](https://badge.fury.io/js/react-picky.svg)](https://badge.fury.io/js/react-picky)
+[![gzip size](http://img.badgesize.io/aidurber/react-picky/master/dist/index.js.svg?compression=gzip)]()
+[![Greenkeeper badge](https://badges.greenkeeper.io/Aidurber/react-picky.svg)](https://greenkeeper.io/)
 
 ## Motivation
 
@@ -27,8 +29,8 @@ If you like the tag list like [React-Select](https://github.com/JedWatson/react-
 
 ```
  "prop-types": "^15.6.0",
- "react": "^16.2.0",
- "react-dom": "^16.2.0"
+ "react": "^16.5.0",
+ "react-dom": "^16.5.0"
 ```
 
 # Installation
@@ -89,7 +91,7 @@ Picky.defaultProps = {
   onChange: () => {},
   tabIndex: 0,
   keepOpen: true,
-  selectAllText: 'Select all'
+  selectAllText: 'Select all',
 };
 Picky.propTypes = {
   placeholder: PropTypes.string,
@@ -97,7 +99,7 @@ Picky.propTypes = {
     PropTypes.array,
     PropTypes.string,
     PropTypes.number,
-    PropTypes.object
+    PropTypes.object,
   ]),
   numberDisplayed: PropTypes.number,
   multiple: PropTypes.bool,
@@ -120,7 +122,9 @@ Picky.propTypes = {
   allSelectedPlaceholder: PropTypes.string,
   selectAllText: PropTypes.string,
   renderSelectAll: PropTypes.func,
-  defaultFocusFilter: PropTypes.bool
+  defaultFocusFilter: PropTypes.bool,
+  className: PropTypes.string,
+  renderList: PropTypes.func,
 };
 ```
 
@@ -150,6 +154,7 @@ Picky.propTypes = {
 - `selectAllText` - Default "Select all", use this to override "Select all" text from top of dropdown when included with `includeSelectAll`.
 - `renderSelectAll` - Used for rendering a custom select all
 - `defaultFocusFilter` - If set to true, will focus the filter by default when opened.
+- `renderList` - Render prop for whole list, you can use this to add virtualization/windowing if necessary
 
 ## Custom rendering
 
@@ -178,7 +183,7 @@ You can render out custom items for the dropdown.
     selectValue,
     labelKey,
     valueKey,
-    multiple
+    multiple,
   }) => {
     return (
       <li
@@ -221,7 +226,7 @@ style, isSelected, item, labelKey, valueKey, selectValue, multiple
     tabIndex,
     allSelected,
     toggleSelectAll,
-    multiple
+    multiple,
   }) => {
     // Don't show if single select or items have been filtered.
     if (multiple && !filtered) {
@@ -248,6 +253,34 @@ Gets called with the following properties:
 - `toggleSelectAll`: function selects or deselects all items.
 - `tabIndex`: number used for specifying tab index.
 - `multiple`: boolean true if multiselect.
+
+##= Render List
+
+```javascript
+<Picky
+  value={this.state.arrayValue}
+  options={bigList}
+  onChange={this.selectMultipleOption}
+  open={true}
+  valueKey="id"
+  labelKey="name"
+  multiple={true}
+  includeSelectAll={true}
+  includeFilter={true}
+  dropdownHeight={600}
+  manySelectedPlaceholder={dynamicPlaceholder}
+  defaultFocusFilter={true}
+  renderList={({ items, selected, multiple, selectValue, getIsSelected }) =>
+    items.map(item => (
+      <li key={item.id} onClick={() => selectValue(item)}>
+        {getIsSelected(item) ? <strong>{item.name}</strong> : item.name}
+      </li>
+    ))
+  }
+/>
+```
+
+This is an example of a custom rendered list.
 
 # styled-components support
 
