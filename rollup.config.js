@@ -11,17 +11,18 @@ export default {
   input: 'src/index.js',
   output: {
     file: 'dist/index.js',
-    format: 'cjs'
+    format: 'cjs',
   },
   external: ['react', 'prop-types', 'react-dom', 'lodash.isequal'],
   plugins: [
     css({ output: 'dist/picky.css' }),
     babel({
-      exclude: 'node_modules/**'
+      exclude: 'node_modules/**',
+      externalHelpers: true,
     }),
     // resolve(),
     // commonjs(),
     isProduction && uglify(),
-    isProduction && filesize()
-  ]
+    isProduction && filesize(),
+  ],
 };
