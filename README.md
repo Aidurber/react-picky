@@ -25,6 +25,8 @@ This is a multiselect with checkboxes, a select all option, and a filter. Along 
 
 If you like the tag list like [React-Select](https://github.com/JedWatson/react-select), then that would be a great option for you. It's a really great, well-tested library. Give it a look.
 
+You can also achieve the same result with a great deal of flexibility using [Paypal's Downshift](https://github.com/paypal/downshift#usage).
+
 # Peer Dependencies
 
 ```
