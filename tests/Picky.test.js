@@ -648,8 +648,8 @@ describe('Picky', () => {
         multiple={true}
       />
     );
-    const dropdown = wrapper.find(sel('dropdown')).first();
-    expect(dropdown.find(sel('select-all-text'))).toHaveLength(1);
+    const selAllText = wrapper.find(sel('select-all-text'));
+    expect(selAllText).toHaveLength(1);
   });
   it('should not render custom selectall when renderSelectAll prop is not supplied', () => {
     const renderSelectAllMock = jest.fn();
@@ -823,7 +823,8 @@ describe('Picky', () => {
 
         // Reopen and check filter value is the same
         fireEvent.click(component);
-        expect(filterInput.value).toEqual('Item');
+        const newFilterInput = getByTestId('picky__filter__input');
+        expect(newFilterInput.value).toEqual('Item');
       });
     });
 

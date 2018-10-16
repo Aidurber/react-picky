@@ -368,64 +368,62 @@ class Picky extends React.PureComponent {
             data-testid="placeholder-component"
           />
         </button>
-        {open && (
-          <div
-            className="picky__dropdown"
-            data-testid="dropdown"
-            id={this.state.id + '-list'}
-            style={dropdownStyle}
-          >
-            {includeFilter && (
-              <Filter
-                ref={filter => (this.filter = filter)}
-                onFilterChange={
-                  filterDebounce > 0
-                    ? debounce(this.onFilterChange, filterDebounce)
-                    : this.onFilterChange
+        <div
+          className="picky__dropdown"
+          id={this.state.id + '-list'}
+          aria-hidden={!open}
+          style={open ? dropdownStyle : { visibility: 'hidden' }}
+        >
+          {includeFilter && (
+            <Filter
+              ref={filter => (this.filter = filter)}
+              onFilterChange={
+                filterDebounce > 0
+                  ? debounce(this.onFilterChange, filterDebounce)
+                  : this.onFilterChange
+              }
+            />
+          )}
+          {renderSelectAll &&
+            renderSelectAll({
+              filtered: this.state.filtered,
+              allSelected: this.state.allSelected,
+              toggleSelectAll: this.toggleSelectAll,
+              tabIndex,
+              multiple,
+            })}
+          {!renderSelectAll &&
+            includeSelectAll &&
+            multiple &&
+            !this.state.filtered && (
+              <div
+                tabIndex={tabIndex}
+                role="option"
+                data-testid="selectall"
+                id={this.state.id + '-option-' + 'selectall'}
+                data-selectall="true"
+                aria-selected={this.state.allSelected}
+                className={
+                  this.state.allSelected ? 'option selected' : 'option'
                 }
-              />
-            )}
-            {renderSelectAll &&
-              renderSelectAll({
-                filtered: this.state.filtered,
-                allSelected: this.state.allSelected,
-                toggleSelectAll: this.toggleSelectAll,
-                tabIndex,
-                multiple,
-              })}
-            {!renderSelectAll &&
-              includeSelectAll &&
-              multiple &&
-              !this.state.filtered && (
-                <div
-                  tabIndex={tabIndex}
-                  role="option"
-                  data-testid="selectall"
-                  id={this.state.id + '-option-' + 'selectall'}
-                  data-selectall="true"
-                  aria-selected={this.state.allSelected}
-                  className={
-                    this.state.allSelected ? 'option selected' : 'option'
-                  }
+                onClick={this.toggleSelectAll}
+                onKeyPress={this.toggleSelectAll}
+              >
+                <input
+                  type="checkbox"
+                  readOnly
                   onClick={this.toggleSelectAll}
-                  onKeyPress={this.toggleSelectAll}
-                >
-                  <input
-                    type="checkbox"
-                    readOnly
-                    onClick={this.toggleSelectAll}
-                    tabIndex={-1}
-                    checked={this.state.allSelected}
-                    aria-label="select all"
-                  />
-                  <span data-testid="select-all-text">
-                    {this.props.selectAllText}
-                  </span>
-                </div>
-              )}
-            {this.renderOptions()}
-          </div>
-        )}
+                  tabIndex={-1}
+                  checked={this.state.allSelected}
+                  aria-label="select all"
+                />
+                <span data-testid="select-all-text">
+                  {this.props.selectAllText}
+                </span>
+              </div>
+            )}
+          {open && <div data-testid="dropdown">{this.renderOptions()}</div>}
+        </div>
       </div>
     );
   }
