@@ -36,10 +36,10 @@ const Option = props => {
       <input
         type={inputType}
         readOnly
-        onClick={select}
         tabIndex={-1}
         checked={isSelected}
         aria-label={body}
+        data-testid={'option-checkbox'}
       />
       {body}
     </div>
