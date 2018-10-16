@@ -68,7 +68,7 @@ class Placeholder extends React.PureComponent {
     }
 
     return (
-      <span className="picky__placeholder" data-test="picky_placeholder">
+      <span className="picky__placeholder" data-testid="picky_placeholder">
         {message}
       </span>
     );
