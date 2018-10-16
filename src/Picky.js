@@ -69,7 +69,6 @@ class Picky extends React.PureComponent {
     const valueLookup = this.isControlled()
       ? this.props.value
       : this.state.selectedValue;
-
     if (this.props.multiple && Array.isArray(valueLookup)) {
       const itemIndex = hasItemIndex(
         valueLookup,
@@ -148,7 +147,7 @@ class Picky extends React.PureComponent {
    * @memberof Picky
    */
   isControlled() {
-    return this.props.value != null;
+    return !!this.props.value;
   }
 
   isItemSelected(item) {

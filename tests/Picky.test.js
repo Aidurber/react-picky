@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { render, fireEvent, waitForElement } from 'react-testing-library';
+import { render as rtlRender, fireEvent, cleanup } from 'react-testing-library';
 
 import Placeholder from '../src/Placeholder';
 import Picky from '../src/Picky';
@@ -11,6 +11,8 @@ const sel = id => `[data-testid="${id}"]`;
 const selSelected = id => `[data-testid="${id}"][data-selected="selected"]`;
 
 describe('Picky', () => {
+  afterEach(cleanup); // <-- add this
+
   it('should select initial values on load', () => {
     const wrapper = mount(<Picky value={[1, 2, 3]} multiple />);
     expect(wrapper.state('selectedValue')).toEqual([1, 2, 3]);
@@ -798,7 +800,7 @@ describe('Picky', () => {
       test('should retain the filter value after closing menu', () => {
         const onChangeMock = jest.fn();
 
-        const { getByTestId } = render(
+        const { getByTestId } = rtlRender(
           <Picky
             multiple
             value={[]}
@@ -822,6 +824,43 @@ describe('Picky', () => {
         // Reopen and check filter value is the same
         fireEvent.click(component);
         expect(filterInput.value).toEqual('Item');
+      });
+    });
+
+    describe('Issue #76', () => {
+      test('should only call onChange once when pressing the checkbox', () => {
+        const onChange = jest.fn();
+
+        const { getByTestId } = rtlRender(
+          <Picky
+            multiple
+            value={[1]}
+            options={[1, 2, 3]}
+            onChange={onChange}
+            open={true}
+          />
+        );
+        const chk = getByTestId('option-checkbox');
+        expect(chk).toBeDefined();
+        fireEvent.click(chk);
+        expect(onChange).toHaveBeenCalledTimes(1);
+      });
+      test('should still call onChange when pressing the option', () => {
+        const onChange = jest.fn();
+
+        const { getByTestId } = rtlRender(
+          <Picky
+            multiple
+            value={[1]}
+            options={[1, 2, 3]}
+            onChange={onChange}
+            open={true}
+          />
+        );
+        const option = getByTestId('option');
+        expect(option).toBeDefined();
+        fireEvent.click(option);
+        expect(onChange).toHaveBeenCalledTimes(1);
       });
     });
   });
