@@ -41,6 +41,7 @@
     "prettier": "^1.14.3",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
+    "react-testing-library": "^5.2.0",
     "rollup": "^0.66.6",
     "rollup-plugin-babel": "^4.0.3",
     "rollup-plugin-commonjs": "^9.2.0",
@@ -52,7 +53,7 @@
     "semantic-release": "^15.9.17"
   },
   "jest": {
-    "collectCoverage": true,
+    "collectCoverage": false,
     "modulePaths": [
       "./src"
     ],

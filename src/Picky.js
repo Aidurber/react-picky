@@ -353,7 +353,7 @@ class Picky extends React.PureComponent {
           id={`${this.state.id}__button`}
           type="button"
           className="picky__input"
-          data-test="picky-input"
+          data-testid="picky-input"
           onClick={this.toggleDropDown}
         >
           <Placeholder
@@ -366,13 +366,13 @@ class Picky extends React.PureComponent {
             numberDisplayed={numberDisplayed}
             valueKey={valueKey}
             labelKey={labelKey}
-            data-test="placeholder-component"
+            data-testid="placeholder-component"
           />
         </button>
         {open && (
           <div
             className="picky__dropdown"
-            data-test="dropdown"
+            data-testid="dropdown"
             id={this.state.id + '-list'}
             style={dropdownStyle}
           >
@@ -401,7 +401,7 @@ class Picky extends React.PureComponent {
                 <div
                   tabIndex={tabIndex}
                   role="option"
-                  data-test="selectall"
+                  data-testid="selectall"
                   id={this.state.id + '-option-' + 'selectall'}
                   data-selectall="true"
                   aria-selected={this.state.allSelected}
@@ -419,7 +419,7 @@ class Picky extends React.PureComponent {
                     checked={this.state.allSelected}
                     aria-label="select all"
                   />
-                  <span data-test="select-all-text">
+                  <span data-testid="select-all-text">
                     {this.props.selectAllText}
                   </span>
                 </div>

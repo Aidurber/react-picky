@@ -23,7 +23,7 @@ const Option = props => {
       id={id}
       role="option"
       style={style}
-      data-test="option"
+      data-testid="option"
       data-selected={isSelected ? 'selected' : ''}
       aria-selected={isSelected}
       className={cssClass}

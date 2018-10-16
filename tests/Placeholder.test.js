@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import Placeholder from '../src/Placeholder';
-const sel = id => `[data-test="${id}"]`;
+const sel = id => `[data-testid="${id}"]`;
 
 const getPlaceholderFromWrapper = wrapper =>
   wrapper.find(sel('picky_placeholder'));

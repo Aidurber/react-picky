@@ -1,12 +1,14 @@
 import React from 'react';
 import { mount } from 'enzyme';
+import { render, fireEvent, waitForElement } from 'react-testing-library';
+
 import Placeholder from '../src/Placeholder';
 import Picky from '../src/Picky';
 import Filter from '../src/Filter';
 import Option from '../src/Option';
 
-const sel = id => `[data-test="${id}"]`;
-const selSelected = id => `[data-test="${id}"][data-selected="selected"]`;
+const sel = id => `[data-testid="${id}"]`;
+const selSelected = id => `[data-testid="${id}"][data-selected="selected"]`;
 
 describe('Picky', () => {
   it('should select initial values on load', () => {
@@ -786,6 +788,40 @@ describe('Picky', () => {
           .simulate('click');
 
         expect(wrapper.state('allSelected')).toEqual(false);
+      });
+    });
+    /**
+     * Filter input gets cleared when the menu closes
+     * so if the list is in a filtered state you can't recover
+     */
+    describe('Issue #73', () => {
+      test('should retain the filter value after closing menu', () => {
+        const onChangeMock = jest.fn();
+
+        const { getByTestId } = render(
+          <Picky
+            multiple
+            value={[]}
+            options={[1, 2, 3, 4]}
+            onChange={onChangeMock}
+            includeSelectAll
+            includeFilter
+          />
+        );
+        const component = getByTestId('picky-input');
+        fireEvent.click(component);
+        // Open it
+        const filterInput = getByTestId('picky__filter__input');
+        fireEvent.change(filterInput, { target: { value: 'Item' } });
+
+        expect(filterInput.value).toEqual('Item');
+
+        // Close it
+        fireEvent.click(component);
+
+        // Reopen and check filter value is the same
+        fireEvent.click(component);
+        expect(filterInput.value).toEqual('Item');
       });
     });
   });

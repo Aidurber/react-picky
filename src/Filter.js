@@ -27,7 +27,7 @@ class Filter extends Component {
           type="text"
           ref={input => (this.filterInput = input)}
           className="picky__filter__input"
-          data-test="picky__filter__input"
+          data-testid="picky__filter__input"
           placeholder="Filter..."
           tabIndex={this.props.tabIndex}
           aria-label="filter options"
