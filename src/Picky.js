@@ -154,7 +154,7 @@ class Picky extends React.PureComponent {
     const value = this.isControlled()
       ? this.props.value
       : this.state.selectedValue;
-    return hasItem(value, item, this.props.labelKey, this.props.valueKey);
+    return hasItem(value, item, this.props.valueKey, this.props.labelKey);
   }
 
   /**
