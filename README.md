@@ -137,7 +137,7 @@ Picky.propTypes = {
 - `numberDisplayed` - Then number of selected options displayed until it turns into '(selected count) selected'.
 - `multiple` - Set to true for a multiselect, defaults to false.
 - `options` - Array of possible options.
-- `onChange` - Called whenever selected value(s) have changed. If you are using this as a controlled component, pass the selected value back into `value`.
+- `onChange` - Called whenever selected value(s) have changed. Pass the selected value back into `value`.
 - `open` - Can open or close the dropdown manually. Defaults to false.
 - `includeSelectAll` - If set to `true` will add a `Select All` checkbox at the top of the list.
 - `includeFilter` - If set to `true` will add an input at the top of the dropdown for filtering the results.

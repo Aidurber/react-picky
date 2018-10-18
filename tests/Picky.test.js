@@ -13,11 +13,6 @@ const selSelected = id => `[data-testid="${id}"][data-selected="selected"]`;
 describe('Picky', () => {
   afterEach(cleanup); // <-- add this
 
-  it('should select initial values on load', () => {
-    const wrapper = mount(<Picky value={[1, 2, 3]} multiple />);
-    expect(wrapper.state('selectedValue')).toEqual([1, 2, 3]);
-  });
-
   it('should have Placeholder component', () => {
     const wrapper = mount(<Picky value={[]} />);
     expect(wrapper.find(Placeholder)).toHaveLength(1);
@@ -328,11 +323,12 @@ describe('Picky', () => {
 
     it('should select all options when select all is clicked', () => {
       const onChange = jest.fn();
+      const options = [1, 2, 3, 4, 5];
       const wrapper = mount(
         <Picky
           value={[1, 2, 3]}
           includeSelectAll={true}
-          options={[1, 2, 3, 4, 5]}
+          options={options}
           open={true}
           multiple={true}
           onChange={onChange}
@@ -342,11 +338,9 @@ describe('Picky', () => {
 
       expect(wrapper.find(selSelected('option'))).toHaveLength(3);
       selectAllItem.simulate('click');
-      expect(wrapper.state('selectedValue')).toHaveLength(5);
+      expect(onChange).toHaveBeenLastCalledWith(options);
       selectAllItem.simulate('click');
-      expect(wrapper.state('selectedValue')).toHaveLength(0);
-      expect(onChange).toHaveBeenCalled();
-      expect(onChange).toHaveBeenCalledWith([1, 2, 3, 4, 5]);
+      expect(onChange).toHaveBeenLastCalledWith([]);
     });
 
     it('should select single value controlled', () => {
@@ -364,7 +358,7 @@ describe('Picky', () => {
         .find(sel('option'))
         .at(1)
         .simulate('click');
-      expect(onChange).lastCalledWith(2);
+      expect(onChange).toHaveBeenLastCalledWith(2);
     });
 
     it('should select single value uncontrolled', () => {
@@ -377,7 +371,7 @@ describe('Picky', () => {
         .find(sel('option'))
         .at(1)
         .simulate('click');
-      expect(onChange).lastCalledWith(2);
+      expect(onChange).toHaveBeenLastCalledWith(2);
     });
     it('should select multiple value controlled', () => {
       const onChange = jest.fn();
@@ -391,32 +385,11 @@ describe('Picky', () => {
         />
       );
 
-      expect(wrapper.state('selectedValue')).toEqual([]);
       wrapper
         .find(sel('option'))
         .at(1)
         .simulate('click');
-      expect(onChange).lastCalledWith([2]);
-      expect(wrapper.state('selectedValue')).toEqual([2]);
-    });
-    it('should select multiple value uncontrolled', () => {
-      const onChange = jest.fn();
-      const wrapper = mount(
-        <Picky
-          options={[1, 2, 3, 4, 5]}
-          open={true}
-          multiple
-          onChange={onChange}
-        />
-      );
-
-      expect(wrapper.state('selectedValue')).toEqual([]);
-      wrapper
-        .find(sel('option'))
-        .at(1)
-        .simulate('click');
-      expect(onChange).lastCalledWith([2]);
-      expect(wrapper.state('selectedValue')).toEqual([2]);
+      expect(onChange).toHaveBeenLastCalledWith([2]);
     });
 
     it('should deselect multiple value', () => {
@@ -431,13 +404,11 @@ describe('Picky', () => {
         />
       );
 
-      expect(wrapper.state('selectedValue')).toEqual([2]);
       wrapper
         .find(sel('option'))
         .at(1)
         .simulate('click');
-      expect(onChange).lastCalledWith([]);
-      expect(wrapper.state('selectedValue')).toEqual([]);
+      expect(onChange).toHaveBeenLastCalledWith([]);
     });
 
     it('should support object options single select', () => {
@@ -446,6 +417,7 @@ describe('Picky', () => {
         { id: 2, name: 'Item 2' },
         { id: 3, name: 'Item 3' },
       ];
+      const mockOnChange = jest.fn();
       const wrapper = mount(
         <Picky
           value={null}
@@ -453,6 +425,7 @@ describe('Picky', () => {
           open={true}
           valueKey="id"
           labelKey="name"
+          onChange={mockOnChange}
         />
       );
 
@@ -461,7 +434,7 @@ describe('Picky', () => {
         .at(0)
         .simulate('click');
 
-      expect(wrapper.state('selectedValue')).toEqual({
+      expect(mockOnChange).toHaveBeenLastCalledWith({
         id: 1,
         name: 'Item 1',
       });
@@ -713,7 +686,16 @@ describe('Picky', () => {
 
     describe('Issue #38', () => {
       test('should set selectedValue state when async value prop updates', done => {
-        const wrapper = mount(<Picky multiple open value={[]} options={[]} />);
+        const mockOnChange = jest.fn();
+        const wrapper = mount(
+          <Picky
+            multiple
+            open
+            value={[]}
+            options={[]}
+            onChange={mockOnChange}
+          />
+        );
         const componentWillUpdateSpy = jest.spyOn(
           Picky.prototype,
           'UNSAFE_componentWillReceiveProps'
@@ -725,7 +707,6 @@ describe('Picky', () => {
             options: ['1', '2', '3', '4', '5'],
           });
           expect(componentWillUpdateSpy).toHaveBeenCalled();
-          expect(wrapper.state('selectedValue')).toHaveLength(2);
           expect(wrapper.state('allSelected')).toEqual(false);
           componentWillUpdateSpy.mockReset();
           componentWillUpdateSpy.mockRestore();

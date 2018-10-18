@@ -50,25 +50,23 @@ class Picky extends React.PureComponent {
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       this.props.options !== nextProps.options ||
-      this.state.selectedValue !== nextProps.value
+      this.props.value !== nextProps.value
     ) {
       this.setState({
-        allSelected: this.allSelected(),
-      });
-    }
-
-    if (!isEqual(nextProps.value, this.state.selectedValue)) {
-      this.setState({
-        selectedValue: nextProps.value,
-        allSelected: this.allSelected(nextProps.value),
+        allSelected: !isEqual(nextProps.value, this.props.value)
+          ? this.allSelected(nextProps.value)
+          : this.allSelected(),
       });
     }
   }
 
   selectValue(val) {
-    const valueLookup = this.isControlled()
-      ? this.props.value
-      : this.state.selectedValue;
+    const valueLookup = this.props.value;
+    const isObject = isDataObject(
+      val,
+      this.props.valueKey,
+      this.props.labelKey
+    );
     if (this.props.multiple && Array.isArray(valueLookup)) {
       const itemIndex = hasItemIndex(
         valueLookup,
@@ -84,26 +82,26 @@ class Picky extends React.PureComponent {
           ...valueLookup.slice(itemIndex + 1),
         ];
       } else {
-        selectedValue = [...this.state.selectedValue, val];
+        let ids = valueLookup;
+        const item = isObject ? val[this.props.valueKey] : val;
+        if (isObject) {
+          ids = valueLookup.map(value => value[this.props.valueKey]);
+        }
+        selectedValue =
+          ids.indexOf(item) === -1
+            ? [...this.props.value, val]
+            : [...this.props.value];
       }
       this.setState(
         {
-          selectedValue,
           allSelected: this.allSelected(selectedValue),
         },
         () => {
-          this.props.onChange(this.state.selectedValue);
+          this.props.onChange(selectedValue);
         }
       );
     } else {
-      this.setState(
-        {
-          selectedValue: val,
-        },
-        () => {
-          this.props.onChange(this.state.selectedValue);
-        }
-      );
+      this.props.onChange(val);
     }
   }
 
@@ -114,7 +112,7 @@ class Picky extends React.PureComponent {
    * @memberof Picky
    */
   allSelected(overrideSelected) {
-    const selectedValue = overrideSelected || this.state.selectedValue;
+    const selectedValue = overrideSelected || this.props.value;
     const { options } = this.props;
     const copiedOptions = options.slice(0);
     const copiedSelectedValue = Array.isArray(selectedValue)
@@ -131,30 +129,25 @@ class Picky extends React.PureComponent {
   toggleSelectAll() {
     this.setState(
       {
-        selectedValue: !this.state.allSelected ? this.props.options : [],
         allSelected: !this.state.allSelected,
       },
       () => {
-        // Call onChange prop with new values
-        this.props.onChange(this.state.selectedValue);
+        if (!this.state.allSelected) {
+          this.props.onChange([]);
+        } else {
+          this.props.onChange(this.props.options);
+        }
       }
     );
   }
-  /**
-   * Determine whether the user is treating this as a controlled component or not.
-   *
-   * @returns
-   * @memberof Picky
-   */
-  isControlled() {
-    return !!this.props.value;
-  }
 
   isItemSelected(item) {
-    const value = this.isControlled()
-      ? this.props.value
-      : this.state.selectedValue;
-    return hasItem(value, item, this.props.valueKey, this.props.labelKey);
+    return hasItem(
+      this.props.value,
+      item,
+      this.props.valueKey,
+      this.props.labelKey
+    );
   }
 
   /**
@@ -176,7 +169,7 @@ class Picky extends React.PureComponent {
     if (renderList) {
       return renderList({
         items,
-        selected: this.state.selectedValue,
+        selected: this.props.value,
         multiple,
         tabIndex,
         getIsSelected: this.isItemSelected,
@@ -360,7 +353,7 @@ class Picky extends React.PureComponent {
             placeholder={placeholder}
             manySelectedPlaceholder={this.props.manySelectedPlaceholder}
             allSelectedPlaceholder={this.props.allSelectedPlaceholder}
-            value={this.isControlled() ? value : this.state.selectedValue}
+            value={value}
             multiple={multiple}
             numberDisplayed={numberDisplayed}
             valueKey={valueKey}

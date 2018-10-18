@@ -25,6 +25,8 @@ This is a multiselect with checkboxes, a select all option, and a filter. Along 
 
 If you like the tag list like [React-Select](https://github.com/JedWatson/react-select), then that would be a great option for you. It's a really great, well-tested library. Give it a look.
 
+You can also achieve the same result with a great deal of flexibility using [Paypal's Downshift](https://github.com/paypal/downshift#usage).
+
 # Peer Dependencies
 
 ```
@@ -135,7 +137,7 @@ Picky.propTypes = {
 - `numberDisplayed` - Then number of selected options displayed until it turns into '(selected count) selected'.
 - `multiple` - Set to true for a multiselect, defaults to false.
 - `options` - Array of possible options.
-- `onChange` - Called whenever selected value(s) have changed. If you are using this as a controlled component, pass the selected value back into `value`.
+- `onChange` - Called whenever selected value(s) have changed. Pass the selected value back into `value`.
 - `open` - Can open or close the dropdown manually. Defaults to false.
 - `includeSelectAll` - If set to `true` will add a `Select All` checkbox at the top of the list.
 - `includeFilter` - If set to `true` will add an input at the top of the dropdown for filtering the results.
