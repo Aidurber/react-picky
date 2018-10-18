@@ -412,7 +412,7 @@ class Picky extends React.PureComponent {
                 <input
                   type="checkbox"
                   readOnly
-                  onClick={this.toggleSelectAll}
+                  data-testid="selectall-checkbox"
                   tabIndex={-1}
                   checked={this.state.allSelected}
                   aria-label="select all"

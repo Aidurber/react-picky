@@ -846,6 +846,24 @@ describe('Picky', () => {
         fireEvent.click(chk);
         expect(onChange).toHaveBeenCalledTimes(1);
       });
+      test('should only call onChange once when pressing the select all checkbox', () => {
+        const onChange = jest.fn();
+
+        const { getByTestId } = rtlRender(
+          <Picky
+            multiple
+            value={[1]}
+            options={[1, 2, 3]}
+            onChange={onChange}
+            open={true}
+            includeSelectAll
+          />
+        );
+        const chk = getByTestId('selectall-checkbox');
+        expect(chk).toBeDefined();
+        fireEvent.click(chk);
+        expect(onChange).toHaveBeenCalledTimes(1);
+      });
       test('should still call onChange when pressing the option', () => {
         const onChange = jest.fn();
 
