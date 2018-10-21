@@ -3,6 +3,8 @@ import {
   hasItem,
   keyExtractor,
   hasItemIndex,
+  sortCollection,
+  arraysEqual,
 } from '../src/lib/utils';
 describe('Utils', () => {
   describe('isDataObject', () => {
@@ -83,6 +85,39 @@ describe('Utils', () => {
     });
     it('should extract correct key if simple value supplied', () => {
       expect(keyExtractor(2)).toEqual(2);
+    });
+  });
+
+  describe('sort', () => {
+    it('should sort simple array ascending', () => {
+      const data = [2, 3, 1];
+      const result = sortCollection(data);
+      expect(result).toEqual([1, 2, 3]);
+    });
+    it('should sort object array ascending', () => {
+      const data = [{ id: 2 }, { id: 3 }, { id: 1 }];
+      const result = sortCollection(data, 'id');
+      expect(result).toEqual([{ id: 1 }, { id: 2 }, { id: 3 }]);
+    });
+  });
+  describe('arrays equal', () => {
+    it('should return false if arrays are different lengths', () => {
+      const left = [1, 2, 3];
+      const right = [1, 2];
+      const result = arraysEqual(left, right);
+      expect(result).toBe(false);
+    });
+    it('should return return true if arrays are equal', () => {
+      const left = [1, 2, 3];
+      const right = [1, 2, 3];
+      const result = arraysEqual(left, right);
+      expect(result).toBe(true);
+    });
+    it('should return return false if arrays are not equal', () => {
+      const left = [1, 2, 3];
+      const right = [2, 1, 3];
+      const result = arraysEqual(left, right);
+      expect(result).toBe(false);
     });
   });
 });
