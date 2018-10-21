@@ -57,3 +57,24 @@ export const hasItemIndex = (all, item, valueKey, labelKey) =>
 
 export const keyExtractor = (item, valueKey, labelKey) =>
   isDataObject(item, valueKey, labelKey) ? item[valueKey] : item;
+export const labelExtractor = (item, valueKey, labelKey) =>
+  isDataObject(item, valueKey, labelKey) ? item[labelKey] : item;
+
+export const sortCollection = (array, valueKey) => {
+  if (valueKey) {
+    return array.sort((a, b) => a[valueKey] - b[valueKey]);
+  } else {
+    return array.sort((a, b) => a - b);
+  }
+};
+
+export function arraysEqual(left, right) {
+  if (left.length !== right.length) return false;
+  const leftLen = left.length;
+  let i = leftLen;
+  while (i) {
+    if (left[i] !== right[i]) return false;
+    i--;
+  }
+  return true;
+}

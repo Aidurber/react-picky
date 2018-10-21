@@ -9,12 +9,14 @@ import {
   hasItem,
   keyExtractor,
   hasItemIndex,
+  sortCollection,
+  arraysEqual,
 } from './lib/utils';
-import isEqual from 'lodash.isequal';
 import Placeholder from './Placeholder';
 import Filter from './Filter';
 import Option from './Option';
 import './Picky.css';
+
 class Picky extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -36,10 +38,8 @@ class Picky extends React.PureComponent {
     this.focusFilterInput = this.focusFilterInput.bind(this);
   }
   UNSAFE_componentWillMount() {
-    const allSelected = this.allSelected();
-
     this.setState({
-      allSelected,
+      allSelected: this.allSelected(),
     });
   }
 
@@ -52,8 +52,12 @@ class Picky extends React.PureComponent {
       this.props.options !== nextProps.options ||
       this.props.value !== nextProps.value
     ) {
+      let areEqual = Array.isArray(nextProps.value)
+        ? arraysEqual(nextProps.value, this.props.value)
+        : nextProps.value === this.props.value;
+
       this.setState({
-        allSelected: !isEqual(nextProps.value, this.props.value)
+        allSelected: !areEqual
           ? this.allSelected(nextProps.value)
           : this.allSelected(),
       });
@@ -62,11 +66,6 @@ class Picky extends React.PureComponent {
 
   selectValue(val) {
     const valueLookup = this.props.value;
-    const isObject = isDataObject(
-      val,
-      this.props.valueKey,
-      this.props.labelKey
-    );
     if (this.props.multiple && Array.isArray(valueLookup)) {
       const itemIndex = hasItemIndex(
         valueLookup,
@@ -82,15 +81,7 @@ class Picky extends React.PureComponent {
           ...valueLookup.slice(itemIndex + 1),
         ];
       } else {
-        let ids = valueLookup;
-        const item = isObject ? val[this.props.valueKey] : val;
-        if (isObject) {
-          ids = valueLookup.map(value => value[this.props.valueKey]);
-        }
-        selectedValue =
-          ids.indexOf(item) === -1
-            ? [...this.props.value, val]
-            : [...this.props.value];
+        selectedValue = [...this.props.value, val];
       }
       this.setState(
         {
@@ -114,11 +105,25 @@ class Picky extends React.PureComponent {
   allSelected(overrideSelected) {
     const selectedValue = overrideSelected || this.props.value;
     const { options } = this.props;
-    const copiedOptions = options.slice(0);
-    const copiedSelectedValue = Array.isArray(selectedValue)
+    const isObject = isDataObject(
+      options && options[0],
+      this.props.valueKey,
+      this.props.labelKey
+    );
+
+    let copiedOptions = options.slice(0);
+    let copiedValues = Array.isArray(selectedValue)
       ? selectedValue.slice(0)
       : [];
-    return isEqual(copiedOptions, copiedSelectedValue);
+    if (isObject) {
+      copiedOptions = sortCollection(copiedOptions, this.props.valueKey);
+      copiedValues = sortCollection(copiedValues, this.props.valueKey);
+    } else {
+      copiedOptions = sortCollection(copiedOptions);
+      copiedValues = sortCollection(copiedValues);
+    }
+
+    return arraysEqual(copiedOptions, copiedValues);
   }
 
   /**
@@ -128,8 +133,11 @@ class Picky extends React.PureComponent {
    */
   toggleSelectAll() {
     this.setState(
-      {
-        allSelected: !this.state.allSelected,
+      state => {
+        return {
+          ...state,
+          allSelected: !this.state.allSelected,
+        };
       },
       () => {
         if (!this.state.allSelected) {
@@ -211,10 +219,9 @@ class Picky extends React.PureComponent {
     });
   }
   renderOptions() {
-    const { options } = this.props;
-    const items = this.state.filtered ? this.state.filteredOptions : options;
-
-    return this.renderPlainList(items);
+    return this.renderPlainList(
+      this.state.filtered ? this.state.filteredOptions : this.props.options
+    );
   }
   /**
    * Called when Filter term changes. Sets filteredOptions and filtered state.
@@ -230,12 +237,16 @@ class Picky extends React.PureComponent {
         filteredOptions: [],
       });
     }
+    const isObject = isDataObject(
+      this.props.options && this.props.options[0],
+      this.props.valueKey,
+      this.props.labelKey
+    );
     const filteredOptions = this.props.options.filter(option => {
-      let val = option;
-      if (isDataObject(option, this.props.labelKey, this.props.valueKey)) {
-        val = option[this.props.labelKey];
+      if (isObject) {
+        return includes(option[this.props.labelKey], term);
       }
-      return includes(val, term);
+      return includes(option, term);
     });
     this.setState(
       {
@@ -288,9 +299,12 @@ class Picky extends React.PureComponent {
     }
 
     this.setState(
-      {
-        // Toggle open state
-        open: !this.state.open,
+      state => {
+        return {
+          ...state,
+          // Toggle open state
+          open: !state.open,
+        };
       },
       () => {
         const isOpen = this.state.open;
