@@ -46,7 +46,11 @@ class Picky extends React.PureComponent {
   componentDidMount() {
     this.focusFilterInput(this.state.open);
   }
-
+  
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleOutsideClick, false);
+  }
+  
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       this.props.options !== nextProps.options ||
