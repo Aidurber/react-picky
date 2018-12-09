@@ -157,6 +157,7 @@ Picky.propTypes = {
 - `renderSelectAll` - Used for rendering a custom select all
 - `defaultFocusFilter` - If set to true, will focus the filter by default when opened.
 - `renderList` - Render prop for whole list, you can use this to add virtualization/windowing if necessary
+- `filterPlaceholder` - Override the filter placeholder. Defaults to 'Filter...'
 
 ## Custom rendering
 

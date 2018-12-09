@@ -368,6 +368,15 @@ declare module 'react-picky' {
      * @memberof PickyProps
      */
     renderList?: (props: RenderListProps) => any;
+
+
+    /**
+     * Override the placeholder of the filter
+     *
+     * @type {string}
+     * @memberof PickyProps
+     */
+    filterPlaceholder?:string;
   }
 
   export default class Picky extends React.PureComponent<PickyProps, any> {
