@@ -863,5 +863,27 @@ describe('Picky', () => {
         expect(onChange).toHaveBeenCalledTimes(1);
       });
     });
+
+    test('should override filter placeholder if supplied', () => {
+      const { getByTestId } = rtlRender(
+        <Picky
+          options={[1, 2, 3]}
+          open={true}
+          includeFilter
+          filterPlaceholder="Hello..."
+        />
+      );
+      const filter = getByTestId('picky__filter__input');
+
+      expect(filter.placeholder).toEqual('Hello...');
+    });
+    test('filter placeholder default to Filter... if not supplied', () => {
+      const { getByTestId } = rtlRender(
+        <Picky options={[1, 2, 3]} open={true} includeFilter />
+      );
+      const filter = getByTestId('picky__filter__input');
+
+      expect(filter.placeholder).toEqual('Filter...');
+    });
   });
 });

@@ -46,11 +46,11 @@ class Picky extends React.PureComponent {
   componentDidMount() {
     this.focusFilterInput(this.state.open);
   }
-  
+
   componentWillUnmount() {
     document.removeEventListener('click', this.handleOutsideClick, false);
   }
-  
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       this.props.options !== nextProps.options ||
@@ -337,6 +337,7 @@ class Picky extends React.PureComponent {
       tabIndex,
       dropdownHeight,
       renderSelectAll,
+      filterPlaceholder,
     } = this.props;
     const { open } = this.state;
     let ariaOwns = '';
@@ -388,6 +389,7 @@ class Picky extends React.PureComponent {
           {includeFilter && (
             <Filter
               ref={filter => (this.filter = filter)}
+              placeholder={filterPlaceholder}
               onFilterChange={
                 filterDebounce > 0
                   ? debounce(this.onFilterChange, filterDebounce)
@@ -482,6 +484,7 @@ Picky.propTypes = {
   defaultFocusFilter: PropTypes.bool,
   className: PropTypes.string,
   renderList: PropTypes.func,
+  filterPlaceholder: PropTypes.string,
 };
 
 export default Picky;
