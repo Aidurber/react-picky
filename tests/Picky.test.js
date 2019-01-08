@@ -885,5 +885,64 @@ describe('Picky', () => {
 
       expect(filter.placeholder).toEqual('Filter...');
     });
+
+    test('should correctly update allSelected when values set programmatically', () => {
+      const options = [{ id: 1, name: 'Item 1' }, { id: 2, name: 'Item 2' }];
+      const { getByTestId, rerender } = rtlRender(
+        <Picky
+          options={options}
+          includeSelectAll
+          valueKey="id"
+          labelKey="name"
+          open={true}
+          multiple
+          value={[]}
+        />
+      );
+
+      expect(getByTestId('selectall-checkbox').checked).toEqual(false);
+
+      rerender(
+        <Picky
+          options={options}
+          includeSelectAll
+          valueKey="id"
+          labelKey="name"
+          open={true}
+          multiple
+          value={[{ id: 1, name: 'Item 1' }, { id: 2, name: 'Item 2' }]}
+        />
+      );
+
+      expect(getByTestId('selectall-checkbox').checked).toEqual(true);
+    });
+    test('should correctly update allSelected when values set programmatically simple options', () => {
+      const options = [1, 2];
+      const { getByTestId, rerender } = rtlRender(
+        <Picky
+          options={options}
+          includeSelectAll
+          open={true}
+          multiple
+          value={[]}
+        />
+      );
+
+      expect(getByTestId('selectall-checkbox').checked).toEqual(false);
+
+      rerender(
+        <Picky
+          options={options}
+          includeSelectAll
+          valueKey="id"
+          labelKey="name"
+          open={true}
+          multiple
+          value={[1, 2]}
+        />
+      );
+
+      expect(getByTestId('selectall-checkbox').checked).toEqual(true);
+    });
   });
 });
