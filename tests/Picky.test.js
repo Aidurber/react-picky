@@ -910,7 +910,7 @@ describe('Picky', () => {
           labelKey="name"
           open={true}
           multiple
-          value={[{ id: 1, name: 'Item 1' }, { id: 2, name: 'Item 2' }]}
+          value={[{ id: 2, name: 'Item 2' }, { id: 1, name: 'Item 1' }]}
         />
       );
 
@@ -934,11 +934,9 @@ describe('Picky', () => {
         <Picky
           options={options}
           includeSelectAll
-          valueKey="id"
-          labelKey="name"
           open={true}
           multiple
-          value={[1, 2]}
+          value={[2, 1]}
         />
       );
 

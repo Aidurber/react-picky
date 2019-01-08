@@ -100,8 +100,17 @@ class Picky extends React.PureComponent {
       this.props.onChange(val);
     }
   }
-  getValue(o) {
-    return o[this.props.valueKey];
+  /**
+   * Get the value of a given option or value safely
+   *
+   * @param {*} option
+   * @returns
+   * @memberof Picky
+   */
+  getValue(option) {
+    return typeof this.props.valueKey !== 'undefined'
+      ? option[this.props.valueKey]
+      : option;
   }
   /**
    * Determine whether all items are selected
@@ -110,22 +119,18 @@ class Picky extends React.PureComponent {
    * @memberof Picky
    */
   allSelected(overrideSelected) {
-    const selectedValue = overrideSelected || this.props.value;
-    const { options } = this.props;
-    const isObject = isDataObject(
-      options && options[0],
-      this.props.valueKey,
-      this.props.labelKey
-    );
+    const { value, valueKey, options } = this.props;
+    const selectedValue = overrideSelected || value;
 
-    let copiedOptions = isObject ? options.map(this.getValue) : [...options];
+    let copiedOptions = options.map(this.getValue);
     let copiedValues = Array.isArray(selectedValue)
-      ? isObject
-        ? selectedValue.map(this.getValue)
-        : [...selectedValue]
+      ? selectedValue.map(this.getValue)
       : [];
 
-    return arraysEqual(copiedOptions, copiedValues);
+    return arraysEqual(
+      sortCollection(copiedValues),
+      sortCollection(copiedOptions)
+    );
   }
   /**
    * Toggles select all
