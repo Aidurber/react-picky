@@ -36,6 +36,7 @@ class Picky extends React.PureComponent {
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
     this.isItemSelected = this.isItemSelected.bind(this);
     this.focusFilterInput = this.focusFilterInput.bind(this);
+    this.getValue = this.getValue.bind(this);
   }
   UNSAFE_componentWillMount() {
     this.setState({
@@ -99,7 +100,9 @@ class Picky extends React.PureComponent {
       this.props.onChange(val);
     }
   }
-
+  getValue(o) {
+    return o[this.props.valueKey];
+  }
   /**
    * Determine whether all items are selected
    *
@@ -115,21 +118,15 @@ class Picky extends React.PureComponent {
       this.props.labelKey
     );
 
-    let copiedOptions = options.slice(0);
+    let copiedOptions = isObject ? options.map(this.getValue) : [...options];
     let copiedValues = Array.isArray(selectedValue)
-      ? selectedValue.slice(0)
+      ? isObject
+        ? selectedValue.map(this.getValue)
+        : [...selectedValue]
       : [];
-    if (isObject) {
-      copiedOptions = sortCollection(copiedOptions, this.props.valueKey);
-      copiedValues = sortCollection(copiedValues, this.props.valueKey);
-    } else {
-      copiedOptions = sortCollection(copiedOptions);
-      copiedValues = sortCollection(copiedValues);
-    }
 
     return arraysEqual(copiedOptions, copiedValues);
   }
-
   /**
    * Toggles select all
    *
