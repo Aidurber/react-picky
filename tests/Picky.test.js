@@ -536,6 +536,32 @@ describe('Picky', () => {
         },
       ]);
     });
+
+    it('should not call onClose on focusing with autoclose mode after select', () => {
+      const onCloseMock = jest.fn();
+      const { getByTestId } = rtlRender(
+        <Picky
+          options={[1, 2, 3, 4]}
+          value={[]}
+          multiple={false}
+          keepOpen={false}
+          open={false}
+          includeFilter={true}
+          onClose={onCloseMock}
+        />
+      );
+
+      // Open it
+      const component = getByTestId('picky-input');
+      fireEvent.click(component);
+
+      // Focus on input
+      const filterInput = getByTestId('picky__filter__input');
+      fireEvent.click(filterInput);
+
+      // Dropdown should't close
+      expect(onCloseMock).toHaveBeenCalledTimes(0);
+    });
   });
 
   describe('Callbacks', () => {

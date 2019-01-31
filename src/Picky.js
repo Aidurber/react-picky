@@ -276,8 +276,12 @@ class Picky extends React.PureComponent {
   handleOutsideClick(e) {
     // If keep open then don't toggle dropdown
     // If radio and not keepOpen then auto close it on selecting a value
+    // If radio and click to the filter input then don't toggle dropdown
     const keepOpen = this.props.keepOpen || this.props.multiple;
     if (this.node && this.node.contains(e.target) && keepOpen) {
+      return;
+    }
+    if (this.filter && this.filter.filterInput && this.filter.filterInput.contains(e.target)) {
       return;
     }
     this.toggleDropDown();
