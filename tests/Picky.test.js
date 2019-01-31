@@ -965,7 +965,6 @@ describe('Picky', () => {
           value={[2, 1]}
         />
       );
-
       expect(getByTestId('selectall-checkbox').checked).toEqual(true);
     });
   });
