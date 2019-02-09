@@ -257,7 +257,7 @@ Gets called with the following properties:
 - `tabIndex`: number used for specifying tab index.
 - `multiple`: boolean true if multiselect.
 
-##= Render List
+### Render List
 
 ```javascript
 <Picky
