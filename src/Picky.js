@@ -138,6 +138,7 @@ class Picky extends React.PureComponent {
    * @memberof Picky
    */
   toggleSelectAll() {
+    if (this.props.disabled) return;
     this.setState(
       state => {
         return {
@@ -179,6 +180,7 @@ class Picky extends React.PureComponent {
       render,
       tabIndex,
       renderList,
+      disabled,
     } = this.props;
     if (renderList) {
       return renderList({
@@ -188,6 +190,7 @@ class Picky extends React.PureComponent {
         tabIndex,
         getIsSelected: this.isItemSelected,
         selectValue: this.selectValue,
+        disabled,
       });
     }
     return items.map((item, index) => {
@@ -205,6 +208,7 @@ class Picky extends React.PureComponent {
           labelKey: labelKey,
           valueKey: valueKey,
           multiple: multiple,
+          disabled,
         });
       } else {
         // Render a simple option
@@ -218,6 +222,7 @@ class Picky extends React.PureComponent {
             valueKey={valueKey}
             multiple={multiple}
             tabIndex={tabIndex}
+            disabled={disabled}
             id={this.state.id + '-option-' + index}
           />
         );
@@ -281,7 +286,11 @@ class Picky extends React.PureComponent {
     if (this.node && this.node.contains(e.target) && keepOpen) {
       return;
     }
-    if (this.filter && this.filter.filterInput && this.filter.filterInput.contains(e.target)) {
+    if (
+      this.filter &&
+      this.filter.filterInput &&
+      this.filter.filterInput.contains(e.target)
+    ) {
       return;
     }
     this.toggleDropDown();
@@ -344,6 +353,7 @@ class Picky extends React.PureComponent {
       dropdownHeight,
       renderSelectAll,
       filterPlaceholder,
+      disabled,
     } = this.props;
     const { open } = this.state;
     let ariaOwns = '';
@@ -369,7 +379,10 @@ class Picky extends React.PureComponent {
         <button
           id={`${this.state.id}__button`}
           type="button"
-          className="picky__input"
+          className={[
+            'picky__input',
+            disabled ? 'picky__input--disabled' : '',
+          ].join(' ')}
           data-testid="picky-input"
           onClick={this.toggleDropDown}
         >
@@ -410,6 +423,7 @@ class Picky extends React.PureComponent {
               toggleSelectAll: this.toggleSelectAll,
               tabIndex,
               multiple,
+              disabled,
             })}
           {!renderSelectAll &&
             includeSelectAll &&
@@ -426,6 +440,7 @@ class Picky extends React.PureComponent {
                   this.state.allSelected ? 'option selected' : 'option'
                 }
                 onClick={this.toggleSelectAll}
+                disabled={disabled}
                 onKeyPress={this.toggleSelectAll}
               >
                 <input
@@ -435,6 +450,7 @@ class Picky extends React.PureComponent {
                   tabIndex={-1}
                   checked={this.state.allSelected}
                   aria-label="select all"
+                  disabled={disabled}
                 />
                 <span data-testid="select-all-text">
                   {this.props.selectAllText}
@@ -491,6 +507,7 @@ Picky.propTypes = {
   className: PropTypes.string,
   renderList: PropTypes.func,
   filterPlaceholder: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 export default Picky;

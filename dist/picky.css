@@ -19,6 +19,11 @@
   box-sizing: border-box;
   height: 38px;
 }
+
+.picky__input--disabled,
+.picky__input--disabled + .picky__dropdown .option {
+  color: rgb(95, 94, 94);
+}
 .picky__input::after {
   position: absolute;
   width: 0;

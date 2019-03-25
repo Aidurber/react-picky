@@ -12,11 +12,12 @@ const Option = props => {
     style,
     multiple,
     tabIndex,
+    disabled,
   } = props;
   const cssClass = isSelected ? 'option selected' : 'option';
   const body = isDataObject(item, labelKey, valueKey) ? item[labelKey] : item;
   const inputType = multiple ? 'checkbox' : 'radio';
-  const select = () => selectValue(item);
+  const select = () => !disabled && selectValue(item);
   return (
     <div
       tabIndex={tabIndex}
@@ -30,13 +31,16 @@ const Option = props => {
       onClick={select}
       onKeyPress={e => {
         e.preventDefault();
-        selectValue(item);
+        if (!disabled) {
+          selectValue(item);
+        }
       }}
     >
       <input
         type={inputType}
         readOnly
         tabIndex={-1}
+        disabled={disabled}
         checked={isSelected}
         aria-label={body}
         data-testid={'option-checkbox'}
@@ -60,5 +64,6 @@ Option.propTypes = {
   selectValue: PropTypes.func.isRequired,
   multiple: PropTypes.bool,
   tabIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  disabled: PropTypes.bool,
 };
 export default Option;
