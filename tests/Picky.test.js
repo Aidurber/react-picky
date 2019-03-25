@@ -968,4 +968,30 @@ describe('Picky', () => {
       expect(getByTestId('selectall-checkbox').checked).toEqual(true);
     });
   });
+
+  it('should be disabled when disabled prop supplied', () => {
+    const options = [1, 2];
+    const { getByTestId, rerender, debug } = rtlRender(
+      <Picky
+        options={options}
+        includeSelectAll
+        open={true}
+        multiple
+        disabled
+        value={[]}
+      />
+    );
+
+    const selectAllCheckbox = getByTestId('selectall-checkbox');
+    expect(selectAllCheckbox.checked).toEqual(false);
+    fireEvent(
+      selectAllCheckbox,
+      new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+      })
+    );
+
+    expect(selectAllCheckbox.checked).toEqual(false);
+  });
 });
