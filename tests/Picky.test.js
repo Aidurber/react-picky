@@ -971,7 +971,7 @@ describe('Picky', () => {
 
   it('should be disabled when disabled prop supplied', () => {
     const options = [1, 2];
-    const { getByTestId, rerender, debug } = rtlRender(
+    const { getByTestId, rerender } = rtlRender(
       <Picky
         options={options}
         includeSelectAll
@@ -992,6 +992,22 @@ describe('Picky', () => {
       })
     );
 
+    expect(selectAllCheckbox.checked).toEqual(false);
+  });
+
+  it('should not have select all checked when there are no options', () => {
+    const options = [];
+    const { getByTestId, debug } = rtlRender(
+      <Picky
+        options={options}
+        includeSelectAll
+        open={true}
+        multiple
+        disabled
+        value={[]}
+      />
+    );
+    const selectAllCheckbox = getByTestId('selectall-checkbox');
     expect(selectAllCheckbox.checked).toEqual(false);
   });
 });
