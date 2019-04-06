@@ -1,5 +1,3 @@
-// import resolve from 'rollup-plugin-node-resolve';
-// import commonjs from 'rollup-plugin-commonjs';
 import babel from 'rollup-plugin-babel';
 import { uglify } from 'rollup-plugin-uglify';
 import filesize from 'rollup-plugin-filesize';
@@ -20,8 +18,6 @@ export default {
       exclude: 'node_modules/**',
       externalHelpers: true,
     }),
-    // resolve(),
-    // commonjs(),
     isProduction && uglify(),
     isProduction && filesize(),
   ],
