@@ -122,6 +122,10 @@ class Picky extends React.PureComponent {
     const { value, valueKey, options } = this.props;
     const selectedValue = overrideSelected || value;
 
+    // If there are no options we are getting a false positive for all items being selected
+    if (options && options.length === 0) {
+      return false;
+    }
     let copiedOptions = options.map(this.getValue);
     let copiedValues = Array.isArray(selectedValue)
       ? selectedValue.map(this.getValue)

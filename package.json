@@ -10,7 +10,6 @@
     "prettier": "prettier --write {src,tests}{/**/,/}*.js",
     "dev": "rollup -c -w",
     "dev:production": "cross-env NODE_ENV=production rollup -c -w",
-    "pretest": "npm run build",
     "lint": "eslint src/**/*.js",
     "test": "cross-env NODE_ENV=test jest",
     "test:watch": "cross-env NODE_ENV=test jest --watchAll",
@@ -19,15 +18,15 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@babel/core": "^7.1.2",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
-    "@babel/preset-env": "^7.1.0",
+    "@babel/core": "^7.4.3",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
     "@babel/preset-react": "^7.0.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
-    "babel-jest": "^23.6.0",
+    "babel-jest": "^24.7.1",
     "babel-plugin-react-remove-properties": "^0.3.0",
-    "babel-plugin-transform-react-remove-prop-types": "^0.4.19",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "cross-env": "^5.2.0",
     "cz-conventional-changelog": "^2.1.0",
     "enzyme": "^3.7.0",
@@ -38,11 +37,11 @@
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.12.3",
     "husky": "^1.1.2",
-    "jest": "^23.6.0",
+    "jest": "^24.7.1",
     "prettier": "^1.14.3",
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2",
-    "react-testing-library": "^5.7.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-testing-library": "^5.9.0",
     "rollup": "^1.0.0",
     "rollup-plugin-babel": "^4.0.3",
     "rollup-plugin-commonjs": "^9.2.0",
@@ -71,14 +70,10 @@
       "!tests/**"
     ],
     "transform": {
-      "^.+\\.jsx$": "babel-jest",
-      "^.+\\.js$": "babel-jest",
+      "^.+\\.jsx?$": "babel-jest",
       "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
       "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
-    },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
-    ]
+    }
   },
   "peerDependencies": {
     "prop-types": "> 15.6.0",
