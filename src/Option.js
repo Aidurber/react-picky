@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import { isDataObject } from './lib/utils';
 const Option = props => {
   const {
@@ -66,4 +67,10 @@ Option.propTypes = {
   tabIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   disabled: PropTypes.bool,
 };
-export default Option;
+export default onlyUpdateForKeys([
+  'multiple',
+  'isSelected',
+  'id',
+  'item',
+  'tabIndex',
+])(Option);

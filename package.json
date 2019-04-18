@@ -17,7 +17,9 @@
     "semantic-release": "semantic-release",
     "precommit": "npm run test"
   },
-  "dependencies": {},
+  "dependencies": {
+    "recompose": "^0.30.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.4.3",
     "@babel/plugin-proposal-object-rest-spread": "^7.4.3",

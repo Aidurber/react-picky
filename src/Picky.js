@@ -119,7 +119,7 @@ class Picky extends React.PureComponent {
    * @memberof Picky
    */
   allSelected(overrideSelected) {
-    const { value, valueKey, options } = this.props;
+    const { value, options } = this.props;
     const selectedValue = overrideSelected || value;
 
     // If there are no options we are getting a false positive for all items being selected
@@ -246,12 +246,11 @@ class Picky extends React.PureComponent {
    * @memberof Picky
    */
   onFilterChange(term) {
-    
     /**
      * getFilterValue function will provide the input value of filter to the picky dropdown, so that if we have a larger list of options then we can only supply the matching options based on this value
      */
     if (this.props.getFilterValue) {
-      this.props.getFilterValue(term)
+      this.props.getFilterValue(term);
     }
     if (!term.trim()) {
       return this.setState({

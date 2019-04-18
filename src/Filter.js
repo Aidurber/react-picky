@@ -1,6 +1,12 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-class Filter extends PureComponent {
+class Filter extends Component {
+  shouldComponentUpdate(nextProps) {
+    return (
+      this.props.placeholder !== nextProps.placeholder ||
+      this.props.tabIndex !== nextProps.tabIndex
+    );
+  }
   render() {
     return (
       <div className="picky__filter">
