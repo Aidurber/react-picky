@@ -246,6 +246,13 @@ class Picky extends React.PureComponent {
    * @memberof Picky
    */
   onFilterChange(term) {
+      /**
+     * getFilterValue function will provide the input value of filter to the picky dropdown, so that if we have a larger list of options then we can only supply the matching options based on this value
+       */
+
+      if (this.props.getFilterValue) {
+        this.props.getFilterValue(term)
+      }
     if (!term.trim()) {
       return this.setState({
         filtered: false,
@@ -474,6 +481,7 @@ Picky.defaultProps = {
   filterDebounce: 150,
   dropdownHeight: 300,
   onChange: () => {},
+  getFilterValue: (value) => console.log('value---', value),
   tabIndex: 0,
   keepOpen: true,
   selectAllText: 'Select all',
@@ -512,6 +520,7 @@ Picky.propTypes = {
   renderList: PropTypes.func,
   filterPlaceholder: PropTypes.string,
   disabled: PropTypes.bool,
+  getFilterValue: PropTypes.func,
 };
 
 export default Picky;
