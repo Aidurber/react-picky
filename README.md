@@ -127,6 +127,7 @@ Picky.propTypes = {
   defaultFocusFilter: PropTypes.bool,
   className: PropTypes.string,
   renderList: PropTypes.func,
+  getFilterValue: PropTypes.func,
 };
 ```
 
@@ -158,6 +159,8 @@ Picky.propTypes = {
 - `defaultFocusFilter` - If set to true, will focus the filter by default when opened.
 - `renderList` - Render prop for whole list, you can use this to add virtualization/windowing if necessary
 - `filterPlaceholder` - Override the filter placeholder. Defaults to 'Filter...'
+- `getFilterValue` -   Will provide the input value of filter to the picky dropdown, so that if we have a larger list of options then we can only supply the matching options based on this value.
+
 
 ## Custom rendering
 
@@ -178,6 +181,7 @@ You can render out custom items for the dropdown.
   multiple={true}
   includeSelectAll={true}
   includeFilter={true}
+  getFilterValue={this.getFilterValue}
   dropdownHeight={600}
   render={({
     style,

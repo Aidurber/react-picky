@@ -481,7 +481,6 @@ Picky.defaultProps = {
   filterDebounce: 150,
   dropdownHeight: 300,
   onChange: () => {},
-  getFilterValue: (value) => console.log('value---', value),
   tabIndex: 0,
   keepOpen: true,
   selectAllText: 'Select all',
