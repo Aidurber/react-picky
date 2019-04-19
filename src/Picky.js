@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from './lib/debounce';
 import includes from './lib/includes';
-
 import {
   isDataObject,
   generateGuid,
@@ -16,6 +15,8 @@ import Placeholder from './Placeholder';
 import Filter from './Filter';
 import Option from './Option';
 import './Picky.css';
+import SelectAll from './SelectAll';
+import Button from './Button';
 
 class Picky extends React.PureComponent {
   constructor(props) {
@@ -169,14 +170,11 @@ class Picky extends React.PureComponent {
     );
   }
 
-  /**
-   * Renders a non-virtualised list.
-   *
-   * @param {any} items
-   * @returns
-   * @memberof Picky
-   */
-  renderPlainList(items) {
+  renderOptions() {
+    const items = this.state.filtered
+      ? this.state.filteredOptions
+      : this.props.options;
+
     const {
       labelKey,
       valueKey,
@@ -232,11 +230,6 @@ class Picky extends React.PureComponent {
         );
       }
     });
-  }
-  renderOptions() {
-    return this.renderPlainList(
-      this.state.filtered ? this.state.filteredOptions : this.props.options
-    );
   }
   /**
    * Called when Filter term changes. Sets filteredOptions and filtered state.
@@ -347,6 +340,20 @@ class Picky extends React.PureComponent {
       }
     );
   }
+
+  get filterDebounce() {
+    const { filterDebounce } = this.props;
+    return filterDebounce > 0
+      ? debounce(this.onFilterChange, filterDebounce)
+      : this.onFilterChange;
+  }
+
+  get showSelectAll() {
+    const { renderSelectAll, multiple, includeSelectAll } = this.props;
+    return (
+      !renderSelectAll && includeSelectAll && multiple && !this.state.filtered
+    );
+  }
   render() {
     const {
       className,
@@ -354,9 +361,7 @@ class Picky extends React.PureComponent {
       value,
       multiple,
       numberDisplayed,
-      includeSelectAll,
       includeFilter,
-      filterDebounce,
       valueKey,
       labelKey,
       tabIndex,
@@ -386,14 +391,9 @@ class Picky extends React.PureComponent {
         aria-owns={ariaOwns}
         tabIndex={tabIndex}
       >
-        <button
+        <Button
           id={`${this.state.id}__button`}
-          type="button"
-          className={[
-            'picky__input',
-            disabled ? 'picky__input--disabled' : '',
-          ].join(' ')}
-          data-testid="picky-input"
+          disabled={disabled}
           onClick={this.toggleDropDown}
         >
           <Placeholder
@@ -408,7 +408,7 @@ class Picky extends React.PureComponent {
             labelKey={labelKey}
             data-testid="placeholder-component"
           />
-        </button>
+        </Button>
         <div
           className="picky__dropdown"
           id={this.state.id + '-list'}
@@ -419,14 +419,10 @@ class Picky extends React.PureComponent {
             <Filter
               ref={filter => (this.filter = filter)}
               placeholder={filterPlaceholder}
-              onFilterChange={
-                filterDebounce > 0
-                  ? debounce(this.onFilterChange, filterDebounce)
-                  : this.onFilterChange
-              }
+              onFilterChange={this.filterDebounce}
             />
           )}
-          {renderSelectAll &&
+          {renderSelectAll ? (
             renderSelectAll({
               filtered: this.state.filtered,
               allSelected: this.state.allSelected,
@@ -434,39 +430,18 @@ class Picky extends React.PureComponent {
               tabIndex,
               multiple,
               disabled,
-            })}
-          {!renderSelectAll &&
-            includeSelectAll &&
-            multiple &&
-            !this.state.filtered && (
-              <div
-                tabIndex={tabIndex}
-                role="option"
-                data-testid="selectall"
-                id={this.state.id + '-option-' + 'selectall'}
-                data-selectall="true"
-                aria-selected={this.state.allSelected}
-                className={
-                  this.state.allSelected ? 'option selected' : 'option'
-                }
-                onClick={this.toggleSelectAll}
-                disabled={disabled}
-                onKeyPress={this.toggleSelectAll}
-              >
-                <input
-                  type="checkbox"
-                  readOnly
-                  data-testid="selectall-checkbox"
-                  tabIndex={-1}
-                  checked={this.state.allSelected}
-                  aria-label="select all"
-                  disabled={disabled}
-                />
-                <span data-testid="select-all-text">
-                  {this.props.selectAllText}
-                </span>
-              </div>
-            )}
+            })
+          ) : (
+            <SelectAll
+              visible={this.showSelectAll}
+              tabIndex={tabIndex}
+              disabled={disabled}
+              allSelected={this.state.allSelected}
+              id={this.state.id}
+              selectAllText={this.props.selectAllText}
+              toggleSelectAll={this.toggleSelectAll}
+            />
+          )}
           {open && <div data-testid="dropdown">{this.renderOptions()}</div>}
         </div>
       </div>

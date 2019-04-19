@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
+import { onlyUpdateForKeys } from 'recompose';
 import { isDataObject } from './lib/utils';
+
 const Option = props => {
   const {
     id,
@@ -18,7 +19,14 @@ const Option = props => {
   const cssClass = isSelected ? 'option selected' : 'option';
   const body = isDataObject(item, labelKey, valueKey) ? item[labelKey] : item;
   const inputType = multiple ? 'checkbox' : 'radio';
-  const select = () => !disabled && selectValue(item);
+  const select = e => {
+    if (e) {
+      e.preventDefault();
+    }
+    if (!disabled) {
+      selectValue(item);
+    }
+  };
   return (
     <div
       tabIndex={tabIndex}
@@ -30,12 +38,7 @@ const Option = props => {
       aria-selected={isSelected}
       className={cssClass}
       onClick={select}
-      onKeyPress={e => {
-        e.preventDefault();
-        if (!disabled) {
-          selectValue(item);
-        }
-      }}
+      onKeyPress={select}
     >
       <input
         type={inputType}
