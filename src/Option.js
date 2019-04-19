@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { onlyUpdateForKeys } from 'recompose';
 import { isDataObject } from './lib/utils';
-
 const Option = props => {
   const {
     id,
