@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import format from './lib/format';
 import { isDataObject } from './lib/utils';
 import includes from './lib/includes';
+import { onlyUpdateForKeys } from 'recompose';
 const isEmptyValue = value =>
   value === null ||
   value === undefined ||
@@ -91,4 +92,10 @@ Placeholder.propTypes = {
   allSelected: PropTypes.bool,
 };
 
-export default Placeholder;
+export default onlyUpdateForKeys([
+  'multiple',
+  'value',
+  'numberDisplayed',
+  'allSelected',
+  'allSelectedPlaceholder',
+])(Placeholder);
