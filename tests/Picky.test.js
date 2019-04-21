@@ -494,6 +494,35 @@ describe('Picky', () => {
       expect(wrapper.state('filteredOptions')).toEqual([1]);
     });
 
+    it('should filter values when case sensitive', () => {
+      const options = [
+        { label: 'Item 1', value: 1 },
+        { label: 'item 2', value: 2 },
+        { label: 'item 3', value: 3 },
+        { label: 'Item 4', value: 4 },
+      ];
+      const wrapper = mount(
+        <Picky
+          options={options}
+          value={[]}
+          valueKey="value"
+          labelKey="label"
+          caseSensitiveFilter={true}
+          multiple={true}
+          filterDebounce={0}
+          open={true}
+          includeFilter={true}
+        />
+      );
+      const event = { target: { value: 'i' } };
+      expect(wrapper.state('filteredOptions')).toEqual([]);
+      wrapper.find(sel('picky__filter__input')).simulate('change', event);
+      expect(wrapper.state('filteredOptions')).toEqual([
+        { label: 'item 2', value: 2 },
+        { label: 'item 3', value: 3 },
+      ]);
+    });
+
     it('shouldnt filter if filter query is blank or empty string', () => {
       const wrapper = mount(
         <Picky
@@ -971,7 +1000,7 @@ describe('Picky', () => {
 
   it('should be disabled when disabled prop supplied', () => {
     const options = [1, 2];
-    const { getByTestId, rerender } = rtlRender(
+    const { getByTestId } = rtlRender(
       <Picky
         options={options}
         includeSelectAll
@@ -997,7 +1026,7 @@ describe('Picky', () => {
 
   it('should not have select all checked when there are no options', () => {
     const options = [];
-    const { getByTestId, debug } = rtlRender(
+    const { getByTestId } = rtlRender(
       <Picky
         options={options}
         includeSelectAll
