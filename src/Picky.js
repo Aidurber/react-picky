@@ -258,9 +258,13 @@ class Picky extends React.PureComponent {
     );
     const filteredOptions = this.props.options.filter(option => {
       if (isObject) {
-        return includes(option[this.props.labelKey], term);
+        return includes(
+          option[this.props.labelKey],
+          term,
+          this.props.caseSensitiveFilter
+        );
       }
-      return includes(option, term);
+      return includes(option, term, this.props.caseSensitiveFilter);
     });
     this.setState(
       {
@@ -494,6 +498,7 @@ Picky.propTypes = {
   filterPlaceholder: PropTypes.string,
   disabled: PropTypes.bool,
   getFilterValue: PropTypes.func,
+  caseSensitiveFilter: PropTypes.bool,
 };
 
 export default Picky;

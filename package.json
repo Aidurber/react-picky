@@ -13,7 +13,7 @@
     "pretest": "npm run build",
     "lint": "eslint src/**/*.js",
     "test": "cross-env NODE_ENV=test jest",
-    "test:watch": "cross-env NODE_ENV=test jest --watchAll",
+    "test:watch": "cross-env NODE_ENV=test jest --watch",
     "semantic-release": "semantic-release",
     "precommit": "npm run test"
   },
