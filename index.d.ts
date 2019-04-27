@@ -1,4 +1,5 @@
 declare module 'react-picky' {
+  import * as React from 'react';
   export type PickyValue = any[] | string | number | Object;
 
   export type PickyTabIndex = string | number;
