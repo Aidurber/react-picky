@@ -379,7 +379,7 @@ declare module 'react-picky' {
     /**
      * Will provide the input value of filter to the picky dropdown, so that if we have a larger list of options then we can only supply the matching options based on this value.
      */
-    getFilterValue: (term: string) => any;
+    getFilterValue?: (term: string) => any;
     /**
      *  If true options will be returned when they match case, defaults to false
      */
