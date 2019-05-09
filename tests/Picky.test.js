@@ -1039,4 +1039,15 @@ describe('Picky', () => {
     const selectAllCheckbox = getByTestId('selectall-checkbox');
     expect(selectAllCheckbox.checked).toEqual(false);
   });
+
+  it('should update select all state if rendered again with additional options', () => {
+    const wrapper = mount(<Picky options={[1, 2]} value={[1, 2]}/>);
+
+    expect(wrapper.state('allSelected')).toEqual(true);
+
+    wrapper.setProps({options: [1, 2, 3]});
+    wrapper.update();
+
+    expect(wrapper.state('allSelected')).toEqual(false);
+  });
 });

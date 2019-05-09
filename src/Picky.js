@@ -58,13 +58,15 @@ class Picky extends React.PureComponent {
       this.props.options !== nextProps.options ||
       this.props.value !== nextProps.value
     ) {
-      let areEqual = Array.isArray(nextProps.value)
+      let valuesEqual = Array.isArray(nextProps.value)
         ? arraysEqual(nextProps.value, this.props.value)
         : nextProps.value === this.props.value;
 
+      let optsEqual = arraysEqual(nextProps.options, this.props.options);
+
       this.setState({
-        allSelected: !areEqual
-          ? this.allSelected(nextProps.value)
+        allSelected: !(valuesEqual && optsEqual)
+          ? this.allSelected(nextProps.value, nextProps.options)
           : this.allSelected(),
       });
     }
@@ -119,15 +121,16 @@ class Picky extends React.PureComponent {
    * @returns {Boolean}
    * @memberof Picky
    */
-  allSelected(overrideSelected) {
+  allSelected(overrideSelected, overrideOptions) {
     const { value, options } = this.props;
     const selectedValue = overrideSelected || value;
+    const selectedOptions = overrideOptions || options;
 
     // If there are no options we are getting a false positive for all items being selected
-    if (options && options.length === 0) {
+    if (selectedOptions && selectedOptions.length === 0) {
       return false;
     }
-    let copiedOptions = options.map(this.getValue);
+    let copiedOptions = selectedOptions.map(this.getValue);
     let copiedValues = Array.isArray(selectedValue)
       ? selectedValue.map(this.getValue)
       : [];
