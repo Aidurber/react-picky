@@ -62,9 +62,9 @@ export const labelExtractor = (item, valueKey, labelKey) =>
 
 export const sortCollection = (array, valueKey) => {
   if (valueKey) {
-    return array.sort((a, b) => a[valueKey] - b[valueKey]);
+    return array.sort((a, b) => a[valueKey] < b[valueKey] ? -1 : 1);
   } else {
-    return array.sort((a, b) => a - b);
+    return array.sort((a, b) => a < b ? -1 : 1);
   }
 };
 

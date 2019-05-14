@@ -99,6 +99,16 @@ describe('Utils', () => {
       const result = sortCollection(data, 'id');
       expect(result).toEqual([{ id: 1 }, { id: 2 }, { id: 3 }]);
     });
+    it('should sort an array of strings ascending', () => {
+      const data = ["b", "c", "a"];
+      const result = sortCollection(data);
+      expect(result).toEqual(["a", "b", "c"]);
+    });
+    it('should sort object array with string keys ascending', () => {
+      const data = [{ id: "b" }, { id: "c" }, { id: "a" }];
+      const result = sortCollection(data, 'id');
+      expect(result).toEqual([{ id: "a" }, { id: "b" }, { id: "c" }]);
+    });
   });
   describe('arrays equal', () => {
     it('should return false if arrays are different lengths', () => {
