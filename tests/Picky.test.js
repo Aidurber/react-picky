@@ -591,6 +591,26 @@ describe('Picky', () => {
       // Dropdown should't close
       expect(onCloseMock).toHaveBeenCalledTimes(0);
     });
+
+    it('should not show select all when a filter has been entered', () => {
+      const wrapper = mount(
+        <Picky
+          value={[]}
+          includeSelectAll={true}
+          options={[1, 2, 3]}
+          open={true}
+          filterDebounce={0}
+          includeFilter={true}
+          multiple={true}
+        />
+      );
+      expect(wrapper.find(sel('selectall'))).toHaveLength(1);
+
+      const event = { target: { value: '1' } };
+      wrapper.find(sel('picky__filter__input')).simulate('change', event);
+
+      expect(wrapper.find(sel('selectall'))).toHaveLength(0);
+    });
   });
 
   describe('Callbacks', () => {
