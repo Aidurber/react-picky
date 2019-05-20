@@ -55,4 +55,5 @@ export default onlyUpdateForKeys([
   'disabled',
   'allSelected',
   'selectAllText',
+  'visible',
 ])(SelectAll);
