@@ -422,6 +422,7 @@ class Picky extends React.PureComponent {
           className="picky__dropdown"
           id={this.state.id + '-list'}
           aria-hidden={!open}
+          hidden={!open}
           style={open ? dropdownStyle : { visibility: 'hidden' }}
         >
           {includeFilter && (
