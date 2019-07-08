@@ -376,6 +376,7 @@ class Picky extends React.PureComponent {
       renderSelectAll,
       filterPlaceholder,
       disabled,
+      buttonProps,
     } = this.props;
     const { open } = this.state;
     let ariaOwns = '';
@@ -402,6 +403,7 @@ class Picky extends React.PureComponent {
           id={`${this.state.id}__button`}
           disabled={disabled}
           onClick={this.toggleDropDown}
+          {...buttonProps}
         >
           <Placeholder
             allSelected={this.state.allSelected}
@@ -502,6 +504,7 @@ Picky.propTypes = {
   disabled: PropTypes.bool,
   getFilterValue: PropTypes.func,
   caseSensitiveFilter: PropTypes.bool,
+  buttonProps: PropTypes.object,
 };
 
 export default Picky;

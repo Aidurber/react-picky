@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { onlyUpdateForKeys } from 'recompose';
-function Button({ id, disabled, onClick, children }) {
+function Button({ id, disabled, onClick, children, className, ...rest }) {
   const buttonId = `${id}__button`;
   const classes = [
     'picky__input',
     disabled ? 'picky__input--disabled' : '',
+    className
   ].join(' ');
 
   return (
@@ -15,6 +16,7 @@ function Button({ id, disabled, onClick, children }) {
       className={classes}
       onClick={onClick}
       data-testid="picky-input"
+      {...rest}
     >
       {children}
     </button>
@@ -29,6 +31,7 @@ Button.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
+  className:PropTypes.string
 };
 Button.displayName = 'Button';
 export default onlyUpdateForKeys(['disabled', 'children'])(Button);
