@@ -1061,13 +1061,27 @@ describe('Picky', () => {
   });
 
   it('should update select all state if rendered again with additional options', () => {
-    const wrapper = mount(<Picky options={[1, 2]} value={[1, 2]}/>);
+    const wrapper = mount(<Picky options={[1, 2]} value={[1, 2]} />);
 
     expect(wrapper.state('allSelected')).toEqual(true);
 
-    wrapper.setProps({options: [1, 2, 3]});
+    wrapper.setProps({ options: [1, 2, 3] });
     wrapper.update();
 
     expect(wrapper.state('allSelected')).toEqual(false);
+  });
+
+  it('should pass all buttonProps to button', () => {
+    const { getByTestId } = rtlRender(
+      <Picky
+        options={[1, 2]}
+        buttonProps={{ className: 'btn btn-primary', 'aria-label': 'test' }}
+      />
+    );
+
+    const button = getByTestId('picky-input');
+    expect(button.classList.contains('btn')).toBe(true);
+    expect(button.classList.contains('btn-primary')).toBe(true);
+    expect(button.getAttribute('aria-label')).toEqual('test');
   });
 });
