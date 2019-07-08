@@ -28,11 +28,12 @@ If you like the tag list like [React-Select](https://github.com/JedWatson/react-
 You can also achieve the same result with a great deal of flexibility using [Paypal's Downshift](https://github.com/paypal/downshift#usage).
 
 ### More on React Select
-React Select V2 is pretty incredible, you can replace and provide custom functionality for almost every element of the select component. With a little work you could rebuild Picky from the components of React Select, take a look at [React Select: Experimental](https://react-select.com/advanced#experimental), the Popout example is close to what Picky does. You could even build a date picker in React Select...**HOW COOL IS THAT!** 
 
+React Select V2 is pretty incredible, you can replace and provide custom functionality for almost every element of the select component. With a little work you could rebuild Picky from the components of React Select, take a look at [React Select: Experimental](https://react-select.com/advanced#experimental), the Popout example is close to what Picky does. You could even build a date picker in React Select...**HOW COOL IS THAT!**
 
 ## What Picky is
-Picky provides a medium amount of flexibility, you can custom render: Options, List (useful for creating a virtualized menu), and SelectAll. Any further customisation and it's a little out of scope for Picky. It was built with a common pattern in mind so you can get up and running with little-to-no work. If you need Picky to be more flexible, I'm happy to take a PR if it would benefit the rest of the community. 
+
+Picky provides a medium amount of flexibility, you can custom render: Options, List (useful for creating a virtualized menu), and SelectAll. Any further customisation and it's a little out of scope for Picky. It was built with a common pattern in mind so you can get up and running with little-to-no work. If you need Picky to be more flexible, I'm happy to take a PR if it would benefit the rest of the community.
 
 # Peer Dependencies
 
@@ -168,6 +169,7 @@ Picky.propTypes = {
 - `filterPlaceholder` - Override the filter placeholder. Defaults to 'Filter...'
 - `getFilterValue` - Will provide the input value of filter to the picky dropdown, so that if we have a larger list of options then we can only supply the matching options based on this value.
 - `caseSensitiveFilter` - If true options will be returned when they match case
+- `buttonProps` - Additional props to apply the the button component, useful for supplying class names.
 
 ## Custom rendering
 

@@ -385,6 +385,17 @@ declare module 'react-picky' {
      *  If true options will be returned when they match case, defaults to false
      */
     caseSensitiveFilter?: boolean;
+
+    /**
+     * Pass additional props the the button component
+     *
+     * @type {React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>}
+     * @memberof PickyProps
+     */
+    buttonProps?: React.DetailedHTMLProps<
+      React.ButtonHTMLAttributes<HTMLButtonElement>,
+      HTMLButtonElement
+    >;
   }
 
   export default class Picky extends React.PureComponent<PickyProps, any> {
