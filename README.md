@@ -70,6 +70,7 @@ import Picky from 'react-picky';
 import 'react-picky/dist/picky.css'; // Include CSS
 
 <Picky
+  id="picky"
   options={[1, 2, 3, 4, 5]}
   value={[]}
   multiple={true}
@@ -104,6 +105,7 @@ Picky.defaultProps = {
   selectAllText: 'Select all',
 };
 Picky.propTypes = {
+  id: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   value: PropTypes.oneOfType([
     PropTypes.array,
@@ -141,6 +143,7 @@ Picky.propTypes = {
 
 ### Prop descriptions
 
+- `id` - HTML id assigned to input. Also used as a base for other elements inside Picky.
 - `placeholder` - Default message when no items are selected.
 - `value` - The selected value(s), array if multiple is true. **Not needed if using as an uncontolled component**
 - `numberDisplayed` - Then number of selected options displayed until it turns into '(selected count) selected'.
@@ -181,6 +184,7 @@ You can render out custom items for the dropdown.
 
 ```javascript
 <Picky
+  id="picky"
   value={this.state.arrayValue}
   options={bigList}
   onChange={this.selectMultipleOption}
@@ -274,6 +278,7 @@ Gets called with the following properties:
 
 ```javascript
 <Picky
+  id="picky"
   value={this.state.arrayValue}
   options={bigList}
   onChange={this.selectMultipleOption}
