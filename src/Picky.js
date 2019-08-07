@@ -4,7 +4,6 @@ import debounce from './lib/debounce';
 import includes from './lib/includes';
 import {
   isDataObject,
-  generateGuid,
   hasItem,
   keyExtractor,
   hasItemIndex,
@@ -26,7 +25,6 @@ class Picky extends React.PureComponent {
       open: props.open,
       filtered: false,
       filteredOptions: [],
-      id: generateGuid(),
       allSelected: false,
     };
     this.toggleDropDown = this.toggleDropDown.bind(this);
@@ -228,7 +226,7 @@ class Picky extends React.PureComponent {
             multiple={multiple}
             tabIndex={tabIndex}
             disabled={disabled}
-            id={this.state.id + '-option-' + index}
+            id={this.props.id + '-option-' + index}
           />
         );
       }
@@ -381,9 +379,9 @@ class Picky extends React.PureComponent {
     const { open } = this.state;
     let ariaOwns = '';
     if (open) {
-      ariaOwns += this.state.id + '-list';
+      ariaOwns += this.props.id + '-list';
     }
-    const buttonId = `${this.state.id}__button`;
+    const buttonId = `${this.props.id}__button`;
     const dropdownStyle = { maxHeight: dropdownHeight, overflowY: 'scroll' };
     return (
       <div
@@ -391,7 +389,7 @@ class Picky extends React.PureComponent {
           this.node = node;
         }}
         className={['picky', className].join(' ')}
-        id={this.state.id}
+        id={this.props.id}
         role="combobox"
         aria-controls={buttonId}
         aria-expanded={open}
@@ -400,7 +398,7 @@ class Picky extends React.PureComponent {
         tabIndex={tabIndex}
       >
         <Button
-          id={`${this.state.id}__button`}
+          id={`${this.props.id}__button`}
           disabled={disabled}
           onClick={this.toggleDropDown}
           {...buttonProps}
@@ -420,7 +418,7 @@ class Picky extends React.PureComponent {
         </Button>
         <div
           className="picky__dropdown"
-          id={this.state.id + '-list'}
+          id={this.props.id + '-list'}
           aria-hidden={!open}
           hidden={!open}
           style={open ? dropdownStyle : { visibility: 'hidden' }}
@@ -447,7 +445,7 @@ class Picky extends React.PureComponent {
               tabIndex={tabIndex}
               disabled={disabled}
               allSelected={this.state.allSelected}
-              id={this.state.id}
+              id={this.props.id}
               selectAllText={this.props.selectAllText}
               toggleSelectAll={this.toggleSelectAll}
             />
@@ -470,6 +468,7 @@ Picky.defaultProps = {
   selectAllText: 'Select all',
 };
 Picky.propTypes = {
+  id: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   value: PropTypes.oneOfType([
     PropTypes.array,
