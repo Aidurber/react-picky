@@ -6,28 +6,6 @@ export const isDataObject = (obj, valueKey, labelKey) => {
   );
 };
 
-export const generateGuid = () => {
-  function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1);
-  }
-  return (
-    s4() +
-    s4() +
-    '-' +
-    s4() +
-    '-' +
-    s4() +
-    '-' +
-    s4() +
-    '-' +
-    s4() +
-    s4() +
-    s4()
-  );
-};
-
 export const hasItem = (all, item, valueKey, labelKey, returnIndex) => {
   if (!all || !item) return false;
   if (Array.isArray(all)) {
