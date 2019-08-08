@@ -168,6 +168,13 @@ declare module 'react-picky' {
    */
   export interface PickyProps {
     /**
+     * The ID for the component, used for accessibility
+     *
+     * @type {string}
+     * @memberof PickyProps
+     */
+    id:string;
+    /**
      * Default placeholder text
      *
      * @type {string}
