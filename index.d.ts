@@ -403,6 +403,11 @@ declare module 'react-picky' {
       React.ButtonHTMLAttributes<HTMLButtonElement>,
       HTMLButtonElement
     >;
+
+    /**
+     * True if you want a disabled Picky
+     */
+    disabled?: boolean;
   }
 
   export default class Picky extends React.PureComponent<PickyProps, any> {
