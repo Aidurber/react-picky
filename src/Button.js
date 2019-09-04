@@ -16,6 +16,7 @@ function Button({ id, disabled, onClick, children, className, ...rest }) {
       className={classes}
       onClick={onClick}
       data-testid="picky-input"
+      disabled={disabled}
       {...rest}
     >
       {children}
