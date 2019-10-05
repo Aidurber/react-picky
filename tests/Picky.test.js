@@ -10,11 +10,15 @@ import Option from '../src/Option';
 const sel = id => `[data-testid="${id}"]`;
 const selSelected = id => `[data-testid="${id}"][data-selected="selected"]`;
 
+const corePickyProps = {
+  id: 'picky-test-id',
+};
+
 describe('Picky', () => {
   afterEach(cleanup); // <-- add this
 
   it('should have Placeholder component', () => {
-    const wrapper = mount(<Picky value={[]} />);
+    const wrapper = mount(<Picky {...corePickyProps} value={[]} />);
     expect(wrapper.find(Placeholder)).toHaveLength(1);
   });
 
@@ -23,6 +27,7 @@ describe('Picky', () => {
     renderPropMock.mockReturnValue(<p />);
     const wrapper = mount(
       <Picky
+        {...corePickyProps}
         value={[1, 2, 3]}
         options={[1, 2, 3, 4, 5]}
         open={true}
@@ -40,6 +45,7 @@ describe('Picky', () => {
     renderListProp.mockReturnValue(<p />);
     const wrapper = mount(
       <Picky
+        {...corePickyProps}
         value={[1, 2, 3]}
         options={[1, 2, 3, 4, 5]}
         open={true}
@@ -60,6 +66,7 @@ describe('Picky', () => {
     const options = [{ id: 1, name: '1' }, { id: 2, name: '2' }];
     mount(
       <Picky
+        {...corePickyProps}
         value={[]}
         options={options}
         open={true}
@@ -79,36 +86,52 @@ describe('Picky', () => {
 
   describe('Virtual Dropdown drawer', () => {
     it('should open if prop open is true', () => {
-      const wrapper = mount(<Picky value={[1, 2, 3]} open={true} />);
+      const wrapper = mount(
+        <Picky {...corePickyProps} value={[1, 2, 3]} open={true} />
+      );
       expect(wrapper.find(sel('dropdown'))).toHaveLength(1);
     });
     it('should not be open if prop open is false', () => {
-      const wrapper = mount(<Picky value={[1, 2, 3]} open={false} />);
+      const wrapper = mount(
+        <Picky {...corePickyProps} value={[1, 2, 3]} open={false} />
+      );
       expect(wrapper.find(sel('dropdown'))).toHaveLength(0);
     });
 
     it('should open on click of button', () => {
-      const wrapper = mount(<Picky value={[1, 2, 3]} />);
+      const wrapper = mount(<Picky {...corePickyProps} value={[1, 2, 3]} />);
       expect(wrapper.find(sel('dropdown'))).toHaveLength(0);
       wrapper.find(sel('picky-input')).simulate('click');
       expect(wrapper.find(sel('dropdown'))).toHaveLength(1);
     });
     it('should open on click of button (open by prop)', () => {
-      const wrapper = mount(<Picky value={[1, 2, 3]} open={true} />);
+      const wrapper = mount(
+        <Picky {...corePickyProps} value={[1, 2, 3]} open={true} />
+      );
       expect(wrapper.find(sel('dropdown'))).toHaveLength(1);
       wrapper.find(sel('picky-input')).simulate('click');
       expect(wrapper.find(sel('dropdown'))).toHaveLength(0);
     });
     it('should have items', () => {
       const wrapper = mount(
-        <Picky value={[1, 2, 3]} options={[1, 2, 3, 4, 5]} open={true} />
+        <Picky
+          {...corePickyProps}
+          value={[1, 2, 3]}
+          options={[1, 2, 3, 4, 5]}
+          open={true}
+        />
       );
       expect(wrapper.find(sel('option'))).toHaveLength(5);
     });
 
     it('should have items selected by default when supplied', () => {
       const wrapper = mount(
-        <Picky value={[1, 2, 3]} options={[1, 2, 3, 4, 5]} open={true} />
+        <Picky
+          {...corePickyProps}
+          value={[1, 2, 3]}
+          options={[1, 2, 3, 4, 5]}
+          open={true}
+        />
       );
       const selected = wrapper.find(selSelected('option'));
       expect(selected).toHaveLength(3);
@@ -118,7 +141,13 @@ describe('Picky', () => {
     });
     it('should show placeholder if value is an array and none selected', () => {
       const wrapper = mount(
-        <Picky value={[]} options={[1, 2, 3, 4, 5]} open={true} multiple />
+        <Picky
+          {...corePickyProps}
+          value={[]}
+          options={[1, 2, 3, 4, 5]}
+          open={true}
+          multiple
+        />
       );
 
       expect(wrapper.find(sel('picky_placeholder')).text()).toEqual(
@@ -128,6 +157,7 @@ describe('Picky', () => {
     it('should show correct placeholder with selected value, single select', () => {
       const wrapper = mount(
         <Picky
+          {...corePickyProps}
           value={[1]}
           options={[1, 2, 3, 4, 5]}
           open={true}
@@ -139,6 +169,7 @@ describe('Picky', () => {
     it('should show correct placeholder with selected value, multi select', () => {
       const wrapper = mount(
         <Picky
+          {...corePickyProps}
           value={[1, 2, 3]}
           options={[1, 2, 3, 4, 5]}
           open={true}
@@ -149,6 +180,7 @@ describe('Picky', () => {
 
       const nextWrapper = mount(
         <Picky
+          {...corePickyProps}
           numberDisplayed={2}
           value={[1, 2, 3]}
           options={[1, 2, 3, 4, 5]}
@@ -164,26 +196,41 @@ describe('Picky', () => {
   describe('Plain Dropdown drawer', () => {
     it('should open if prop open is true', () => {
       const wrapper = mount(
-        <Picky value={[1, 2, 3]} open={true} virtual={false} />
+        <Picky
+          {...corePickyProps}
+          value={[1, 2, 3]}
+          open={true}
+          virtual={false}
+        />
       );
       expect(wrapper.find(sel('dropdown'))).toHaveLength(1);
     });
     it('should not be open if prop open is false', () => {
       const wrapper = mount(
-        <Picky value={[1, 2, 3]} open={false} virtual={false} />
+        <Picky
+          {...corePickyProps}
+          value={[1, 2, 3]}
+          open={false}
+          virtual={false}
+        />
       );
       expect(wrapper.find(sel('dropdown'))).toHaveLength(0);
     });
 
     it('should open on click of button', () => {
-      const wrapper = mount(<Picky value={[1, 2, 3]} />);
+      const wrapper = mount(<Picky {...corePickyProps} value={[1, 2, 3]} />);
       expect(wrapper.find(sel('dropdown'))).toHaveLength(0);
       wrapper.find(sel('picky-input')).simulate('click');
       expect(wrapper.find(sel('dropdown'))).toHaveLength(1);
     });
     it('should open on click of button (open by prop)', () => {
       const wrapper = mount(
-        <Picky value={[1, 2, 3]} open={true} virtual={false} />
+        <Picky
+          {...corePickyProps}
+          value={[1, 2, 3]}
+          open={true}
+          virtual={false}
+        />
       );
       expect(wrapper.find(sel('dropdown'))).toHaveLength(1);
       wrapper.find(sel('picky-input')).simulate('click');
@@ -192,6 +239,7 @@ describe('Picky', () => {
     it('should have items', () => {
       const wrapper = mount(
         <Picky
+          {...corePickyProps}
           value={[1, 2, 3]}
           options={[1, 2, 3, 4, 5]}
           open={true}
@@ -204,6 +252,7 @@ describe('Picky', () => {
     it('should have items selected by default when supplied', () => {
       const wrapper = mount(
         <Picky
+          {...corePickyProps}
           value={[1, 2, 3]}
           options={[1, 2, 3, 4, 5]}
           open={true}
@@ -219,6 +268,7 @@ describe('Picky', () => {
     it('should show placeholder if value is an array and none selected', () => {
       const wrapper = mount(
         <Picky
+          {...corePickyProps}
           value={[]}
           options={[1, 2, 3, 4, 5]}
           open={true}
@@ -234,6 +284,7 @@ describe('Picky', () => {
     it('should show correct placeholder with selected value, single select', () => {
       const wrapper = mount(
         <Picky
+          {...corePickyProps}
           value={[1]}
           options={[1, 2, 3, 4, 5]}
           open={true}
@@ -246,6 +297,7 @@ describe('Picky', () => {
     it('should show correct placeholder with selected value, multi select', () => {
       const wrapper = mount(
         <Picky
+          {...corePickyProps}
           value={[1, 2, 3]}
           options={[1, 2, 3, 4, 5]}
           open={true}
@@ -257,6 +309,7 @@ describe('Picky', () => {
 
       const nextWrapper = mount(
         <Picky
+          {...corePickyProps}
           numberDisplayed={2}
           value={[1, 2, 3]}
           options={[1, 2, 3, 4, 5]}
@@ -275,6 +328,7 @@ describe('Picky', () => {
     it('should accept includeSelectAll option', () => {
       const wrapper = mount(
         <Picky
+          {...corePickyProps}
           value={[1, 2, 3]}
           includeSelectAll={true}
           options={[1, 2, 3, 4, 5]}
@@ -288,6 +342,7 @@ describe('Picky', () => {
     it('should have "select all" text when no selectAllText prop provided', () => {
       const wrapper = mount(
         <Picky
+          {...corePickyProps}
           value={[1, 2, 3]}
           includeSelectAll={true}
           options={[1, 2, 3, 4, 5]}
@@ -305,6 +360,7 @@ describe('Picky', () => {
     it('should support select all text with selectAllText prop', () => {
       const wrapper = mount(
         <Picky
+          {...corePickyProps}
           value={[1, 2, 3]}
           includeSelectAll={true}
           options={[1, 2, 3, 4, 5]}
@@ -326,6 +382,7 @@ describe('Picky', () => {
       const options = [1, 2, 3, 4, 5];
       const wrapper = mount(
         <Picky
+          {...corePickyProps}
           value={[1, 2, 3]}
           includeSelectAll={true}
           options={options}
@@ -347,6 +404,7 @@ describe('Picky', () => {
       const onChange = jest.fn();
       const wrapper = mount(
         <Picky
+          {...corePickyProps}
           value={1}
           options={[1, 2, 3, 4, 5]}
           open={true}
@@ -364,7 +422,12 @@ describe('Picky', () => {
     it('should select single value uncontrolled', () => {
       const onChange = jest.fn();
       const wrapper = mount(
-        <Picky options={[1, 2, 3, 4, 5]} open={true} onChange={onChange} />
+        <Picky
+          {...corePickyProps}
+          options={[1, 2, 3, 4, 5]}
+          open={true}
+          onChange={onChange}
+        />
       );
       expect(wrapper.state('selectedValue')).toEqual(null);
       wrapper
@@ -377,6 +440,7 @@ describe('Picky', () => {
       const onChange = jest.fn();
       const wrapper = mount(
         <Picky
+          {...corePickyProps}
           value={[]}
           options={[1, 2, 3, 4, 5]}
           open={true}
@@ -396,6 +460,7 @@ describe('Picky', () => {
       const onChange = jest.fn();
       const wrapper = mount(
         <Picky
+          {...corePickyProps}
           value={[2]}
           options={[1, 2, 3, 4, 5]}
           open={true}
@@ -420,6 +485,7 @@ describe('Picky', () => {
       const mockOnChange = jest.fn();
       const wrapper = mount(
         <Picky
+          {...corePickyProps}
           value={null}
           options={options}
           open={true}
@@ -443,13 +509,20 @@ describe('Picky', () => {
 
   describe('Filter', () => {
     it('should accept includeFilter prop', () => {
-      const wrapper = mount(<Picky includeFilter={true} value={[]} />);
+      const wrapper = mount(
+        <Picky {...corePickyProps} includeFilter={true} value={[]} />
+      );
       expect(wrapper.prop('includeFilter')).toEqual(true);
     });
 
     it('should have filter component', () => {
       const wrapper = mount(
-        <Picky includeFilter={true} open={true} value={[]} />
+        <Picky
+          {...corePickyProps}
+          includeFilter={true}
+          open={true}
+          value={[]}
+        />
       );
       expect(wrapper.find(Filter)).toHaveLength(1);
     });
@@ -458,6 +531,7 @@ describe('Picky', () => {
       //picky__filter__input
       const wrapper = mount(
         <Picky
+          {...corePickyProps}
           includeFilter={true}
           value={[]}
           defaultFocusFilter={true}
@@ -480,6 +554,7 @@ describe('Picky', () => {
     it('should filter values', () => {
       const wrapper = mount(
         <Picky
+          {...corePickyProps}
           options={[1, 2, 3, 4]}
           value={[]}
           multiple={true}
@@ -503,6 +578,7 @@ describe('Picky', () => {
       ];
       const wrapper = mount(
         <Picky
+          {...corePickyProps}
           options={options}
           value={[]}
           valueKey="value"
@@ -526,6 +602,7 @@ describe('Picky', () => {
     it('shouldnt filter if filter query is blank or empty string', () => {
       const wrapper = mount(
         <Picky
+          {...corePickyProps}
           options={[1, 2, 3, 4]}
           value={[]}
           multiple={true}
@@ -544,6 +621,7 @@ describe('Picky', () => {
       const options = [{ id: 1, name: 'Item 1' }, { id: 2, name: 'Item 3' }];
       const wrapper = mount(
         <Picky
+          {...corePickyProps}
           options={options}
           value={[]}
           multiple={true}
@@ -570,6 +648,7 @@ describe('Picky', () => {
       const onCloseMock = jest.fn();
       const { getByTestId } = rtlRender(
         <Picky
+          {...corePickyProps}
           options={[1, 2, 3, 4]}
           value={[]}
           multiple={false}
@@ -595,6 +674,7 @@ describe('Picky', () => {
     it('should not show select all when a filter has been entered', () => {
       const wrapper = mount(
         <Picky
+          {...corePickyProps}
           value={[]}
           includeSelectAll={true}
           options={[1, 2, 3]}
@@ -618,6 +698,7 @@ describe('Picky', () => {
       const onFilteredMock = jest.fn();
       const wrapper = mount(
         <Picky
+          {...corePickyProps}
           options={[1, 2, 3, 4]}
           value={[]}
           multiple={true}
@@ -637,6 +718,7 @@ describe('Picky', () => {
       const onOpenMock = jest.fn();
       const wrapper = mount(
         <Picky
+          {...corePickyProps}
           options={[1, 2, 3, 4]}
           value={[]}
           multiple={true}
@@ -654,6 +736,7 @@ describe('Picky', () => {
       const onCloseMock = jest.fn();
       const wrapper = mount(
         <Picky
+          {...corePickyProps}
           options={[1, 2, 3, 4]}
           value={[]}
           multiple={true}
@@ -671,7 +754,7 @@ describe('Picky', () => {
 
   xit('should close when clicked outside of component', () => {
     //Can't figure out how to test this
-    // const wrapper = mount(<Picky open={true} options={[1, 2, 3]} />);
+    // const wrapper = mount(<Picky {...corePickyProps}  open={true} options={[1, 2, 3]} />);
     // wrapper.mount();
     // expect(wrapper.find(sel('dropdown'))).toHaveLength(1);
     // wrapper.instance().handleOutsideClick({ target: '#root' });
@@ -689,6 +772,7 @@ describe('Picky', () => {
   it('should not render custom selectall when renderSelectAll prop is not supplied', () => {
     const wrapper = mount(
       <Picky
+        {...corePickyProps}
         options={[]}
         virtual={false}
         open={true}
@@ -703,6 +787,7 @@ describe('Picky', () => {
     const renderSelectAllMock = jest.fn();
     mount(
       <Picky
+        {...corePickyProps}
         options={[1, 2, 3, 4]}
         virtual={false}
         open={true}
@@ -738,6 +823,7 @@ describe('Picky', () => {
         });
         const wrapper = mount(
           <Picky
+            {...corePickyProps}
             multiple={true}
             open={true}
             options={items}
@@ -764,6 +850,7 @@ describe('Picky', () => {
         const mockOnChange = jest.fn();
         const wrapper = mount(
           <Picky
+            {...corePickyProps}
             multiple
             open
             value={[]}
@@ -792,6 +879,7 @@ describe('Picky', () => {
         const onChangeMock = jest.fn();
         const wrapper = mount(
           <Picky
+            {...corePickyProps}
             multiple
             open
             value={[]}
@@ -825,6 +913,7 @@ describe('Picky', () => {
         const ALL_SELECTED_TEXT = 'All selected';
         const wrapper = mount(
           <Picky
+            {...corePickyProps}
             multiple
             open
             value={[]}
@@ -858,6 +947,7 @@ describe('Picky', () => {
 
         const { getByTestId } = rtlRender(
           <Picky
+            {...corePickyProps}
             multiple
             value={[]}
             options={[1, 2, 3, 4]}
@@ -890,6 +980,7 @@ describe('Picky', () => {
 
         const { getByTestId } = rtlRender(
           <Picky
+            {...corePickyProps}
             multiple
             value={[1]}
             options={[1, 2, 3]}
@@ -907,6 +998,7 @@ describe('Picky', () => {
 
         const { getByTestId } = rtlRender(
           <Picky
+            {...corePickyProps}
             multiple
             value={[1]}
             options={[1, 2, 3]}
@@ -925,6 +1017,7 @@ describe('Picky', () => {
 
         const { getByTestId } = rtlRender(
           <Picky
+            {...corePickyProps}
             multiple
             value={[1]}
             options={[1, 2, 3]}
@@ -942,6 +1035,7 @@ describe('Picky', () => {
     test('should override filter placeholder if supplied', () => {
       const { getByTestId } = rtlRender(
         <Picky
+          {...corePickyProps}
           options={[1, 2, 3]}
           open={true}
           includeFilter
@@ -954,7 +1048,12 @@ describe('Picky', () => {
     });
     test('filter placeholder default to Filter... if not supplied', () => {
       const { getByTestId } = rtlRender(
-        <Picky options={[1, 2, 3]} open={true} includeFilter />
+        <Picky
+          {...corePickyProps}
+          options={[1, 2, 3]}
+          open={true}
+          includeFilter
+        />
       );
       const filter = getByTestId('picky__filter__input');
 
@@ -965,6 +1064,7 @@ describe('Picky', () => {
       const options = [{ id: 1, name: 'Item 1' }, { id: 2, name: 'Item 2' }];
       const { getByTestId, rerender } = rtlRender(
         <Picky
+          {...corePickyProps}
           options={options}
           includeSelectAll
           valueKey="id"
@@ -979,6 +1079,7 @@ describe('Picky', () => {
 
       rerender(
         <Picky
+          {...corePickyProps}
           options={options}
           includeSelectAll
           valueKey="id"
@@ -995,6 +1096,7 @@ describe('Picky', () => {
       const options = [1, 2];
       const { getByTestId, rerender } = rtlRender(
         <Picky
+          {...corePickyProps}
           options={options}
           includeSelectAll
           open={true}
@@ -1007,6 +1109,7 @@ describe('Picky', () => {
 
       rerender(
         <Picky
+          {...corePickyProps}
           options={options}
           includeSelectAll
           open={true}
@@ -1022,6 +1125,7 @@ describe('Picky', () => {
     const options = [1, 2];
     const { getByTestId } = rtlRender(
       <Picky
+        {...corePickyProps}
         options={options}
         includeSelectAll
         open={true}
@@ -1048,6 +1152,7 @@ describe('Picky', () => {
     const options = [];
     const { getByTestId } = rtlRender(
       <Picky
+        {...corePickyProps}
         options={options}
         includeSelectAll
         open={true}
@@ -1061,7 +1166,9 @@ describe('Picky', () => {
   });
 
   it('should update select all state if rendered again with additional options', () => {
-    const wrapper = mount(<Picky options={[1, 2]} value={[1, 2]} />);
+    const wrapper = mount(
+      <Picky {...corePickyProps} options={[1, 2]} value={[1, 2]} />
+    );
 
     expect(wrapper.state('allSelected')).toEqual(true);
 
@@ -1074,6 +1181,7 @@ describe('Picky', () => {
   it('should pass all buttonProps to button', () => {
     const { getByTestId } = rtlRender(
       <Picky
+        {...corePickyProps}
         options={[1, 2]}
         buttonProps={{ className: 'btn btn-primary', 'aria-label': 'test' }}
       />
