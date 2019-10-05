@@ -305,10 +305,12 @@ class Picky extends React.PureComponent {
   }
 
   focusFilterInput(isOpen) {
+    if (!this.filter || !this.filter.filterInput) return;
     if (isOpen && this.props.defaultFocusFilter) {
-      if (this.filter && this.filter.filterInput) {
-        this.filter.filterInput.focus();
-      }
+      this.filter.filterInput.focus();
+    }
+    if (!isOpen && this.props.clearFilterOnClose === true) {
+      this.filter.filterInput.value = '';
     }
   }
   /**
