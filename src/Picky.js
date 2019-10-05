@@ -331,6 +331,10 @@ class Picky extends React.PureComponent {
           ...state,
           // Toggle open state
           open: !state.open,
+          filtered: this.props.clearFilterOnClose ? false : state.filtered,
+          filteredOptions: this.props.clearFilterOnClose
+            ? []
+            : state.filteredOptions,
         };
       },
       () => {
@@ -511,6 +515,7 @@ Picky.propTypes = {
   caseSensitiveFilter: PropTypes.bool,
   buttonProps: PropTypes.object,
   selectAllMode: PropTypes.oneOf(['default', 'filtered']),
+  clearFilterOnClose: PropTypes.bool,
 };
 
 export default Picky;

@@ -144,6 +144,7 @@ Picky.propTypes = {
   caseSensitiveFilter: PropTypes.bool,
   buttonProps: PropTypes.object,
   selectAllMode: PropTypes.oneOf(['default', 'filtered']),
+  clearFilterOnClose: PropTypes.bool,
 };
 ```
 
@@ -180,6 +181,7 @@ Picky.propTypes = {
 - `caseSensitiveFilter` - If true options will be returned when they match case
 - `buttonProps` - Additional props to apply the the button component, useful for supplying class names.
 - `selectAllMode` - default: `default`. When the mode is `filtered` the Select All won't be hidden when filtering.
+- `clearFilterOnClose` - When set to true filtered options and filtered state will be cleared on close. Defaults to false.
 
 ## Custom rendering
 
