@@ -1,7 +1,11 @@
 /**
  * Check if a string contains a value
  */
-function includes(str, term, caseSensitive) {
+export function includes(
+  str: string,
+  term: string,
+  caseSensitive: boolean = false
+): boolean {
   if (!caseSensitive) {
     return (
       String(str)
@@ -12,5 +16,3 @@ function includes(str, term, caseSensitive) {
     return String(str).indexOf(String(term)) > -1;
   }
 }
-
-export default includes;
