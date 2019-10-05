@@ -1,9 +1,9 @@
-function split(str) {
-  let a = 1;
-  let res = '';
+function split(str: string): string {
+  let a: number = 1;
+  let res: string = '';
 
-  var parts = str.split('%'),
-    len = parts.length;
+  const parts = (str || '').split('%');
+  const len: number = parts.length;
 
   if (len > 0) {
     res += parts[0];
@@ -11,7 +11,7 @@ function split(str) {
 
   for (let i = 1; i < len; i++) {
     if (parts[i][0] === 's' || parts[i][0] === 'd') {
-      var value = arguments[a++];
+      let value = arguments[a++];
       res += parts[i][0] === 'd' ? Math.floor(value) : value;
     } else if (parts[i][0]) {
       res += '%' + parts[i][0];
@@ -28,9 +28,9 @@ function split(str) {
 
 const regex = /%[sdj]/;
 
-function format(message) {
-  if (regex.test(message)) return split.apply(null, arguments);
-  return Array.from(arguments).join(' ');
+export function format(message: string, ...args: any[]) {
+  if (regex.test(message)) {
+    return split.apply(null, arguments as any);
+  }
+  return Array.from(args).join(' ');
 }
-
-export default format;
