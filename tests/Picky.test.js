@@ -713,6 +713,117 @@ describe('Picky', () => {
 
       expect(wrapper.find(sel('selectall'))).toHaveLength(1);
     });
+
+    it('should retain filter on close', () => {
+      const wrapper = mount(
+        <Picky
+          {...corePickyProps}
+          value={[]}
+          includeSelectAll={true}
+          options={['Moo', 'Cat', 'Boo']}
+          filterDebounce={0}
+          includeFilter={true}
+          multiple={true}
+        />
+      );
+
+      const button = sel('picky-input');
+      const option = sel('option');
+      const input = sel('picky__filter__input');
+
+      wrapper.find(button).simulate('click');
+
+      wrapper.find(input).simulate('change', { target: { value: 'oo' } });
+      expect(
+        wrapper
+          .find(option)
+          .at(0)
+          .text()
+      ).toEqual('Moo');
+      expect(
+        wrapper
+          .find(option)
+          .at(1)
+          .text()
+      ).toEqual('Boo');
+
+      // Close
+      wrapper.find(button).simulate('click');
+
+      // Open
+      wrapper.find(button).simulate('click');
+      expect(
+        wrapper
+          .find(option)
+          .at(0)
+          .text()
+      ).toEqual('Moo');
+      expect(
+        wrapper
+          .find(option)
+          .at(1)
+          .text()
+      ).toEqual('Boo');
+    });
+    it('should retain clear filter on close with clearFilterOnClose prop', () => {
+      const wrapper = mount(
+        <Picky
+          {...corePickyProps}
+          clearFilterOnClose={true}
+          value={[]}
+          includeSelectAll={true}
+          options={['Moo', 'Cat', 'Boo']}
+          filterDebounce={0}
+          includeFilter={true}
+          multiple={true}
+        />
+      );
+
+      const button = sel('picky-input');
+      const option = sel('option');
+      const input = sel('picky__filter__input');
+
+      wrapper.find(button).simulate('click');
+
+      wrapper.find(input).simulate('change', { target: { value: 'oo' } });
+      expect(
+        wrapper
+          .find(option)
+          .at(0)
+          .text()
+      ).toEqual('Moo');
+      expect(
+        wrapper
+          .find(option)
+          .at(1)
+          .text()
+      ).toEqual('Boo');
+
+      // Close
+      wrapper.find(button).simulate('click');
+
+      // Open
+      wrapper.find(button).simulate('click');
+
+      expect(
+        wrapper
+          .find(option)
+          .at(0)
+          .text()
+      ).toEqual('Moo');
+      expect(
+        wrapper
+          .find(option)
+          .at(1)
+          .text()
+      ).toEqual('Cat');
+      expect(
+        wrapper
+          .find(option)
+          .at(2)
+          .text()
+      ).toEqual('Boo');
+    });
   });
 
   describe('Callbacks', () => {

@@ -414,6 +414,12 @@ declare module 'react-picky' {
      * Allows for additional functionalty with select all and filtering, see the docs.
      */
     selectAllMode?: SelectAllMode;
+    /**
+     * When true, the filtered options are cleared on close
+     *
+     * @memberof PickyProps
+     */
+    clearFilterOnClose?: boolean;
   }
 
   export default class Picky extends React.PureComponent<PickyProps, any> {
