@@ -103,6 +103,7 @@ Picky.defaultProps = {
   tabIndex: 0,
   keepOpen: true,
   selectAllText: 'Select all',
+  selectAllMode: 'default',
 };
 Picky.propTypes = {
   id: PropTypes.string.isRequired,
@@ -137,7 +138,12 @@ Picky.propTypes = {
   defaultFocusFilter: PropTypes.bool,
   className: PropTypes.string,
   renderList: PropTypes.func,
+  filterPlaceholder: PropTypes.string,
+  disabled: PropTypes.bool,
   getFilterValue: PropTypes.func,
+  caseSensitiveFilter: PropTypes.bool,
+  buttonProps: PropTypes.object,
+  selectAllMode: PropTypes.oneOf(['default', 'filtered']),
 };
 ```
 
@@ -173,6 +179,7 @@ Picky.propTypes = {
 - `getFilterValue` - Will provide the input value of filter to the picky dropdown, so that if we have a larger list of options then we can only supply the matching options based on this value.
 - `caseSensitiveFilter` - If true options will be returned when they match case
 - `buttonProps` - Additional props to apply the the button component, useful for supplying class names.
+- `selectAllMode` - default: `default`. When the mode is `filtered` the Select All won't be hidden when filtering.
 
 ## Custom rendering
 

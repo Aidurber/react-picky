@@ -4,6 +4,7 @@ declare module 'react-picky' {
 
   export type PickyTabIndex = string | number;
 
+  type SelectAllMode = 'default' | 'filtered';
   /**
    * Properties returned from render
    *
@@ -173,7 +174,7 @@ declare module 'react-picky' {
      * @type {string}
      * @memberof PickyProps
      */
-    id:string;
+    id: string;
     /**
      * Default placeholder text
      *
@@ -408,6 +409,11 @@ declare module 'react-picky' {
      * True if you want a disabled Picky
      */
     disabled?: boolean;
+
+    /**
+     * Allows for additional functionalty with select all and filtering, see the docs.
+     */
+    selectAllMode?: SelectAllMode;
   }
 
   export default class Picky extends React.PureComponent<PickyProps, any> {
