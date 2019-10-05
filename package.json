@@ -4,8 +4,11 @@
   "main": "dist/index.js",
   "typings": "./index.d.ts",
   "license": "MIT",
+  "files": [
+    "/dist",
+    "./index.d.ts"
+  ],
   "scripts": {
-    "commit": "git-cz",
     "build": "cross-env NODE_ENV=production rollup -c",
     "prettier": "prettier --write {src,tests}{/**/,/}*.js",
     "dev": "rollup -c -w",
