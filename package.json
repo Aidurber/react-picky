@@ -9,6 +9,8 @@
     "./index.d.ts"
   ],
   "scripts": {
+    "start": "yarn --cwd example start",
+    "prepare-example": "yarn --cwd example install",
     "build": "cross-env NODE_ENV=production rollup -c",
     "prettier": "prettier --write {src,tests}{/**/,/}*.js",
     "dev": "rollup -c -w",
