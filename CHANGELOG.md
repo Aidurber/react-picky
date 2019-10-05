@@ -1,3 +1,15 @@
+# [4.7.0](https://github.com/Aidurber/react-picky/compare/v4.6.0...v4.7.0) (2019-10-05)
+
+
+### Bug Fixes
+
+* clear filter input on close ([247b800](https://github.com/Aidurber/react-picky/commit/247b800))
+
+
+### Features
+
+* support clearing filter on close ([6e7106e](https://github.com/Aidurber/react-picky/commit/6e7106e))
+
 # [4.6.0](https://github.com/Aidurber/react-picky/compare/v4.5.2...v4.6.0) (2019-10-05)
 
 ### Features
