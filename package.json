@@ -14,8 +14,7 @@
     "lint": "eslint src/**/*.js",
     "test": "cross-env NODE_ENV=test jest",
     "test:watch": "cross-env NODE_ENV=test jest --watch",
-    "semantic-release": "semantic-release",
-    "precommit": "npm run test"
+    "semantic-release": "semantic-release"
   },
   "dependencies": {
     "recompose": "^0.30.0"
@@ -25,6 +24,8 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
     "@babel/preset-react": "^7.0.0",
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.7.1",
