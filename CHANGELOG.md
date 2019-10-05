@@ -1,249 +1,347 @@
 # [4.6.0](https://github.com/Aidurber/react-picky/compare/v4.5.2...v4.6.0) (2019-10-05)
 
+### Features
+
+- add selectAllMode ([27fafd1](https://github.com/Aidurber/react-picky/commit/27fafd1))
+
+## [4.5.2](https://github.com/Aidurber/react-picky/compare/v4.5.1...v4.5.2) (2019-08-08)
+
+### Bug Fixes
+
+- **Accessibility:** Add ID prop ([2bdcf8d](https://github.com/Aidurber/react-picky/commit/2bdcf8d)), closes [#166](https://github.com/Aidurber/react-picky/issues/166)
+
+## [4.5.1](https://github.com/Aidurber/react-picky/compare/v4.5.0...v4.5.1) (2019-07-08)
+
+### Bug Fixes
+
+- **Accessibility:** Dropdown is tab selectable when hidden ([e14ffd6](https://github.com/Aidurber/react-picky/commit/e14ffd6)), closes [#156](https://github.com/Aidurber/react-picky/issues/156)
+
+# [4.5.0](https://github.com/Aidurber/react-picky/compare/v4.4.5...v4.5.0) (2019-07-08)
 
 ### Features
 
-* add selectAllMode ([27fafd1](https://github.com/Aidurber/react-picky/commit/27fafd1))
+- **Button:** Add buttonProps prop ([56e2878](https://github.com/Aidurber/react-picky/commit/56e2878)), closes [#152](https://github.com/Aidurber/react-picky/issues/152)
 
-# Changelog
+## [4.4.5](https://github.com/Aidurber/react-picky/compare/v4.4.4...v4.4.5) (2019-05-20)
 
+### Bug Fixes
 
-## v2.0.5 (2018-07-21)
+- 🐛 Select all option not hidden when filtering ([9a8789d](https://github.com/Aidurber/react-picky/commit/9a8789d))
 
-##### Pull Requests
+## [4.4.4](https://github.com/Aidurber/react-picky/compare/v4.4.3...v4.4.4) (2019-05-17)
 
-- #50 - Update rollup-plugin-filesize to the latest version 🚀 _(@greenkeeper[bot])_
-- #49 - Update rollup to the latest version 🚀 _(@greenkeeper[bot])_
-- #47 - Update rollup to the latest version 🚀 _(@greenkeeper[bot])_
-- #46 - Render prop for list _(@Aidurber)_
+### Bug Fixes
 
+- 🐛 sortCollection does not sort strings properly ([60bc8e3](https://github.com/Aidurber/react-picky/commit/60bc8e3)), closes [#94](https://github.com/Aidurber/react-picky/issues/94)
 
-## v2.0.4 (2018-07-09)
+## [4.4.3](https://github.com/Aidurber/react-picky/compare/v4.4.2...v4.4.3) (2019-05-10)
 
+### Bug Fixes
 
+- 🐛 select all state correctly reflected after rerendering ([85d39d6](https://github.com/Aidurber/react-picky/commit/85d39d6)), closes [#134](https://github.com/Aidurber/react-picky/issues/134)
 
-#### Commits
+## [4.4.2](https://github.com/Aidurber/react-picky/compare/v4.4.1...v4.4.2) (2019-04-27)
 
-- 625c131f37b4436d3a7d2c693936d01b52eb04a8 - [ci skip] Badgessss (@Aidurber)
-## v2.0.3 (2018-07-09)
+### Bug Fixes
 
-##### Pull Requests
+- **Option:** Fix clicking checkbox not changing state ([abca931](https://github.com/Aidurber/react-picky/commit/abca931)), closes [#128](https://github.com/Aidurber/react-picky/issues/128)
 
-- #44 - Update dependencies to enable Greenkeeper 🌴 _(@greenkeeper[bot])_
+## [4.4.1](https://github.com/Aidurber/react-picky/compare/v4.4.0...v4.4.1) (2019-04-27)
 
+### Bug Fixes
 
-## v2.0.2 (2018-07-08)
+- **Types:** getFilterValue should be optional ([92fcdf9](https://github.com/Aidurber/react-picky/commit/92fcdf9)), closes [#125](https://github.com/Aidurber/react-picky/issues/125)
 
+# [4.4.0](https://github.com/Aidurber/react-picky/compare/v4.3.2...v4.4.0) (2019-04-21)
 
+### Features
 
-#### Commits
+- **Filter:** Add case sensitive prop ([3a5352c](https://github.com/Aidurber/react-picky/commit/3a5352c))
 
-- a7b4908358205fd081bd6b3fa78c6ec426f3e683 - Remove code cov dev dependency (@Aidurber)
-- 1640e8d2a0b8d75130bb0981b5f1acdc0c9d3790 - Remove codecov, has insecure dependency hoek (@Aidurber)
-## v2.0.0 (2018-07-08)
+## [4.3.2](https://github.com/Aidurber/react-picky/compare/v4.3.1...v4.3.2) (2019-04-19)
 
+### Performance Improvements
 
+- **Performance:** Minor refactor and performance improvements ([5144d9b](https://github.com/Aidurber/react-picky/commit/5144d9b))
 
-#### Commits
+## [4.3.1](https://github.com/Aidurber/react-picky/compare/v4.3.0...v4.3.1) (2019-04-18)
 
-- f46a2a259576212d111e90b0e29a7396ce47a5f9 -  [skip ci] Add styled-component support to docs (@Aidurber)
-## v1.10.0 (2018-04-25)
+### Performance Improvements
 
+- **Picky:** 50% performance improvement ([eae2b05](https://github.com/Aidurber/react-picky/commit/eae2b05))
 
+# [4.3.0](https://github.com/Aidurber/react-picky/compare/v4.2.1...v4.3.0) (2019-04-18)
 
-#### Commits
+### Features
 
-- 39f2d445475bcb900bc6807dd2f8ad49cb37fc64 - Version bump (@Aidurber)
-## v0.0.0 (2018-03-09)
+- **Picky:** Add getFilterValue prop ([fb8fe77](https://github.com/Aidurber/react-picky/commit/fb8fe77)), closes [#118](https://github.com/Aidurber/react-picky/issues/118)
 
-##### Pull Requests
+## [4.2.1](https://github.com/Aidurber/react-picky/compare/v4.2.0...v4.2.1) (2019-04-06)
 
-- #40 - Bugs/async value _(@Aidurber)_
+### Bug Fixes
 
+- **Build:** Fix ballsed up release ([5b64124](https://github.com/Aidurber/react-picky/commit/5b64124))
+- **Picky:** Select all is checked when no options ([dcc95b6](https://github.com/Aidurber/react-picky/commit/dcc95b6)), closes [#115](https://github.com/Aidurber/react-picky/issues/115)
 
-## v1.9.0 (2018-01-20)
+# [4.2.0](https://github.com/Aidurber/react-picky/compare/v4.1.2...v4.2.0) (2019-03-25)
 
+### Features
 
+- **Picky:** Support disabled state ([fb3f1d8](https://github.com/Aidurber/react-picky/commit/fb3f1d8)), closes [#112](https://github.com/Aidurber/react-picky/issues/112)
 
-#### Commits
+## [4.1.2](https://github.com/Aidurber/react-picky/compare/v4.1.1...v4.1.2) (2019-01-31)
 
-- 8fa98552df1fc561efb62ecc14f2d30c077b0d45 - build(rollup): Uglify and show filesize (@Aidurber)
-- 7669dec2001897e1dbf9b821c3dce0ac108c5d2c - Use data-test for selecting elements in test (@Aidurber)
-- 3abdf5f172e1f7213b77eda0be2b2490b17cf9c9 - Transpile data-test away (@Aidurber)
-## v1.8.1 (2018-01-14)
+### Bug Fixes
 
+- **Picky:** toggle for dropdown with radio buttons and autoclose after select ([84a2012](https://github.com/Aidurber/react-picky/commit/84a2012))
 
+## [4.1.1](https://github.com/Aidurber/react-picky/compare/v4.1.0...v4.1.1) (2019-01-08)
 
-#### Commits
+### Bug Fixes
 
-- 6e186dd789795f456784567a2314c44c19b44331 - refactor(isSelected): Reduced duplication a tad (@Aidurber)
-- aa3668d255134bc8279d59374924e9b43961843c - fix(Option): Not identifying selected options when supplied (@Aidurber)
-- fdd4e5ad9f5ecfe94f66f9d255ab4cd0383eb5a1 - Ignore rpt2_cache dir (@Aidurber)
-- 03a72ea384d196adad4939336d40e18ad14fd0ba - Added virtual list example [ci skip] (@Aidurber)
-- 60f03a92e499b011df244ea48a00242321c103fa - Added virtual list comparison (@Aidurber)
-- 1d47f6f6a8b6593e05dc995cdbc9f2a7537ef1ce - docs(examples): Forgot to move readme to docs folder (@Aidurber)
-- 9be00ff886f7b6a49e013c80a67a721d58d181e3 - docs(examples): Added more codebox samples and updated dependency in CodeSandbox (@Aidurber)
-## v1.5.2 (2018-01-03)
+- **build:** Fix build ([bc427e3](https://github.com/Aidurber/react-picky/commit/bc427e3))
+- **Picky:** Account for incorrect order ([8368c63](https://github.com/Aidurber/react-picky/commit/8368c63))
+- **Picky:** Imperative select all issues ([7e27a8a](https://github.com/Aidurber/react-picky/commit/7e27a8a)), closes [#92](https://github.com/Aidurber/react-picky/issues/92)
 
-##### Pull Requests
+# [4.1.0](https://github.com/Aidurber/react-picky/compare/v4.0.2...v4.1.0) (2018-12-09)
 
-- #30 - Virtual lists _(@Aidurber)_
-- #25 - Typescript defs _(@Aidurber)_
-#### Commits
+### Features
 
-- d660a724498c8b80bf94b31cf042a30305688640 - Updated codesandbox link [ci skip] (@Aidurber)
-## v1.5.1 (2017-12-30)
+- **Filter:** Add filterPlaceholder prop ([d31acd3](https://github.com/Aidurber/react-picky/commit/d31acd3)), closes [#86](https://github.com/Aidurber/react-picky/issues/86)
 
-##### Pull Requests
+## [4.0.2](https://github.com/Aidurber/react-picky/compare/v4.0.1...v4.0.2) (2018-11-13)
 
-- #24 - Build process work and text selection work _(@Aidurber)_
-#### Commits
+### Bug Fixes
 
-- db717fbc941fbd76866d6c85823a40fa2084c658 - build(rollup): fixed tests due to babel (@Aidurber)
-- 006cf6b8427287bf5336f5c565c8bc10c9cc07c3 - Comment [ci skip] (@Aidurber)
-## v1.5.0 (2017-12-30)
+- **event listeners:** remove event listeners on umount ([#84](https://github.com/Aidurber/react-picky/issues/84)) ([e4edfeb](https://github.com/Aidurber/react-picky/commit/e4edfeb))
 
+## [4.0.1](https://github.com/Aidurber/react-picky/compare/v4.0.0...v4.0.1) (2018-10-21)
 
+### Bug Fixes
 
-#### Commits
+- **Picky:** Select all inconsistencies ([18b7ba1](https://github.com/Aidurber/react-picky/commit/18b7ba1)), closes [#74](https://github.com/Aidurber/react-picky/issues/74)
+- **Picky:** Stop using internal state ([22db05f](https://github.com/Aidurber/react-picky/commit/22db05f))
 
-- 7b77afeb21ca7f423dd72b1f7fb21e0671eff238 - fix(Picky): Losing focus should close dropdown (@Aidurber)
-## v1.4.1 (2017-12-30)
+### BREAKING CHANGES
 
+- **Picky:** No more uncontrolled components. Use onChange and value, set the value from state
+  and update the state from onChange.
 
+## [3.0.3](https://github.com/Aidurber/react-picky/compare/v3.0.2...v3.0.3) (2018-10-18)
 
-#### Commits
+### Bug Fixes
 
-- 91cd7f3b37cdaee64577b30797b5d35d38274d0b - docs(Readme): Updated docs (@Aidurber)
-## v1.4.0 (2017-12-29)
+- **is item selected:** Props passed in wrong order ([99b4700](https://github.com/Aidurber/react-picky/commit/99b4700))
+- **is item selected:** Props passed in wrong order ([9cd849d](https://github.com/Aidurber/react-picky/commit/9cd849d))
+- **Select all:** Select all firing on change event twice ([3805a48](https://github.com/Aidurber/react-picky/commit/3805a48)), closes [#76](https://github.com/Aidurber/react-picky/issues/76) [#76](https://github.com/Aidurber/react-picky/issues/76)
+- **Select all:** Select all firing on change event twice ([895a157](https://github.com/Aidurber/react-picky/commit/895a157)), closes [#76](https://github.com/Aidurber/react-picky/issues/76) [#76](https://github.com/Aidurber/react-picky/issues/76)
 
-##### Pull Requests
+## [3.0.2](https://github.com/Aidurber/react-picky/compare/v3.0.1...v3.0.2) (2018-10-16)
 
-- #18 - refactor(Picky): Moved all selected to state to prevent unneccessary … _(@Aidurber)_
-#### Commits
+### Bug Fixes
 
-- 6c49788dd9bb1037cb873d84e1725e75f6b7d186 - refactor(Picky): Moved all selected to state to prevent unneccessary recalculations (@Aidurber)
-## v1.3.4 (2017-12-29)
+- **Build:** Include dist ([c0cbb94](https://github.com/Aidurber/react-picky/commit/c0cbb94))
+- **Filter:** Filter getting unmounted losing filter state ([0d6fb12](https://github.com/Aidurber/react-picky/commit/0d6fb12)), closes [#73](https://github.com/Aidurber/react-picky/issues/73)
+- **Picky:** OnChange event being fired twice ([a3b32b4](https://github.com/Aidurber/react-picky/commit/a3b32b4)), closes [#76](https://github.com/Aidurber/react-picky/issues/76)
 
-##### Pull Requests
+## [3.0.1](https://github.com/Aidurber/react-picky/compare/v3.0.0...v3.0.1) (2018-10-15)
 
-- #16 - fix(accessibility): Added accessibility roles and tabindexes _(@Aidurber)_
-#### Commits
+### Bug Fixes
 
-- d03cbf3ca76cfa49048bff6215a7781511db3a2b - test(picky): Fixed broken tests (@Aidurber)
-- 39c074b7d549f8afff52689ff8bc446e5be87a51 - fix(accessibility): Added accessibility roles and tabindexes (@Aidurber)
-## v1.3.3 (2017-12-29)
+- **Filter:** Fix filter being destroyed ([f112c4d](https://github.com/Aidurber/react-picky/commit/f112c4d)), closes [#73](https://github.com/Aidurber/react-picky/issues/73)
 
+# [3.0.0](https://github.com/Aidurber/react-picky/compare/v2.0.6...v3.0.0) (2018-10-14)
 
+### Build System
 
-#### Commits
+- **babel:** Update to babel 7 ([548fb48](https://github.com/Aidurber/react-picky/commit/548fb48))
 
-- 599b9826095553d35c0061311175cc7cb5bfea7d - Merge branch 'master' of https://github.com/Aidurber/react-picky (@Aidurber)
-- 7d2e1ef67875474724fcb581386e2eef845c9d4e - build(linting): Removed dead code and added linting as a pretest (@Aidurber)
-- 63ca60a185273b4559a543b2e9786db668719c3b - Update sandbox link [ci skip] (@Aidurber)
-- 49dbc9e88c1104a811f258b35c179129de01603c - Update sandbox link [ci skip] (@Aidurber)
-## v1.3.1 (2017-12-27)
+### BREAKING CHANGES
 
+- **babel:** Babel
 
+## [2.0.6](https://github.com/Aidurber/react-picky/compare/v2.0.5...v2.0.6) (2018-10-14)
 
-#### Commits
+### Bug Fixes
 
-- 8c8484c7ef8b98afaf366a76101dd2c8437b2539 - fix(picky): Was pushing new items to the beginning of the array instead of appending (@Aidurber)
-- 207f13bcec49fdd2c3c83167fdac8f04bb6c4c27 - Fixed incorrect image url [ci skip] (@Aidurber)
-## v1.3.0 (2017-12-27)
+- **Picky:** Calculate allSelected on change ([f75e0fe](https://github.com/Aidurber/react-picky/commit/f75e0fe)), closes [#68](https://github.com/Aidurber/react-picky/issues/68)
+- **Picky:** Prettier issues ([0c4fbc3](https://github.com/Aidurber/react-picky/commit/0c4fbc3))
 
+## [2.0.5](https://github.com/Aidurber/react-picky/compare/v2.0.4...v2.0.5) (2018-07-21)
 
+### Bug Fixes
 
-#### Commits
+- **index.d.ts:** Fix type definitions ([#51](https://github.com/Aidurber/react-picky/issues/51)) ([aec202b](https://github.com/Aidurber/react-picky/commit/aec202b))
 
-- c01ddb4d637371c198b39417f0c7552a1ef9b04b - Fixed build after bad merge (@Aidurber)
-- 452001df8291faa4a3569dac5b8b778b45ab324c - Merge branch 'master' into dev (@Aidurber)
-- ef7e4ebd57c17e3fda194aed282f92f16da4c622 - feat(render-prop): Added render prop support (@Aidurber)
-- d77fe485af1c3bc9a60d773fab0ba29e8c248c26 - docs(examples): Added codesandbox (@Aidurber)
-- cb58988ee4fa4c61b234b3bd71bcc0af9455147f - Added pre-test [ci skip] (@Aidurber)
-## v1.2.3 (2017-12-27)
+## [2.0.4](https://github.com/Aidurber/react-picky/compare/v2.0.3...v2.0.4) (2018-07-09)
 
+### Bug Fixes
 
+- **core:** Reduce external unneccesary dependencies ([#45](https://github.com/Aidurber/react-picky/issues/45)) ([a89b13c](https://github.com/Aidurber/react-picky/commit/a89b13c))
 
-#### Commits
+## [2.0.3](https://github.com/Aidurber/react-picky/compare/v2.0.2...v2.0.3) (2018-07-09)
 
-- b542df858968c3051dad81bfcb0d0a552b052a80 - Fixed dist (@Aidurber)
-## v1.2.2 (2017-12-27)
+### Performance Improvements
 
+- **rollup:** Reduce bundled size ([267e8fa](https://github.com/Aidurber/react-picky/commit/267e8fa))
 
+## [2.0.2](https://github.com/Aidurber/react-picky/compare/v2.0.0...v2.0.2) (2018-07-08)
 
-#### Commits
+### Bug Fixes
 
-- 6bf84297b687bd951bb3c09d5fa41639ecc83600 - docs(screenshots): Missed /docs readme [ci skip] (@Aidurber)
-- 88ee84c8790214cb0bd77e57549a7c1375c58d5e - docs(Screenshots): Added screenshots [ci skip] (@Aidurber)
-- 7054e2c8d1589fa8f1172448d1f4b1ca960e3129 - Fix travis not doing builds (@Aidurber)
-## v1.2.1 (2017-12-27)
+- **types:** Addded missing typescript defs ([1f1b894](https://github.com/Aidurber/react-picky/commit/1f1b894))
 
+# [2.0.0](https://github.com/Aidurber/react-picky/compare/v1.10.0...v2.0.0) (2018-07-08)
 
+- Feature/decouple deps (#43) ([028bb50](https://github.com/Aidurber/react-picky/commit/028bb50)), closes [#43](https://github.com/Aidurber/react-picky/issues/43)
 
-#### Commits
+### BREAKING CHANGES
 
-- bfb60948839963361b371f3e8870ef4be4e62778 - Added mention to importing styles [ci skip] (@Aidurber)
-- 7dc48e572d2b996ead4ad5eb9630c7c68d4c10f8 - NPM version badge [ci skip] (@Aidurber)
-- fb3143e239b8086db79f0ae2c77e9a3d97e38ac1 - update travis (@Aidurber)
-- 9683a0d30e117047dd459f15f3b20c58958f1ce1 - docs(Object options): Updated docs to show object option support (@Aidurber)
-## v1.2.0 (2017-12-26)
+- Removed virtualized support
 
+- [CI Skip] Bump to 2.0
 
+# [1.10.0](https://github.com/Aidurber/react-picky/compare/1.9.1...v1.10.0) (2018-04-25)
 
-#### Commits
+### Features
 
-- 4b66bf38c2078111e4aebbf649efdd69303d99b2 - refactor(Option): Moved option presentation to component (@Aidurber)
-- 83f6a7826435f71fd9c99b52724e3f018c8fbf51 - refactor(Placeholder): Make placeholder pure component (@Aidurber)
-- 0535d7972d38467e87cef4bcb70855d9a70a1c9f - feat(option support): Support objects (@Aidurber)
-- 44fa058c33907f0b96a47da89590003cd5e1eae3 - docs: Added documentation for additional callbacks (@Aidurber)
-## v1.1.0 (2017-12-26)
+- **Picky:** Added basic support for styled-components ([24f43a9](https://github.com/Aidurber/react-picky/commit/24f43a9)), closes [#41](https://github.com/Aidurber/react-picky/issues/41)
 
+## [1.9.1](https://github.com/Aidurber/react-picky/compare/v0.0.0...1.9.1) (2018-03-09)
 
+# [0.0.0](https://github.com/Aidurber/react-picky/compare/v1.9.0...v0.0.0) (2018-03-09)
 
-#### Commits
+### Bug Fixes
 
-- 5a3c77d96102ec86c53be42970b47f4ff25961d5 - test(warnings): Fixed warnings due to failing prop validation (@Aidurber)
-## v1.0.0 (2017-12-26)
+- **picky:** fix release ([55df60d](https://github.com/Aidurber/react-picky/commit/55df60d))
 
-##### Pull Requests
+# [1.9.0](https://github.com/Aidurber/react-picky/compare/v1.8.1...v1.9.0) (2018-01-20)
 
-- #5 - Create docs _(@Aidurber)_
-- #2 - Rollup _(@Aidurber)_
-- #1 - Virtualised _(@Aidurber)_
-#### Commits
+### Features
 
-- 4a2bbf3d1e59810e31d2230cea674d51c47ee131 - Codecov dev dep (@Aidurber)
-- 4e581f5b6e8c028dd8d472b27862fd29aba32f68 - Added badges (@Aidurber)
-- feede4e5fa3d06055584bc7089919396ef6582d7 - Merge branch 'master' of https://github.com/Aidurber/react-picky (@Aidurber)
-- 6826d84b7e0f795c9b00a058cdaa2c697c946baf - value, options, and onChange are required props (@Aidurber)
-- 41a018956f5aa0bf5ea0480bfab82d22fd3d7de6 - Create CONTRIBUTING.md (@Aidurber)
-- bdf104b4bb0088fa41437111d8fe20d4eb57f2eb - Create ISSUE_TEMPLATE.md (@Aidurber)
-- 482076d2597c7903131bcae043f0cd3f92917d6b - Added license (@Aidurber)
-- 602e4bac551208f39d218d5f8c2634d9f029c504 - Removed jekyll config. Using docsify (@Aidurber)
-- 67f7b1d12e5f75bcdeb38e4f152bad3b9f30f9cb - Removed examples folder (@Aidurber)
-- a4322af7dceb85ab9e5623faf24b727321d106fb - Docs (@Aidurber)
-- c11fb59223989099404eacd5c2982d282a3e0055 - Set theme jekyll-theme-cayman (@Aidurber)
-- d9e86cb4413190f8bea58f95b0e79c9ccba0df79 - Moved to rollup (@Aidurber)
-- 3871a1d9c719320beeb96b38b584a3abeb7836ea - Styling fixes (@Aidurber)
-- af159c87a163223f09b14cbcf704f91fb0b627d0 - Removed cosmos (@Aidurber)
-- 407cbe53743fc7b9d285aed06df6ec1479f40d99 - Virtualised list for rendering (@Aidurber)
-- 2da2b8f9cf091991586231b8048c18ad7092d058 - test(filter): Added filter tests (@Aidurber)
-- 3401b528f3073d51390dd8e658df4795385f996b - refactor(placeholder): Moved placeholder tests in to separate file (@Aidurber)
-- eae85ed2bcee77b3a67db5ed76e48ec24c2efbaf - Update README.md (@Aidurber)
-- 1f1c754bec64e5139b8695a56df2cdce4ae4da8e - Update README.md (@Aidurber)
-- 3fdf381f2d224a881bd40901650f15b875f2b022 - Body for readme (@Aidurber)
-- 92f9c1f433dac7a300c0bb308ca7f2b303299174 - Updated readme (@Aidurber)
-- be4b756f0264c59ac4eb92391cc1129e5365a9ec - test(Selecting): Added missing tests for selecting options (@Aidurber)
-- f8a54630e0a64278f26885c971a94ae99b14f00d - fix(Placeholder): Fixed placholder when value is an array and empty (@Aidurber)
-- 1639249c622a3d978d7779fae9cc034f35de7f6e - feat(Selecting): Added selecting tests and logic for dropdown (@Aidurber)
-- a0e738d24fb7bfe63e054e49e427f5260a5432d6 - refactor(component): Moved placeholder into its own component (@Aidurber)
-- b48143a1c0c1dcb10c7fbc3c11336536b55191a6 - chore(node version): Removed node version 4 from travis (@Aidurber)
-- 8cda769dfe9e187da8aadc8ba7a1e07d3340656d - Package json (@Aidurber)
-- 4b43f8a70a443cdd262a633c5f45120d9c2d4dd8 - feat(development): Initial work and tests (@Aidurber)
-- 2ee6b7e429c9949cdb5a4167a88145fdfbccbb58 - Fixed tests, loads of dependency issues (@Aidurber)
-- 501868746a0737098c55331198705dd4d7d096f2 - Progress (@Aidurber)
-- 0ae733016f103232969c8d936516ad0f58f13e8d - Cleanup (@Aidurber)
----
+- **Filter:** Focus filter by default on open if defaultFocusFilter supplied ([5e639e5](https://github.com/Aidurber/react-picky/commit/5e639e5)), closes [#38](https://github.com/Aidurber/react-picky/issues/38)
 
-Automatically generated by `🤖 CHANGEBOT`.
+## [1.8.1](https://github.com/Aidurber/react-picky/compare/v1.8.0...v1.8.1) (2018-01-14)
+
+### Bug Fixes
+
+- **Option:** Not identifying selected options when supplied ([aa3668d](https://github.com/Aidurber/react-picky/commit/aa3668d)), closes [#36](https://github.com/Aidurber/react-picky/issues/36)
+- **Selecting:** Was not recognising selected value ([88660a1](https://github.com/Aidurber/react-picky/commit/88660a1)), closes [#36](https://github.com/Aidurber/react-picky/issues/36)
+
+# [1.8.0](https://github.com/Aidurber/react-picky/compare/v1.7.1...v1.8.0) (2018-01-10)
+
+### Features
+
+- **Picky:** Added render prop for select all ([a4c83c9](https://github.com/Aidurber/react-picky/commit/a4c83c9)), closes [#27](https://github.com/Aidurber/react-picky/issues/27)
+
+## [1.7.1](https://github.com/Aidurber/react-picky/compare/v1.7.0...v1.7.1) (2018-01-10)
+
+### Bug Fixes
+
+- **Picky:** Array.prototype.includes and String.prototype.includes break IE11 ([c6c7494](https://github.com/Aidurber/react-picky/commit/c6c7494)), closes [#32](https://github.com/Aidurber/react-picky/issues/32)
+
+# [1.7.0](https://github.com/Aidurber/react-picky/compare/v1.6.0...v1.7.0) (2018-01-10)
+
+### Features
+
+- **Picky:** Added additional prop to support selectAllText property. ([77a6c0f](https://github.com/Aidurber/react-picky/commit/77a6c0f)), closes [#33](https://github.com/Aidurber/react-picky/issues/33)
+
+# [1.6.0](https://github.com/Aidurber/react-picky/compare/v1.5.2...v1.6.0) (2018-01-03)
+
+### Features
+
+- **Placeholder:** additional props for placeholder rendering ([683eb1f](https://github.com/Aidurber/react-picky/commit/683eb1f)), closes [#29](https://github.com/Aidurber/react-picky/issues/29)
+
+## [1.5.2](https://github.com/Aidurber/react-picky/compare/v1.5.1...v1.5.2) (2018-01-03)
+
+### Bug Fixes
+
+- **force:** force release. semantic release is playing up ([d0792bc](https://github.com/Aidurber/react-picky/commit/d0792bc))
+
+## [1.5.1](https://github.com/Aidurber/react-picky/compare/v1.5.0...v1.5.1) (2017-12-30)
+
+### Bug Fixes
+
+- Force release ([dec8f7e](https://github.com/Aidurber/react-picky/commit/dec8f7e))
+
+# [1.5.0](https://github.com/Aidurber/react-picky/compare/v1.4.1...v1.5.0) (2017-12-30)
+
+### Bug Fixes
+
+- **Picky:** Losing focus should close dropdown ([7b77afe](https://github.com/Aidurber/react-picky/commit/7b77afe)), closes [#22](https://github.com/Aidurber/react-picky/issues/22)
+
+### Features
+
+- **Picky:** keepOpen logic ([a01b7d9](https://github.com/Aidurber/react-picky/commit/a01b7d9)), closes [#23](https://github.com/Aidurber/react-picky/issues/23)
+
+## [1.4.1](https://github.com/Aidurber/react-picky/compare/v1.4.0...v1.4.1) (2017-12-30)
+
+### Bug Fixes
+
+- **Dropdown:** Dropdown appearing behind another picky ([1ad43de](https://github.com/Aidurber/react-picky/commit/1ad43de)), closes [#21](https://github.com/Aidurber/react-picky/issues/21)
+
+# [1.4.0](https://github.com/Aidurber/react-picky/compare/v1.3.4...v1.4.0) (2017-12-29)
+
+### Bug Fixes
+
+- **accessibility:** Added accessibility roles and tabindexes ([39c074b](https://github.com/Aidurber/react-picky/commit/39c074b)), closes [#12](https://github.com/Aidurber/react-picky/issues/12)
+
+### Features
+
+- **Picky:** Support uncontrolled components ([#20](https://github.com/Aidurber/react-picky/issues/20)) ([fd7a5b7](https://github.com/Aidurber/react-picky/commit/fd7a5b7)), closes [#19](https://github.com/Aidurber/react-picky/issues/19)
+
+## [1.3.3](https://github.com/Aidurber/react-picky/compare/v1.3.2...v1.3.3) (2017-12-29)
+
+### Performance Improvements
+
+- **selectall:** Removed sort from allSelected check ([057ef5e](https://github.com/Aidurber/react-picky/commit/057ef5e)), closes [#15](https://github.com/Aidurber/react-picky/issues/15)
+
+## [1.3.2](https://github.com/Aidurber/react-picky/compare/v1.3.1...v1.3.2) (2017-12-27)
+
+### Bug Fixes
+
+- **picky:** Was pushing new items to the beginning of the array instead of appending ([8c8484c](https://github.com/Aidurber/react-picky/commit/8c8484c)), closes [#9](https://github.com/Aidurber/react-picky/issues/9)
+- **styles:** em values were being manipulated by bootstrap. Use pixels instead. ([40a046c](https://github.com/Aidurber/react-picky/commit/40a046c))
+
+### Features
+
+- **render-prop:** Added render prop support ([ef7e4eb](https://github.com/Aidurber/react-picky/commit/ef7e4eb)), closes [#7](https://github.com/Aidurber/react-picky/issues/7)
+
+## [1.2.3](https://github.com/Aidurber/react-picky/compare/v1.2.2...v1.2.3) (2017-12-27)
+
+### Bug Fixes
+
+- **docs:** Updated docs and fixed build ([c570599](https://github.com/Aidurber/react-picky/commit/c570599))
+
+## [1.2.2](https://github.com/Aidurber/react-picky/compare/v1.2.1...v1.2.2) (2017-12-27)
+
+### Bug Fixes
+
+- **Picky:** Fix options were being sorted ([e23b28d](https://github.com/Aidurber/react-picky/commit/e23b28d))
+
+## [1.2.1](https://github.com/Aidurber/react-picky/compare/v1.2.0...v1.2.1) (2017-12-27)
+
+### Bug Fixes
+
+- **select all:** Re-added checkboxes, added radio for single select ([e1b8a13](https://github.com/Aidurber/react-picky/commit/e1b8a13))
+
+### Features
+
+- **option support:** Support objects ([0535d79](https://github.com/Aidurber/react-picky/commit/0535d79)), closes [#3](https://github.com/Aidurber/react-picky/issues/3)
+
+# [1.1.0](https://github.com/Aidurber/react-picky/compare/v1.0.0...v1.1.0) (2017-12-26)
+
+### Features
+
+- **callbacks:** Added additional callbacks ([5c9a3f2](https://github.com/Aidurber/react-picky/commit/5c9a3f2)), closes [#4](https://github.com/Aidurber/react-picky/issues/4)
+
+# [1.0.0](https://github.com/Aidurber/react-picky/compare/4b43f8a...v1.0.0) (2017-12-26)
+
+### Bug Fixes
+
+- **Placeholder:** Fixed placholder when value is an array and empty ([f8a5463](https://github.com/Aidurber/react-picky/commit/f8a5463))
+
+### Features
+
+- **development:** Initial work and tests ([4b43f8a](https://github.com/Aidurber/react-picky/commit/4b43f8a))
+- **Selecting:** Added selecting tests and logic for dropdown ([1639249](https://github.com/Aidurber/react-picky/commit/1639249))
