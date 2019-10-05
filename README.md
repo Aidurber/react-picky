@@ -13,7 +13,7 @@ Yet another React select list.
 
 When dealing with medium+ length select lists, especially multi-select lists. The common approach is to use tags e.g.
 
-![Tag List](https://raw.githubusercontent.com/aidurber/react-picky/master/readme-tag-list.JPG)
+![Tag List](https://raw.githubusercontent.com/aidurber/react-picky/master/assets/readme-tag-list.JPG)
 
 Source: [React-Select by Jed Watson](https://github.com/JedWatson/react-select)
 
@@ -55,11 +55,11 @@ Picky provides a medium amount of flexibility, you can custom render: Options, L
 
 ## Single Select
 
-![Single select](https://raw.githubusercontent.com/aidurber/react-picky/master/readme-single-select.png)
+![Single select](https://raw.githubusercontent.com/aidurber/react-picky/master/assets/readme-single-select.png)
 
 ## Multi Select
 
-![Multi select](https://raw.githubusercontent.com/aidurber/react-picky/master/readme-multi-select.jpg)
+![Multi select](https://raw.githubusercontent.com/aidurber/react-picky/master/assets/readme-multi-select.jpg)
 
 # Usage
 
