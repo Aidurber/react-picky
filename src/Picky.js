@@ -356,7 +356,11 @@ class Picky extends React.PureComponent {
   get showSelectAll() {
     const { renderSelectAll, multiple, includeSelectAll } = this.props;
     return (
-      !renderSelectAll && includeSelectAll && multiple && !this.state.filtered
+      !renderSelectAll &&
+      includeSelectAll &&
+      multiple &&
+      ((this.props.selectAllMode === 'default' && !this.state.filtered) ||
+        this.props.selectAllMode === 'filtered')
     );
   }
   render() {
@@ -466,6 +470,7 @@ Picky.defaultProps = {
   tabIndex: 0,
   keepOpen: true,
   selectAllText: 'Select all',
+  selectAllMode: 'default',
 };
 Picky.propTypes = {
   id: PropTypes.string.isRequired,
@@ -505,6 +510,7 @@ Picky.propTypes = {
   getFilterValue: PropTypes.func,
   caseSensitiveFilter: PropTypes.bool,
   buttonProps: PropTypes.object,
+  selectAllMode: PropTypes.oneOf(['default', 'filtered']),
 };
 
 export default Picky;

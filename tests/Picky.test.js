@@ -691,6 +691,28 @@ describe('Picky', () => {
 
       expect(wrapper.find(sel('selectall'))).toHaveLength(0);
     });
+
+    it('should show select all when a filter has been entered but selectAllMode is filtered', () => {
+      const wrapper = mount(
+        <Picky
+          {...corePickyProps}
+          value={[]}
+          includeSelectAll={true}
+          options={[1, 2, 3]}
+          open={true}
+          filterDebounce={0}
+          includeFilter={true}
+          multiple={true}
+          selectAllMode="filtered"
+        />
+      );
+      expect(wrapper.find(sel('selectall'))).toHaveLength(1);
+
+      const event = { target: { value: '1' } };
+      wrapper.find(sel('picky__filter__input')).simulate('change', event);
+
+      expect(wrapper.find(sel('selectall'))).toHaveLength(1);
+    });
   });
 
   describe('Callbacks', () => {
