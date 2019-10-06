@@ -18,7 +18,7 @@ function SelectAll({
       tabIndex={tabIndex}
       role="option"
       data-testid="selectall"
-      id={id + '-option-' + 'selectall'}
+      id={id + '-option-selectall'}
       data-selectall="true"
       aria-selected={allSelected}
       className={allSelected ? 'option selected' : 'option'}

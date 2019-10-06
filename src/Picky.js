@@ -52,6 +52,7 @@ class Picky extends React.PureComponent {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
+    let newState = {};
     if (
       this.props.options !== nextProps.options ||
       this.props.value !== nextProps.value
@@ -62,11 +63,22 @@ class Picky extends React.PureComponent {
 
       let optsEqual = arraysEqual(nextProps.options, this.props.options);
 
-      this.setState({
+      newState = {
+        ...newState,
         allSelected: !(valuesEqual && optsEqual)
           ? this.allSelected(nextProps.value, nextProps.options)
           : this.allSelected(),
-      });
+      };
+    }
+    if (
+      this.props.includeFilter !== nextProps.includeFilter &&
+      nextProps.includeFilter === false &&
+      this.state.filtered === true
+    ) {
+      newState = { ...newState, filtered: false, filteredOptions: [] };
+    }
+    if (Object.keys(newState).length > 0) {
+      this.setState({ ...newState });
     }
   }
 

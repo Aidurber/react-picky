@@ -1,0 +1,39 @@
+---
+name: Docs
+route: /docs
+---
+
+import { Playground } from 'docz';
+import Demo from './demo';
+
+## Getting Started
+
+Install Picky as a dependency:
+
+```bash
+npm install --save react-picky
+# or
+yarn add react-picky
+```
+
+## Usage
+
+```javascript
+import Picky from 'react-picky';
+import 'react-picky/dist/picky.css';
+
+<Picky
+  id="picky"
+  options={[1, 2, 3, 4, 5]}
+  value={[]}
+  multiple={true}
+  includeSelectAll={true}
+  includeFilter={true}
+  onChange={values => console.log(values)}
+  dropdownHeight={600}
+/>;
+```
+
+## Demo
+
+<Demo />

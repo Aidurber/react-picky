@@ -1,0 +1,34 @@
+---
+name: Home
+route: /
+order: 1
+---
+
+# Picky
+
+Yet another React multiselect. With checkbox support instead of tags.
+
+## Motivation
+
+When dealing with medium+ length select lists, especially multi-select lists. The common approach is to use tags e.g.
+
+![Tag List](https://raw.githubusercontent.com/aidurber/react-picky/master/assets/readme-tag-list.JPG)
+_Source: [React-Select by Jed Watson](https://github.com/JedWatson/react-select)_
+
+This approach is fine for smaller lists. When you have options for 20, 30, 100+ options that the use can select, it becomes unmanigable.
+
+For example you have a internal staff mailing list. You want to mail all staff in a department (30 employees). You select all. That would be 30 tags taking unneccessary space.
+
+This is a multiselect with checkboxes, a select all option, and a filter. Along a similar vein as [David Stutz's Bootstrap Multiselect](http://davidstutz.github.io/bootstrap-multiselect/). There is a port of that library to react with [Skratchdot's React Bootstrap Multiselect](https://github.com/skratchdot/react-bootstrap-multiselect). However I don't want a dependency on jQuery. If you are already using jQuery that might be an alternative for you.
+
+If you like the tag list like [React-Select](https://github.com/JedWatson/react-select), then that would be a great option for you. It's a really great, well-tested library. Give it a look.
+
+You can also achieve the same result with a great deal of flexibility using [Paypal's Downshift](https://github.com/paypal/downshift#usage).
+
+### More on React Select
+
+React Select V2 is pretty incredible, you can replace and provide custom functionality for almost every element of the select component. With a little work you could rebuild Picky from the components of React Select, take a look at [React Select: Experimental](https://react-select.com/advanced#experimental), the Popout example is close to what Picky does. You could even build a date picker in React Select...**HOW COOL IS THAT!**
+
+## What Picky is
+
+Picky provides a medium amount of flexibility, you can custom render: Options, List (useful for creating a virtualized menu), and SelectAll. Any further customisation and it's a little out of scope for Picky. It was built with a common pattern in mind so you can get up and running with little-to-no work. If you need Picky to be more flexible, I'm happy to take a PR if it would benefit the rest of the community.
