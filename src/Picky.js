@@ -61,10 +61,15 @@ class Picky extends React.PureComponent {
         : nextProps.value === this.props.value;
 
       let optsEqual = arraysEqual(nextProps.options, this.props.options);
-
+      const currentOptions=this.state.filtered 
+        ? this.state.filteredOptions 
+        : nextProps.options;
+      const currentValues=this.state.filtered
+        ? this.state.filteredOptions.filter(value => nextProps.value.includes(value))
+        : nextProps.value      
       this.setState({
         allSelected: !(valuesEqual && optsEqual)
-          ? this.allSelected(nextProps.value, nextProps.options)
+          ? this.allSelected(currentValues,currentOptions )
           : this.allSelected(),
       });
     }
@@ -154,9 +159,19 @@ class Picky extends React.PureComponent {
       },
       () => {
         if (!this.state.allSelected) {
-          this.props.onChange([]);
+          if(this.state.filtered){            
+            let diff = this.props.value.filter(x => !this.state.filteredOptions.includes(x) );
+            this.props.onChange(diff);
+          }else{
+            this.props.onChange([]);
+          }          
         } else {
-          this.props.onChange(this.props.options);
+          if(this.state.filtered){
+            let newValues = [...new Set([...this.props.value,...this.state.filteredOptions])];      
+            this.props.onChange(newValues);
+          }            
+          else  
+            this.props.onChange(this.props.options)        
         }
       }
     );
