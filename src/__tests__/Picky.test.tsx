@@ -491,6 +491,69 @@ describe('Picky', () => {
       });
     });
   });
+  it('should select only filtered when selectAllMode is "filtered"', () => {
+    // We're going to be listening for changes so we're going to need a mock function.
+    const mockOnChange = jest.fn();
+    // Specify the options that picky is going to use
+    const options = ['Boo', 'Moon', 'Cat', 'Dog'];
+
+    // Mount Picky with Enzyme
+    const wrapper = mount(
+      <Picky
+        options={options}
+        value={['Dog']}
+        onChange={mockOnChange}
+        multiple={true}
+        filterDebounce={0}
+        open={true}
+        selectAllMode="filtered"
+        includeFilter={true}
+        includeSelectAll={true}
+      />
+    );
+
+    /**
+     *  Lets change the filter input to 'oo', this should leave us with 2 options in the filter
+     *  - Moon
+     *  - Boo
+     */
+    wrapper
+      .find(sel('picky__filter__input'))
+      .simulate('change', { target: { value: 'oo' } });
+    // Find the Select All button in the DOM
+    const selectAllButton = wrapper.find(sel('selectall'));
+    // Click the select all button
+    selectAllButton.simulate('click');
+
+    // The value should be "Moon" and "Boo"
+    // Dog was selected before so it should still be returned
+    expect(mockOnChange).toHaveBeenLastCalledWith(['Dog', 'Boo', 'Moon']);
+
+    // Deselect all
+    selectAllButton.simulate('click');
+    // Should be the original values when we deslect, as we don't want to deselect everything
+    expect(mockOnChange).toHaveBeenLastCalledWith(['Dog']);
+
+    // Remove the filter text from 'oo' to ''
+    wrapper
+      .find(sel('picky__filter__input'))
+      .simulate('change', { target: { value: '' } });
+
+    // Lets select all again when we have no filter
+    selectAllButton.simulate('click');
+
+    // Should return all values since we're no longer filtered and we can see every option
+    expect(mockOnChange).toHaveBeenLastCalledWith([
+      'Boo',
+      'Moon',
+      'Cat',
+      'Dog',
+    ]);
+
+    // Lets deselect all when we're not filtered. This should completely remove all options
+    selectAllButton.simulate('click');
+    expect(mockOnChange).toHaveBeenLastCalledWith([]);
+  });
 
   describe('Filter', () => {
     it('should accept includeFilter prop', () => {
