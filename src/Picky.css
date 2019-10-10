@@ -114,3 +114,7 @@
   position: relative;
   height: 30px;
 }
+
+.picky__placeholder {
+  color: #b4b4b4;
+}
