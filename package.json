@@ -2,97 +2,71 @@
   "name": "react-picky",
   "version": "4.7.0",
   "main": "dist/index.js",
-  "typings": "./index.d.ts",
+  "module": "dist/picky.esm.js",
+  "typings": "dist/index.d.ts",
   "license": "MIT",
   "files": [
     "/dist",
     "./index.d.ts"
   ],
   "scripts": {
-    "start": "yarn --cwd example start",
     "prepare-example": "yarn --cwd example install",
-    "build": "cross-env NODE_ENV=production rollup -c",
-    "prettier": "prettier --write {src,tests}{/**/,/}*.js",
     "dev": "rollup -c -w",
-    "dev:production": "cross-env NODE_ENV=production rollup -c -w",
-    "pretest": "npm run build",
-    "lint": "eslint src/**/*.js",
-    "test": "cross-env NODE_ENV=test jest",
-    "test:watch": "cross-env NODE_ENV=test jest --watch",
+    "start": "concurrently \"tsdx watch\" \"yarn start:example\"",
+    "start:example": "yarn --cwd example start",
+    "build": "tsdx build",
+    "test": "tsdx test --env=jsdom",
+    "lint": "tsdx lint",
     "semantic-release": "semantic-release"
   },
   "dependencies": {
     "recompose": "^0.30.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.3",
-    "@babel/plugin-proposal-object-rest-spread": "^7.4.3",
-    "@babel/preset-env": "^7.4.3",
+    "@babel/core": "^7.6.2",
     "@babel/preset-react": "^7.0.0",
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
     "@semantic-release/changelog": "^3.0.4",
     "@semantic-release/git": "^7.0.16",
-    "babel-core": "^7.0.0-bridge.0",
-    "babel-eslint": "^10.0.3",
-    "babel-jest": "^24.7.1",
-    "babel-plugin-react-remove-properties": "^0.3.0",
-    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "@testing-library/react": "^9.3.0",
+    "@types/enzyme": "^3.10.3",
+    "@types/jest": "^24.0.18",
+    "@types/react": "^16.9.5",
+    "@types/react-dom": "^16.9.1",
+    "@types/recompose": "^0.30.7",
+    "concurrently": "^4.1.2",
     "cross-env": "^5.2.0",
     "cz-conventional-changelog": "^2.1.0",
     "enzyme": "^3.9.0",
-    "enzyme-adapter-react-16": "^1.12.1",
-    "eslint": "^6.5.1",
-    "eslint-config-prettier": "^6.3.0",
-    "eslint-config-react-app": "^5.0.2",
-    "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.16.0",
-    "husky": "^3.0.0",
-    "jest": "^24.7.1",
-    "prettier": "^1.17.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "husky": "^3.0.8",
+    "identity-obj-proxy": "^3.0.0",
+    "prettier": "^1.18.2",
     "prettier-eslint": "^9.0.0",
     "pretty-quick": "^1.11.1",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-testing-library": "^6.1.2",
-    "rollup": "^1.10.0",
-    "rollup-plugin-babel": "^4.3.2",
-    "rollup-plugin-commonjs": "^9.3.4",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2",
     "rollup-plugin-css-only": "^1.0.0",
-    "rollup-plugin-filesize": "^6.1.1",
-    "rollup-plugin-jsx": "^1.0.3",
-    "rollup-plugin-node-resolve": "^4.2.3",
-    "rollup-plugin-uglify": "^6.0.2",
-    "semantic-release": "^15.13.3"
+    "rollup-plugin-filesize": "^6.2.0",
+    "semantic-release": "^15.13.24",
+    "tsdx": "^0.9.3",
+    "tslib": "^1.10.0",
+    "typescript": "^3.6.3"
+  },
+  "peerDependencies": {
+    "prop-types": "15.7.2",
+    "react": "> 16.3.0",
+    "react-dom": "> 16.3.0"
   },
   "jest": {
-    "collectCoverage": false,
-    "modulePaths": [
-      "./src"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "jsx"
-    ],
     "setupFiles": [
       "./tests/helpers/setup.js"
     ],
-    "collectCoverageFrom": [
-      "src/**/*.js",
-      "!src/index.js",
-      "!tests/**"
-    ],
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest",
-      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "identity-obj-proxy"
     }
-  },
-  "peerDependencies": {
-    "prop-types": "> 15.6.0",
-    "react": "> 16.3.0",
-    "react-dom": "> 16.3.0"
   },
   "repository": {
     "type": "git",
