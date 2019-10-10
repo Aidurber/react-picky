@@ -45,6 +45,7 @@ class App extends React.Component<any, any> {
               includeSelectAll={true}
               includeFilter={true}
               dropdownHeight={600}
+              selectAllMode="filtered"
             />
           </div>
           <div className="col">
