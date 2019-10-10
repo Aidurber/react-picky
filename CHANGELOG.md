@@ -1,3 +1,10 @@
+## [4.7.1](https://github.com/Aidurber/react-picky/compare/v4.7.0...v4.7.1) (2019-10-10)
+
+
+### Bug Fixes
+
+* better styling for placeholder default ([f52619e](https://github.com/Aidurber/react-picky/commit/f52619e)), closes [#144](https://github.com/Aidurber/react-picky/issues/144)
+
 # [4.7.0](https://github.com/Aidurber/react-picky/compare/v4.6.0...v4.7.0) (2019-10-05)
 
 
