@@ -491,6 +491,35 @@ describe('Picky', () => {
         name: 'Item 1',
       });
     });
+    it('should support object options single select with deprecated labelKey', () => {
+      const options = [
+        { id: 1, name: 'Item 1' },
+        { id: 2, name: 'Item 2' },
+        { id: 3, name: 'Item 3' },
+      ];
+      const mockOnChange = jest.fn();
+      const wrapper = mount(
+        <Picky
+          {...corePickyProps}
+          value={undefined}
+          options={options}
+          open={true}
+          labelKey="name"
+          valueKey="id"
+          onChange={mockOnChange}
+        />
+      );
+
+      wrapper
+        .find(sel('option'))
+        .at(0)
+        .simulate('click');
+
+      expect(mockOnChange).toHaveBeenLastCalledWith({
+        id: 1,
+        name: 'Item 1',
+      });
+    });
   });
 
   describe('Filter', () => {

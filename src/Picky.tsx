@@ -148,19 +148,29 @@ type PickyProps<TOptionType> = {
    * @memberof PickyProps
    */
   onClose?: () => any;
-
   /**
    *  Indicates which key is the value in an object. Used when supplied options are objects.
    *
    * @type {string}
    * @memberof PickyProps
    */
-  getValue: (item: OptionType<TOptionType>) => any;
+  valueKey?: string;
   /**
    *  Indicates which key is the label in an object. Used when supplied options are objects.
    *
    * @type {string}
    * @memberof PickyProps
+   * @deprecated
+   */
+  labelKey?: string;
+
+  /**
+   * Accessor to identify which property on an object is the value
+   */
+  getValue: (item: OptionType<TOptionType>) => any;
+
+  /**
+   * Accessor to identify which property on an object is the label
    */
   getLabel: (item: OptionType<TOptionType>) => any;
 
@@ -318,34 +328,68 @@ class Picky<TOptionType = any> extends React.PureComponent<
     this.isItemSelected = this.isItemSelected.bind(this);
     this.focusFilterInput = this.focusFilterInput.bind(this);
   }
-  UNSAFE_componentWillMount() {
+
+  componentDidMount() {
+    if (
+      typeof this.props.labelKey !== 'undefined' ||
+      typeof this.props.valueKey !== 'undefined'
+    ) {
+      console.warn(
+        'labelKey and valueKey have been deprecated and will be removed in an upcoming version. Use getValue and getLabel accessors instead. '
+      );
+    }
     this.setState({
       allSelected: this.allSelected(),
     });
-  }
-
-  componentDidMount() {
     this.focusFilterInput(!!this.state.open);
+  }
+  /**
+   * Shim for getValue until valueKey is removed
+   *
+   * @memberof Picky
+   */
+  get getValueShim() {
+    if (typeof this.props.valueKey !== 'undefined') {
+      return this.legacyValueAccessor;
+    } else {
+      return this.props.getValue;
+    }
+  }
+  // To be removed
+  legacyLabelAccessor = (item: any) => item[this.props.labelKey!];
+  // To be removed
+  legacyValueAccessor = (item: any) => item[this.props.valueKey!];
+  /**
+   * Shim for getLabel until labelKey is removed
+   *
+   * @memberof Picky
+   */
+  get getLabelShim() {
+    if (typeof this.props.labelKey !== 'undefined') {
+      return this.legacyLabelAccessor;
+    } else {
+      return this.props.getLabel;
+    }
   }
 
   componentWillUnmount() {
     document.removeEventListener('click', this.handleOutsideClick, false);
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps: PickyProps<TOptionType>) {
+  componentDidUpdate(prevProps: PickyProps<TOptionType>) {
     if (
-      this.props.options !== nextProps.options ||
-      this.props.value !== nextProps.value
+      this.props.options !== prevProps.options ||
+      this.props.value !== prevProps.value
     ) {
-      const valuesEqual = Array.isArray(nextProps.value)
-        ? arraysEqual(nextProps.value, this.props.value as OptionsType)
-        : nextProps.value === this.props.value;
+      const valuesEqual = Array.isArray(prevProps.value)
+        ? arraysEqual(prevProps.value, this.props.value as OptionsType)
+        : prevProps.value === this.props.value;
 
-      const optsEqual = arraysEqual(nextProps.options, this.props.options);
+      const optsEqual = arraysEqual(prevProps.options, this.props.options);
 
       this.setState({
         allSelected: !(valuesEqual && optsEqual)
-          ? this.allSelected(nextProps.value as OptionsType, nextProps.options)
+          ? this.allSelected(prevProps.value as OptionsType, prevProps.options)
           : this.allSelected(),
       });
     }
@@ -354,7 +398,7 @@ class Picky<TOptionType = any> extends React.PureComponent<
   selectValue(val: OptionType<TOptionType>) {
     const valueLookup = this.props.value;
     if (this.props.multiple && Array.isArray(valueLookup)) {
-      const itemIndex = hasItemIndex(valueLookup, val, this.props.getValue);
+      const itemIndex = hasItemIndex(valueLookup, val, this.getValueShim);
 
       let selectedValue: OptionsType<TOptionType> = [];
       if (itemIndex > -1) {
@@ -396,9 +440,9 @@ class Picky<TOptionType = any> extends React.PureComponent<
     if (selectedOptions && selectedOptions.length === 0) {
       return false;
     }
-    let copiedOptions = selectedOptions.map(this.props.getValue);
+    let copiedOptions = selectedOptions.map(this.getValueShim);
     let copiedValues = Array.isArray(selectedValue)
-      ? selectedValue.map(this.props.getValue)
+      ? selectedValue.map(this.getValueShim)
       : [];
 
     return arraysEqual(
@@ -434,7 +478,7 @@ class Picky<TOptionType = any> extends React.PureComponent<
     return hasItem<TOptionType>(
       this.props.value,
       item,
-      this.props.getValue
+      this.getValueShim
     ) as boolean;
   }
 
@@ -443,15 +487,7 @@ class Picky<TOptionType = any> extends React.PureComponent<
       ? this.state.filteredOptions
       : this.props.options;
 
-    const {
-      getLabel,
-      getValue,
-      multiple,
-      render,
-      tabIndex,
-      renderList,
-      disabled,
-    } = this.props;
+    const { multiple, render, tabIndex, renderList, disabled } = this.props;
     if (renderList) {
       return renderList({
         items,
@@ -465,7 +501,7 @@ class Picky<TOptionType = any> extends React.PureComponent<
     }
     return items.map((item, index) => {
       // Create a key based on the options value
-      const key = this.props.getValue(item);
+      const key = this.getValueShim(item);
 
       const isSelected = this.isItemSelected(item);
       // If render prop supplied for items call that.
@@ -475,8 +511,8 @@ class Picky<TOptionType = any> extends React.PureComponent<
           item,
           isSelected,
           selectValue: this.selectValue,
-          getLabel,
-          getValue,
+          getLabel: this.getLabelShim,
+          getValue: this.getValueShim,
           multiple,
           disabled,
         });
@@ -488,7 +524,7 @@ class Picky<TOptionType = any> extends React.PureComponent<
             item={item}
             isSelected={isSelected}
             selectValue={this.selectValue}
-            label={this.props.getLabel(item)}
+            label={this.getLabelShim(item)}
             multiple={Boolean(multiple)}
             tabIndex={tabIndex}
             disabled={Boolean(disabled)}
@@ -509,7 +545,7 @@ class Picky<TOptionType = any> extends React.PureComponent<
     /**
      * getFilterValue function will provide the input value of filter to the picky dropdown, so that if we have a larger list of options then we can only supply the matching options based on this value
      */
-    if (this.props.getFilterValue) {
+    if (typeof this.props.getFilterValue === 'function') {
       this.props.getFilterValue(term);
     }
     if (!term.trim()) {
@@ -521,7 +557,7 @@ class Picky<TOptionType = any> extends React.PureComponent<
 
     const filteredOptions = this.props.options.filter(option => {
       return includes(
-        this.props.getLabel(option),
+        this.getLabelShim(option),
         term,
         this.props.caseSensitiveFilter
       );
@@ -676,7 +712,7 @@ class Picky<TOptionType = any> extends React.PureComponent<
             value={value}
             multiple={Boolean(multiple)}
             numberDisplayed={numberDisplayed!}
-            getLabel={this.props.getLabel}
+            getLabel={this.getLabelShim}
             data-testid="placeholder-component"
           />
         </Button>

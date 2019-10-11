@@ -48,6 +48,8 @@ class App extends React.Component<any, any> {
               open={true}
               getLabel={this.labelAccessor}
               getValue={this.valueAccessor}
+              // labelKey="name"
+              // valueKey="id"
               multiple={true}
               includeSelectAll={true}
               includeFilter={true}
