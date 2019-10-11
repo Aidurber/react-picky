@@ -377,19 +377,20 @@ class Picky<TOptionType = any> extends React.PureComponent<
   }
 
   componentDidUpdate(prevProps: PickyProps<TOptionType>) {
-    if (
-      this.props.options !== prevProps.options ||
-      this.props.value !== prevProps.value
-    ) {
-      const valuesEqual = Array.isArray(prevProps.value)
-        ? arraysEqual(prevProps.value, this.props.value as OptionsType)
-        : prevProps.value === this.props.value;
+    const { options, value } = this.props;
+    if (options !== prevProps.options || value !== prevProps.value) {
+      const valuesEqual = Array.isArray(value)
+        ? arraysEqual(
+            prevProps.value as OptionsType<TOptionType>,
+            value as OptionsType
+          )
+        : prevProps.value === value;
 
-      const optsEqual = arraysEqual(prevProps.options, this.props.options);
+      const optsEqual = arraysEqual(prevProps.options, options);
 
       this.setState({
         allSelected: !(valuesEqual && optsEqual)
-          ? this.allSelected(prevProps.value as OptionsType, prevProps.options)
+          ? this.allSelected(value as OptionsType, options)
           : this.allSelected(),
       });
     }

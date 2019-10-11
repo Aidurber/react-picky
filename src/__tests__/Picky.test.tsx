@@ -886,9 +886,9 @@ describe('Picky', () => {
             onChange={mockOnChange}
           />
         );
-        const componentWillUpdateSpy = jest.spyOn(
+        const componentDidUpdateSpy = jest.spyOn(
           Picky.prototype,
-          'UNSAFE_componentWillReceiveProps'
+          'componentDidUpdate'
         );
         expect(wrapper.state('selectedValue')).toHaveLength(0);
         setTimeout(() => {
@@ -896,10 +896,10 @@ describe('Picky', () => {
             value: ['1', '2'],
             options: ['1', '2', '3', '4', '5'],
           });
-          expect(componentWillUpdateSpy).toHaveBeenCalled();
+          expect(componentDidUpdateSpy).toHaveBeenCalled();
           expect(wrapper.state('allSelected')).toEqual(false);
-          componentWillUpdateSpy.mockReset();
-          componentWillUpdateSpy.mockRestore();
+          componentDidUpdateSpy.mockReset();
+          componentDidUpdateSpy.mockRestore();
           done();
         }, 20);
       });
