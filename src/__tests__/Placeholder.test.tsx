@@ -1,6 +1,8 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import Placeholder from '../Placeholder';
+import { defaultAccessor, __labelAccessor } from '../accessors';
+
 //@ts-ignore
 const sel = id => `[data-testid="${id}"]`;
 //@ts-ignore
@@ -25,7 +27,12 @@ describe('Placeholder', () => {
   it('should show numberDisplayed if selected values', () => {
     const wrapper = mount(
       //@ts-ignore
-      <Placeholder numberDisplayed={2} value={[1, 2]} multiple />
+      <Placeholder
+        numberDisplayed={2}
+        value={[1, 2]}
+        getLabel={defaultAccessor}
+        multiple
+      />
     );
     const placeholder = getPlaceholderFromWrapper(wrapper);
 
@@ -60,6 +67,7 @@ describe('Placeholder', () => {
     const wrapper = mount(
       <Placeholder
         numberDisplayed={2}
+        getLabel={defaultAccessor}
         value={[1, 2, 3]}
         allSelected={true}
         multiple
@@ -74,6 +82,7 @@ describe('Placeholder', () => {
   it('should x selected if all items selected and no allSelectedPlaceholder specified', () => {
     const wrapper = mount(
       <Placeholder
+        getLabel={defaultAccessor}
         numberDisplayed={2}
         value={[1, 2, 3]}
         allSelected={true}
@@ -95,15 +104,19 @@ describe('Placeholder', () => {
   });
 
   it('should show value if not multiple and a value specified', () => {
-    //@ts-ignore
-    const wrapper = mount(<Placeholder value={'one'} />);
+    const wrapper = mount(
+      //@ts-ignore
+      <Placeholder value={'one'} getLabel={defaultAccessor} />
+    );
     const placeholder = getPlaceholderFromWrapper(wrapper);
 
     expect(placeholder.text()).toEqual('one');
   });
   it('should show first value if multiple value and not multiple set', () => {
-    //@ts-ignore
-    const wrapper = mount(<Placeholder value={[1, 2, 3]} />);
+    const wrapper = mount(
+      //@ts-ignore
+      <Placeholder value={[1, 2, 3]} getLabel={defaultAccessor} />
+    );
     const placeholder = getPlaceholderFromWrapper(wrapper);
 
     expect(placeholder.text()).toEqual('1');
@@ -113,6 +126,7 @@ describe('Placeholder', () => {
     const wrapper = mount(
       //@ts-ignore
       <Placeholder
+        getLabel={__labelAccessor}
         value={[{ id: 1, name: 'Item 1' }, { id: 2, name: 'Item 2' }]}
         multiple={true}
         labelKey="name"
@@ -128,9 +142,8 @@ describe('Placeholder', () => {
     const wrapper = mount(
       //@ts-ignore
       <Placeholder
+        getLabel={__labelAccessor}
         value={[{ id: 1, name: 'Item 1' }]}
-        labelKey="name"
-        valueKey="id"
         numberDisplayed={3}
       />
     );

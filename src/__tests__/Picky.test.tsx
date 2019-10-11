@@ -11,6 +11,7 @@ import Placeholder from '../Placeholder';
 import Picky from '../Picky';
 import Filter from '../Filter';
 import Option from '../Option';
+import { __labelAccessor, __valueAccessor } from '../accessors';
 //@ts-ignore
 const sel = id => `[data-testid="${id}"]`;
 //@ts-ignore
@@ -76,8 +77,8 @@ describe('Picky', () => {
         value={[]}
         options={options}
         open={true}
-        labelKey="name"
-        valueKey="id"
+        getLabel={__labelAccessor}
+        getValue={__valueAccessor}
         render={renderProp}
         renderList={renderListProp}
         multiple={false}
@@ -474,8 +475,8 @@ describe('Picky', () => {
           value={undefined}
           options={options}
           open={true}
-          valueKey="id"
-          labelKey="name"
+          getValue={__valueAccessor}
+          getLabel={__labelAccessor}
           onChange={mockOnChange}
         />
       );
@@ -556,18 +557,18 @@ describe('Picky', () => {
 
     it('should filter values when case sensitive', () => {
       const options = [
-        { label: 'Item 1', value: 1 },
-        { label: 'item 2', value: 2 },
-        { label: 'item 3', value: 3 },
-        { label: 'Item 4', value: 4 },
+        { name: 'Item 1', id: 1 },
+        { name: 'item 2', id: 2 },
+        { name: 'item 3', id: 3 },
+        { name: 'Item 4', id: 4 },
       ];
       const wrapper = mount(
         <Picky
           {...corePickyProps}
           options={options}
           value={[]}
-          valueKey="value"
-          labelKey="label"
+          getValue={__valueAccessor}
+          getLabel={__labelAccessor}
           caseSensitiveFilter={true}
           multiple={true}
           filterDebounce={0}
@@ -579,8 +580,8 @@ describe('Picky', () => {
       expect(wrapper.state('filteredOptions')).toEqual([]);
       wrapper.find(sel('picky__filter__input')).simulate('change', event);
       expect(wrapper.state('filteredOptions')).toEqual([
-        { label: 'item 2', value: 2 },
-        { label: 'item 3', value: 3 },
+        { name: 'item 2', id: 2 },
+        { name: 'item 3', id: 3 },
       ]);
     });
 
@@ -613,8 +614,8 @@ describe('Picky', () => {
           filterDebounce={0}
           open={true}
           includeFilter={true}
-          labelKey="name"
-          valueKey="id"
+          getLabel={__labelAccessor}
+          getValue={__valueAccessor}
         />
       );
 
@@ -832,8 +833,8 @@ describe('Picky', () => {
               { id: 4, name: 'Label 4' },
               { id: 5, name: 'Label 5' },
             ]}
-            labelKey="name"
-            valueKey="id"
+            getLabel={__labelAccessor}
+            getValue={__valueAccessor}
           />
         );
         const renderedOptions = wrapper.find(sel('option'));
@@ -1067,8 +1068,8 @@ describe('Picky', () => {
           {...corePickyProps}
           options={options}
           includeSelectAll
-          valueKey="id"
-          labelKey="name"
+          getValue={__valueAccessor}
+          getLabel={__labelAccessor}
           open={true}
           multiple
           value={[]}
@@ -1082,8 +1083,8 @@ describe('Picky', () => {
           {...corePickyProps}
           options={options}
           includeSelectAll
-          valueKey="id"
-          labelKey="name"
+          getValue={__valueAccessor}
+          getLabel={__labelAccessor}
           open={true}
           multiple
           value={[{ id: 2, name: 'Item 2' }, { id: 1, name: 'Item 1' }]}

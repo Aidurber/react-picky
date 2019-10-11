@@ -1,12 +1,10 @@
 import * as React from 'react';
 import { onlyUpdateForKeys } from 'recompose';
-import { isDataObject } from './lib/utils';
-import { OptionType, ComplexOptionType } from './types';
+import { OptionType } from './types';
 
 type OptionProps = {
   isSelected: boolean;
-  valueKey?: string;
-  labelKey?: string;
+  label: string;
   id: string;
   item: OptionType;
   style?: React.CSSProperties;
@@ -20,8 +18,7 @@ const Option: React.FC<OptionProps> = props => {
     id,
     item,
     isSelected,
-    labelKey,
-    valueKey,
+    label,
     selectValue,
     style,
     multiple,
@@ -29,9 +26,6 @@ const Option: React.FC<OptionProps> = props => {
     disabled,
   } = props;
   const cssClass = isSelected ? 'option selected' : 'option';
-  const body = isDataObject(item, labelKey, valueKey)
-    ? (item as ComplexOptionType)[labelKey!]
-    : item;
   const inputType = multiple ? 'checkbox' : 'radio';
   const select = () => !disabled && selectValue(item);
 
@@ -59,10 +53,10 @@ const Option: React.FC<OptionProps> = props => {
         tabIndex={-1}
         disabled={disabled}
         checked={isSelected}
-        aria-label={body}
+        aria-label={label}
         data-testid={'option-checkbox'}
       />
-      {body}
+      {label}
     </div>
   );
 };

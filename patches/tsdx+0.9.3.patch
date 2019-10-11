@@ -1,0 +1,20 @@
+diff --git a/node_modules/tsdx/dist/index.js b/node_modules/tsdx/dist/index.js
+index 790f48e..1bf8df1 100755
+--- a/node_modules/tsdx/dist/index.js
++++ b/node_modules/tsdx/dist/index.js
+@@ -360,7 +360,14 @@ prog
+         throw err;
+     });
+     const argv = process.argv.slice(2);
+-    argv.push('--config', JSON.stringify(Object.assign(Object.assign({}, createJestConfig_1.createJestConfig(relativePath => path_1.default.resolve(__dirname, '..', relativePath), constants_1.paths.appRoot)), appPackageJson.jest)));
++    let jestConfig = Object.assign(Object.assign({}, createJestConfig_1.createJestConfig(relativePath => path_1.default.resolve(__dirname, '..', relativePath), constants_1.paths.appRoot)), appPackageJson.jest);
++    try {
++        // Allow overriding with jest.config
++        const jestConfigContents = require(path_1.default.resolve(constants_1.paths.appRoot, 'jest.config.js'));
++        jestConfig = Object.assign(Object.assign({}, jestConfig), jestConfigContents);
++    }
++    catch (_a) { }
++    argv.push('--config', JSON.stringify(Object.assign({}, jestConfig)));
+     const [, ...argsToPassToJestCli] = argv;
+     jest_1.default.run(argsToPassToJestCli);
+ });

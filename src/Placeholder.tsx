@@ -1,43 +1,35 @@
 // NEEDS REFACTOR
 import * as React from 'react';
-import { onlyUpdateForKeys } from 'recompose';
+// import { onlyUpdateForKeys } from 'recompose';
 import { format } from './lib/format';
-import { isDataObject } from './lib/utils';
 import { includes } from './lib/includes';
-import {
-  OptionsType,
-  OptionType,
-  ComplexOptionType,
-  SimpleOptionType,
-} from './types';
+import { OptionsType, OptionType } from './types';
 
 const isEmptyValue = (value: any) =>
   value === null ||
   value === undefined ||
   (Array.isArray(value) && !value.length);
 
-type PlaceholderProps = {
+type PlaceholderProps<TOptionType> = {
   placeholder?: string;
-  value: OptionsType | OptionType | undefined;
+  value: OptionsType<TOptionType> | OptionType<TOptionType> | undefined;
   numberDisplayed: number;
   multiple: boolean;
-  valueKey?: string;
-  labelKey?: string;
   manySelectedPlaceholder?: string;
   allSelectedPlaceholder?: string;
   allSelected: boolean;
+  getLabel: (opt: OptionType<TOptionType>) => any;
 };
-const Placeholder: React.FC<PlaceholderProps> = ({
+function Placeholder<T>({
   placeholder,
   value,
   numberDisplayed,
   multiple,
-  valueKey,
-  labelKey,
+  getLabel,
   manySelectedPlaceholder,
   allSelectedPlaceholder,
   allSelected,
-}) => {
+}: PlaceholderProps<T>) {
   let message: string = '';
   if (isEmptyValue(value)) {
     message = placeholder || '';
@@ -46,14 +38,7 @@ const Placeholder: React.FC<PlaceholderProps> = ({
       // If type is array and values length less than number displayed
       // join the values
       if (value.length <= numberDisplayed) {
-        message = value
-          .map(opt => {
-            if (isDataObject(opt, valueKey, labelKey)) {
-              return (opt as ComplexOptionType)[labelKey!];
-            }
-            return opt;
-          })
-          .join(', ');
+        message = value.map(getLabel).join(', ');
       } else {
         // if many selected and not all selected then use the placeholder
         if (manySelectedPlaceholder && !allSelected) {
@@ -71,11 +56,7 @@ const Placeholder: React.FC<PlaceholderProps> = ({
       }
     } else {
       let tempValue = Array.isArray(value) ? value[0] : value;
-      if (isDataObject(tempValue, valueKey, labelKey)) {
-        message = (tempValue as ComplexOptionType)[labelKey!];
-      } else {
-        message = String(tempValue as SimpleOptionType);
-      }
+      message = String(getLabel((tempValue as any)!));
     }
   }
 
@@ -84,7 +65,7 @@ const Placeholder: React.FC<PlaceholderProps> = ({
       {message}
     </span>
   );
-};
+}
 
 Placeholder.defaultProps = {
   placeholder: 'None selected',
@@ -93,10 +74,11 @@ Placeholder.defaultProps = {
   allSelected: false,
 };
 Placeholder.displayName = 'Picky(Placeholder)';
-export default onlyUpdateForKeys([
-  'multiple',
-  'value',
-  'numberDisplayed',
-  'allSelected',
-  'allSelectedPlaceholder',
-])(Placeholder);
+export default Placeholder;
+// onlyUpdateForKeys([
+//   'multiple',
+//   'value',
+//   'numberDisplayed',
+//   'allSelected',
+//   'allSelectedPlaceholder',
+// ])();

@@ -2,9 +2,7 @@ import * as React from 'react';
 import { debounce } from './lib/debounce';
 import { includes } from './lib/includes';
 import {
-  isDataObject,
   hasItem,
-  keyExtractor,
   hasItemIndex,
   sortCollection,
   arraysEqual,
@@ -12,7 +10,6 @@ import {
 import Placeholder from './Placeholder';
 import Filter from './Filter';
 import Option from './Option';
-import './Picky.css';
 import SelectAll from './SelectAll';
 import Button from './Button';
 import {
@@ -22,18 +19,19 @@ import {
   RenderProps,
   OptionsType,
   OptionType,
-  ComplexOptionType,
 } from './types';
+import { defaultAccessor } from './accessors';
+import './Picky.css';
 
-type PickyState = {
-  selectedValue: OptionsType | OptionType | null;
+type PickyState<TOptionType = any> = {
+  selectedValue: OptionsType<TOptionType> | OptionType<TOptionType> | null;
   open?: boolean;
   filtered?: boolean;
-  filteredOptions: OptionsType;
+  filteredOptions: OptionsType<TOptionType>;
   allSelected: boolean;
 };
 
-type PickyProps = {
+type PickyProps<TOptionType> = {
   /**
    * The ID for the component, used for accessibility
    *
@@ -56,7 +54,7 @@ type PickyProps = {
    * @type {PickyValue}
    * @memberof PickyProps
    */
-  value?: OptionsType | OptionType;
+  value?: OptionsType<TOptionType> | OptionType<TOptionType>;
 
   /**
    * The number of items to be displayed before the placeholder turns to "5 selected"
@@ -80,14 +78,14 @@ type PickyProps = {
    * @type {any[]} [[]]
    * @memberof PickyProps
    */
-  options: any[];
+  options: OptionsType<TOptionType>;
 
   /**
    * Called when the selected value changes, use this to re-set the value prop
    *
    * @memberof PickyProps
    */
-  onChange: (value: OptionsType | OptionType) => any;
+  onChange: (value: OptionsType<TOptionType> | OptionType<TOptionType>) => any;
 
   /**
    * Used to control whether the Picky is open by default
@@ -157,21 +155,21 @@ type PickyProps = {
    * @type {string}
    * @memberof PickyProps
    */
-  valueKey?: string;
+  getValue: (item: OptionType<TOptionType>) => any;
   /**
    *  Indicates which key is the label in an object. Used when supplied options are objects.
    *
    * @type {string}
    * @memberof PickyProps
    */
-  labelKey?: string;
+  getLabel: (item: OptionType<TOptionType>) => any;
 
   /**
    * Render prop for individual options
    *
    * @memberof PickyProps
    */
-  render?: (props: RenderProps) => any;
+  render?: (props: RenderProps<TOptionType>) => any;
 
   /**
    * Tab index for accessibility
@@ -282,13 +280,19 @@ type PickyProps = {
   selectAllMode?: SelectAllMode;
 };
 
-class Picky extends React.PureComponent<PickyProps, PickyState> {
+class Picky<TOptionType = any> extends React.PureComponent<
+  PickyProps<TOptionType>,
+  PickyState<TOptionType>
+> {
+  static defaultAccessor = defaultAccessor;
   static defaultProps = {
     numberDisplayed: 3,
     options: [],
     filterDebounce: 150,
     dropdownHeight: 300,
     onChange: () => {},
+    getValue: defaultAccessor,
+    getLabel: defaultAccessor,
     tabIndex: 0,
     keepOpen: true,
     selectAllText: 'Select all',
@@ -296,7 +300,7 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
   };
   node: HTMLDivElement | null = null;
   filter: Filter | null = null;
-  constructor(props: PickyProps) {
+  constructor(props: PickyProps<TOptionType>) {
     super(props);
     this.state = {
       selectedValue: props.value || (props.multiple ? [] : null),
@@ -313,7 +317,6 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
     this.isItemSelected = this.isItemSelected.bind(this);
     this.focusFilterInput = this.focusFilterInput.bind(this);
-    this.getValue = this.getValue.bind(this);
   }
   UNSAFE_componentWillMount() {
     this.setState({
@@ -329,16 +332,16 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
     document.removeEventListener('click', this.handleOutsideClick, false);
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps: PickyProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: PickyProps<TOptionType>) {
     if (
       this.props.options !== nextProps.options ||
       this.props.value !== nextProps.value
     ) {
-      let valuesEqual = Array.isArray(nextProps.value)
+      const valuesEqual = Array.isArray(nextProps.value)
         ? arraysEqual(nextProps.value, this.props.value as OptionsType)
         : nextProps.value === this.props.value;
 
-      let optsEqual = arraysEqual(nextProps.options, this.props.options);
+      const optsEqual = arraysEqual(nextProps.options, this.props.options);
 
       this.setState({
         allSelected: !(valuesEqual && optsEqual)
@@ -348,24 +351,22 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
     }
   }
 
-  selectValue(val: string | number) {
+  selectValue(val: OptionType<TOptionType>) {
     const valueLookup = this.props.value;
     if (this.props.multiple && Array.isArray(valueLookup)) {
-      const itemIndex = hasItemIndex(
-        valueLookup,
-        val,
-        this.props.valueKey,
-        this.props.labelKey
-      );
+      const itemIndex = hasItemIndex(valueLookup, val, this.props.getValue);
 
-      let selectedValue: OptionsType = [];
+      let selectedValue: OptionsType<TOptionType> = [];
       if (itemIndex > -1) {
         selectedValue = [
           ...valueLookup.slice(0, itemIndex),
           ...valueLookup.slice(itemIndex + 1),
         ];
       } else {
-        selectedValue = [...(this.props.value as OptionsType), val];
+        selectedValue = [
+          ...(this.props.value as OptionsType<TOptionType>),
+          val,
+        ];
       }
       this.setState(
         {
@@ -379,25 +380,14 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
       this.props.onChange(val);
     }
   }
-  /**
-   * Get the value of a given option or value safely
-   *
-   * @param {*} option
-   * @returns
-   * @memberof Picky
-   */
-  getValue(option: OptionType) {
-    return typeof this.props.valueKey !== 'undefined'
-      ? (option as ComplexOptionType)[this.props.valueKey]
-      : option;
-  }
+
   /**
    * Determine whether all items are selected
    *
    * @returns {Boolean}
    * @memberof Picky
    */
-  allSelected(overrideSelected?: any[], overrideOptions?: any[]) {
+  allSelected(overrideSelected?: any[], overrideOptions?: any[]): boolean {
     const { value, options } = this.props;
     const selectedValue = overrideSelected || value;
     const selectedOptions = overrideOptions || options;
@@ -406,9 +396,9 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
     if (selectedOptions && selectedOptions.length === 0) {
       return false;
     }
-    let copiedOptions = selectedOptions.map(this.getValue);
+    let copiedOptions = selectedOptions.map(this.props.getValue);
     let copiedValues = Array.isArray(selectedValue)
-      ? selectedValue.map(this.getValue)
+      ? selectedValue.map(this.props.getValue)
       : [];
 
     return arraysEqual(
@@ -440,12 +430,11 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
     );
   }
 
-  isItemSelected(item: OptionType): boolean {
-    return hasItem(
+  isItemSelected(item: OptionType<TOptionType>): boolean {
+    return hasItem<TOptionType>(
       this.props.value,
       item,
-      this.props.valueKey,
-      this.props.labelKey
+      this.props.getValue
     ) as boolean;
   }
 
@@ -455,8 +444,8 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
       : this.props.options;
 
     const {
-      labelKey,
-      valueKey,
+      getLabel,
+      getValue,
       multiple,
       render,
       tabIndex,
@@ -476,7 +465,7 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
     }
     return items.map((item, index) => {
       // Create a key based on the options value
-      const key = keyExtractor(item, valueKey, labelKey);
+      const key = this.props.getValue(item);
 
       const isSelected = this.isItemSelected(item);
       // If render prop supplied for items call that.
@@ -486,9 +475,9 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
           item,
           isSelected,
           selectValue: this.selectValue,
-          labelKey: labelKey,
-          valueKey: valueKey,
-          multiple: multiple,
+          getLabel,
+          getValue,
+          multiple,
           disabled,
         });
       } else {
@@ -499,8 +488,7 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
             item={item}
             isSelected={isSelected}
             selectValue={this.selectValue}
-            labelKey={labelKey}
-            valueKey={valueKey}
+            label={this.props.getLabel(item)}
             multiple={Boolean(multiple)}
             tabIndex={tabIndex}
             disabled={Boolean(disabled)}
@@ -530,20 +518,13 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
         filteredOptions: [],
       });
     }
-    const isObject = isDataObject(
-      this.props.options && this.props.options[0],
-      this.props.valueKey,
-      this.props.labelKey
-    );
+
     const filteredOptions = this.props.options.filter(option => {
-      if (isObject) {
-        return includes(
-          option[this.props.labelKey!],
-          term,
-          this.props.caseSensitiveFilter
-        );
-      }
-      return includes(option, term, this.props.caseSensitiveFilter);
+      return includes(
+        this.props.getLabel(option),
+        term,
+        this.props.caseSensitiveFilter
+      );
     });
     this.setState(
       {
@@ -650,8 +631,6 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
       multiple,
       numberDisplayed,
       includeFilter,
-      valueKey,
-      labelKey,
       tabIndex,
       dropdownHeight,
       renderSelectAll,
@@ -689,7 +668,7 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
           onClick={this.toggleDropDown}
           {...buttonProps}
         >
-          <Placeholder
+          <Placeholder<TOptionType>
             allSelected={this.state.allSelected}
             placeholder={placeholder}
             manySelectedPlaceholder={this.props.manySelectedPlaceholder}
@@ -697,8 +676,7 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
             value={value}
             multiple={Boolean(multiple)}
             numberDisplayed={numberDisplayed!}
-            valueKey={valueKey}
-            labelKey={labelKey}
+            getLabel={this.props.getLabel}
             data-testid="placeholder-component"
           />
         </Button>

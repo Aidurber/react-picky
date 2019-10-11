@@ -1,11 +1,11 @@
 export type SimpleOptionType = string | number;
-export type ComplexOptionType = { [key: string]: any };
+export type ComplexOptionType<T = any> = { [key in Partial<keyof T>]: any };
 export type OptionType<T = any> = T extends string
   ? SimpleOptionType
   : T extends number
   ? SimpleOptionType
-  : ComplexOptionType;
-export type OptionsType = OptionType[];
+  : ComplexOptionType<T>;
+export type OptionsType<T = any> = OptionType<T>[];
 
 export type SelectAllMode = 'default' | 'filtered';
 /**
@@ -14,7 +14,7 @@ export type SelectAllMode = 'default' | 'filtered';
  * @export
  * @interface RenderProps
  */
-export interface RenderProps {
+export interface RenderProps<TOptionType = any> {
   disabled?: boolean;
   /**
    * Index of the item
@@ -48,20 +48,19 @@ export interface RenderProps {
   selectValue: (item: any) => void;
 
   /**
-   * Used to determine the label of an option if options supplied are objects
+   *  Indicates which key is the value in an object. Used when supplied options are objects.
    *
    * @type {string}
-   * @memberof RenderProps
+   * @memberof PickyProps
    */
-  labelKey?: string;
-
+  getValue: (item: OptionType<TOptionType>) => any;
   /**
-   * Used to determine the value of an option if options supplied are objects
+   *  Indicates which key is the label in an object. Used when supplied options are objects.
    *
    * @type {string}
-   * @memberof RenderProps
+   * @memberof PickyProps
    */
-  valueKey?: string;
+  getLabel: (item: OptionType<TOptionType>) => any;
 
   /**
    * True if Picky allows multiple selection

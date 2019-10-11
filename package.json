@@ -17,7 +17,8 @@
     "build": "tsdx build",
     "test": "tsdx test --env=jsdom",
     "lint": "tsdx lint",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "recompose": "^0.30.0"
@@ -42,6 +43,7 @@
     "enzyme-adapter-react-16": "^1.14.0",
     "husky": "^3.0.8",
     "identity-obj-proxy": "^3.0.0",
+    "patch-package": "^6.2.0",
     "prettier": "^1.18.2",
     "prettier-eslint": "^9.0.0",
     "pretty-quick": "^1.11.1",
@@ -58,15 +60,6 @@
     "prop-types": "15.7.2",
     "react": "> 16.3.0",
     "react-dom": "> 16.3.0"
-  },
-  "jest": {
-    "setupFiles": [
-      "./tests/helpers/setup.js"
-    ],
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
-      "\\.(css|less)$": "identity-obj-proxy"
-    }
   },
   "repository": {
     "type": "git",
