@@ -6,8 +6,7 @@ Yet another React select list.
 [![codecov](https://codecov.io/gh/Aidurber/react-picky/branch/master/graph/badge.svg)](https://codecov.io/gh/Aidurber/react-picky)
 [![license](https://img.shields.io/github/license/aidurber/react-picky.svg)]()
 [![npm version](https://badge.fury.io/js/react-picky.svg)](https://badge.fury.io/js/react-picky)
-[![gzip size](http://img.badgesize.io/aidurber/react-picky/master/dist/index.js.svg?compression=gzip)]()
-[![Greenkeeper badge](https://badges.greenkeeper.io/Aidurber/react-picky.svg)](https://greenkeeper.io/)
+[![gzip size](https://badgen.net/bundlephobia/minzip/react-picky)]()
 
 ## Motivation
 
