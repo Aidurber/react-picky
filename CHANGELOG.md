@@ -1,3 +1,10 @@
+## [4.7.2](https://github.com/Aidurber/react-picky/compare/v4.7.1...v4.7.2) (2019-10-17)
+
+
+### Bug Fixes
+
+* failed prop type and className warnings ([b93dab9](https://github.com/Aidurber/react-picky/commit/b93dab9))
+
 ## [4.7.1](https://github.com/Aidurber/react-picky/compare/v4.7.0...v4.7.1) (2019-10-10)
 
 
