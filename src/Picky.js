@@ -468,6 +468,7 @@ class Picky extends React.PureComponent {
 }
 
 Picky.defaultProps = {
+  id: 'picky',
   numberDisplayed: 3,
   options: [],
   filterDebounce: 150,

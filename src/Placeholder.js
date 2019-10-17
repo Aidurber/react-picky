@@ -64,7 +64,7 @@ const Placeholder = ({
 
   return (
     <span
-      className={isEmptyValue(value) && 'picky__placeholder'}
+      className={isEmptyValue(value) ? 'picky__placeholder' : undefined}
       data-testid="picky_placeholder"
     >
       {message}
