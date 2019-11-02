@@ -500,6 +500,7 @@ describe('Picky', () => {
     // Mount Picky with Enzyme
     const wrapper = mount(
       <Picky
+        {...corePickyProps}
         options={options}
         value={['Dog']}
         onChange={mockOnChange}
