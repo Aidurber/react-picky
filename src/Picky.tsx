@@ -292,6 +292,7 @@ type PickyProps = {
 
 class Picky extends React.PureComponent<PickyProps, PickyState> {
   static defaultProps = {
+    id: 'picky',
     numberDisplayed: 3,
     options: [],
     filterDebounce: 150,
