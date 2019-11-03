@@ -1,3 +1,10 @@
+## [5.0.1](https://github.com/Aidurber/react-picky/compare/v5.0.0...v5.0.1) (2019-11-03)
+
+
+### Bug Fixes
+
+* use correct export ([a0edbdc](https://github.com/Aidurber/react-picky/commit/a0edbdc))
+
 # [5.0.0](https://github.com/Aidurber/react-picky/compare/v4.7.2...v5.0.0) (2019-11-03)
 
 
