@@ -35,6 +35,7 @@ class App extends React.Component<any, any> {
           <div className="col">
             <h3>Multi select</h3>
             <Picky
+              id="multi"
               value={this.state.arrayValue}
               options={bigList}
               onChange={this.selectMultipleOption}
@@ -51,6 +52,7 @@ class App extends React.Component<any, any> {
           <div className="col">
             <h3>Single select</h3>
             <Picky
+              id="single"
               value={this.state.value}
               options={bigList}
               onChange={this.selectOption}
