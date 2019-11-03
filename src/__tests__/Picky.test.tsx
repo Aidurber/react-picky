@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, cleanup } from '@testing-library/react';
-import Picky from '../Picky';
+import { Picky } from '../Picky';
 import Filter from '../Filter';
 
 const corePickyProps = {
