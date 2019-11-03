@@ -94,3 +94,5 @@ export function arraysEqual(left: any[], right: any[]): boolean {
   }
   return true;
 }
+
+export const asArray = (obj: any): any[] => obj || [];

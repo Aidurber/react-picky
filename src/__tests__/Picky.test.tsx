@@ -338,6 +338,42 @@ describe('Picky', () => {
         name: 'Item 1',
       });
     });
+    it('should be indeterminate if some options are checked', () => {
+      const { getByTestId, getAllByTestId, rerender } = render(
+        <Picky
+          {...corePickyProps}
+          includeSelectAll
+          open
+          options={[1, 2, 3, 4]}
+          value={[]}
+          multiple
+        />
+      );
+
+      const options = getAllByTestId('option');
+      // Should have none selected
+      // Select a single option
+      fireEvent.click(options[0]);
+
+      rerender(
+        <Picky
+          {...corePickyProps}
+          includeSelectAll
+          open
+          options={[1, 2, 3, 4]}
+          value={[1]}
+          multiple
+        />
+      );
+      // Checkbox should be indeterminate
+      const checkbox: any = getByTestId('selectall-checkbox');
+      expect(checkbox.indeterminate).toBe(true);
+
+      // Should have correct styles
+
+      const selectAll = getByTestId('selectall');
+      expect(selectAll.classList.contains('selected')).toBe(false);
+    });
   });
 
   describe('Filter', () => {
@@ -401,7 +437,9 @@ describe('Picky', () => {
 
       // Remove the filter text from 'oo' to ''
       fireEvent.change(input, { target: { value: '' } });
-
+      // Checkbox should be indeterminate
+      const checkbox: any = getByTestId('selectall-checkbox');
+      expect(checkbox.indeterminate).toEqual(true);
       // Lets select all again when we have no filter
       fireEvent.click(selectAllButton);
 
@@ -736,7 +774,7 @@ describe('Picky', () => {
     const calledWithProps = renderSelectAllMock.mock.calls[0][0];
     expect(calledWithProps.filtered).toEqual(false);
     expect(calledWithProps.multiple).toEqual(true);
-    expect(calledWithProps.allSelected).toEqual(false);
+    expect(calledWithProps.allSelected).toEqual('none');
     expect(calledWithProps.tabIndex).toEqual(0);
   });
 

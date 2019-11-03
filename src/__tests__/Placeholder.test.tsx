@@ -60,7 +60,7 @@ describe('Placeholder', () => {
       <Placeholder
         numberDisplayed={2}
         value={[1, 2, 3]}
-        allSelected={true}
+        allSelected={'all'}
         multiple
         allSelectedPlaceholder="All selected"
       />
@@ -75,7 +75,7 @@ describe('Placeholder', () => {
       <Placeholder
         numberDisplayed={2}
         value={[1, 2, 3]}
-        allSelected={true}
+        allSelected={'all'}
         multiple
       />
     );
