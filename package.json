@@ -10,7 +10,6 @@
   ],
   "scripts": {
     "prepare-example": "yarn --cwd example install",
-    "dev": "rollup -c -w",
     "start": "concurrently \"tsdx watch\" \"yarn start:example\"",
     "start:example": "yarn --cwd example start",
     "build": "tsdx build",
@@ -44,8 +43,8 @@
     "prettier": "^1.18.2",
     "prettier-eslint": "^9.0.0",
     "pretty-quick": "^1.11.1",
-    "react": "^16.10.2",
-    "react-dom": "^16.10.2",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
     "rollup-plugin-css-only": "^1.0.0",
     "rollup-plugin-filesize": "^6.2.0",
     "semantic-release": "^15.13.24",

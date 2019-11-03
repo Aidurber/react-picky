@@ -65,7 +65,7 @@ Picky provides a medium amount of flexibility, you can custom render: Options, L
 ## Basic example
 
 ```javascript
-import Picky from 'react-picky';
+import { Picky } from 'react-picky';
 import 'react-picky/dist/picky.css'; // Include CSS
 
 <Picky
@@ -326,3 +326,17 @@ const Select = styled(Picky)`
   }
 `;
 ```
+
+# Migrations
+
+## v4 to v5
+
+> Picky is no longer a default export
+
+**V4**
+
+import Picky from 'react-picky'
+
+**V5**
+
+import { Picky } from 'react-picky'
