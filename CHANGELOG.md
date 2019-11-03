@@ -1,3 +1,32 @@
+# [5.0.0](https://github.com/Aidurber/react-picky/compare/v4.7.2...v5.0.0) (2019-11-03)
+
+
+### Bug Fixes
+
+* add default id prop ([5a83b8d](https://github.com/Aidurber/react-picky/commit/5a83b8d))
+* add default id prop ([f937117](https://github.com/Aidurber/react-picky/commit/f937117))
+* classname warnings ([e6b97d1](https://github.com/Aidurber/react-picky/commit/e6b97d1))
+* classname warnings ([e6a1688](https://github.com/Aidurber/react-picky/commit/e6a1688))
+
+
+### Features
+
+* increase react dep to 16.8 ([96b0234](https://github.com/Aidurber/react-picky/commit/96b0234))
+* increase react dep to 16.8 ([339c4f6](https://github.com/Aidurber/react-picky/commit/339c4f6))
+* migrate to typescript ([1ac1b6f](https://github.com/Aidurber/react-picky/commit/1ac1b6f))
+* migrate to typescript ([8ee7298](https://github.com/Aidurber/react-picky/commit/8ee7298))
+* select only filtered ([16c164b](https://github.com/Aidurber/react-picky/commit/16c164b))
+* support indeternimate select all ([7f1082d](https://github.com/Aidurber/react-picky/commit/7f1082d))
+* support indeternimate select all ([fe30273](https://github.com/Aidurber/react-picky/commit/fe30273))
+
+
+### BREAKING CHANGES
+
+* Requires Hooks
+* Large re-write to TypeScript
+* Requires Hooks
+* Large re-write to TypeScript
+
 ## [4.7.2](https://github.com/Aidurber/react-picky/compare/v4.7.1...v4.7.2) (2019-10-17)
 
 

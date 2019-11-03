@@ -1,6 +1,6 @@
 {
   "name": "react-picky",
-  "version": "4.7.2",
+  "version": "5.0.0",
   "main": "dist/index.js",
   "module": "dist/picky.esm.js",
   "typings": "dist/index.d.ts",
