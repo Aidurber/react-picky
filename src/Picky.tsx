@@ -797,4 +797,4 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
   }
 }
 
-export default Picky;
+export { Picky };

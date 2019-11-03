@@ -1,3 +1,1 @@
-import Picky from './Picky';
-
-export default Picky;
+export * from './Picky';
