@@ -38,8 +38,8 @@ Picky provides a medium amount of flexibility, you can custom render: Options, L
 
 ```
  "prop-types": "^15.6.0",
- "react": "^16.5.0",
- "react-dom": "^16.5.0"
+ "react": "^16.8.0",
+ "react-dom": "^16.8.0"
 ```
 
 # Installation
