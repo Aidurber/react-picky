@@ -1,7 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
 import { onlyUpdateForKeys } from 'recompose';
-function SelectAll({
+import { SelectionState } from './types';
+
+type SelectAllProps = {
+  tabIndex: number | undefined;
+  disabled: boolean;
+  allSelected: SelectionState;
+  id: string;
+  selectAllText?: string;
+  toggleSelectAll(): void;
+  visible: boolean;
+};
+const SelectAll: React.FC<SelectAllProps> = ({
   tabIndex,
   disabled,
   allSelected,
@@ -9,10 +19,16 @@ function SelectAll({
   selectAllText,
   toggleSelectAll,
   visible,
-}) {
+}) => {
+  const checkboxRef = React.createRef<HTMLInputElement>();
   if (!visible) {
     return null;
   }
+
+  React.useEffect(() => {
+    if (checkboxRef.current === null) return;
+    checkboxRef.current.indeterminate = allSelected === 'partial';
+  }, [allSelected]);
   return (
     <div
       tabIndex={tabIndex}
@@ -20,35 +36,27 @@ function SelectAll({
       data-testid="selectall"
       id={id + '-option-' + 'selectall'}
       data-selectall="true"
-      aria-selected={allSelected}
-      className={allSelected ? 'option selected' : 'option'}
+      aria-selected={allSelected === 'all'}
+      className={allSelected === 'all' ? 'option selected' : 'option'}
       onClick={toggleSelectAll}
-      disabled={disabled}
       onKeyPress={toggleSelectAll}
     >
       <input
         type="checkbox"
+        ref={checkboxRef}
         readOnly
         data-testid="selectall-checkbox"
         tabIndex={-1}
-        checked={allSelected}
+        checked={allSelected === 'all'}
         aria-label="select all"
         disabled={disabled}
       />
       <span data-testid="select-all-text">{selectAllText}</span>
     </div>
   );
-}
-
-SelectAll.propTypes = {
-  tabIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  disabled: PropTypes.bool,
-  allSelected: PropTypes.bool,
-  id: PropTypes.string.isRequired,
-  selectAllText: PropTypes.string,
-  toggleSelectAll: PropTypes.func.isRequired,
-  visible: PropTypes.bool,
 };
+
+SelectAll.displayName = 'Picky(SelectAll)';
 
 export default onlyUpdateForKeys([
   'tabIndex',

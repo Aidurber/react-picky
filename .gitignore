@@ -3,3 +3,5 @@ node_modules/
 .rpt2_cache/
 *.log
 dist/
+.rts2_*
+.docz/

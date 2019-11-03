@@ -15,7 +15,7 @@
     }
   },
 
-  "plugins": ["prettier", "react", "jsx-a11y"],
+  "plugins": ["prettier", "react"],
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",

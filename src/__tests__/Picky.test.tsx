@@ -1,31 +1,24 @@
 import React from 'react';
-import { mount } from 'enzyme';
-import { render as rtlRender, fireEvent, cleanup } from 'react-testing-library';
-
-import Placeholder from '../src/Placeholder';
-import Picky from '../src/Picky';
-import Filter from '../src/Filter';
-import Option from '../src/Option';
-
-const sel = id => `[data-testid="${id}"]`;
-const selSelected = id => `[data-testid="${id}"][data-selected="selected"]`;
+import { render, fireEvent, cleanup } from '@testing-library/react';
+import Picky from '../Picky';
+import Filter from '../Filter';
 
 const corePickyProps = {
   id: 'picky-test-id',
 };
 
 describe('Picky', () => {
-  afterEach(cleanup); // <-- add this
+  afterEach(cleanup);
 
   it('should have Placeholder component', () => {
-    const wrapper = mount(<Picky {...corePickyProps} value={[]} />);
-    expect(wrapper.find(Placeholder)).toHaveLength(1);
+    const { getByTestId } = render(<Picky {...corePickyProps} value={[]} />);
+    expect(getByTestId('picky_placeholder')).toBeDefined();
   });
 
   it('should accept render prop', () => {
     const renderPropMock = jest.fn();
     renderPropMock.mockReturnValue(<p />);
-    const wrapper = mount(
+    render(
       <Picky
         {...corePickyProps}
         value={[1, 2, 3]}
@@ -35,7 +28,6 @@ describe('Picky', () => {
       />
     );
 
-    expect(wrapper.prop('render')).toBeDefined();
     expect(renderPropMock).toHaveBeenCalled();
   });
 
@@ -43,7 +35,7 @@ describe('Picky', () => {
     const renderListProp = jest.fn();
     const renderProp = jest.fn();
     renderListProp.mockReturnValue(<p />);
-    const wrapper = mount(
+    render(
       <Picky
         {...corePickyProps}
         value={[1, 2, 3]}
@@ -54,7 +46,6 @@ describe('Picky', () => {
       />
     );
 
-    expect(wrapper.prop('renderList')).toBeDefined();
     expect(renderListProp).toHaveBeenCalled();
     expect(renderProp).not.toHaveBeenCalled();
   });
@@ -64,7 +55,7 @@ describe('Picky', () => {
     const renderProp = jest.fn();
     renderListProp.mockReturnValue(<p />);
     const options = [{ id: 1, name: '1' }, { id: 2, name: '2' }];
-    mount(
+    render(
       <Picky
         {...corePickyProps}
         value={[]}
@@ -86,34 +77,38 @@ describe('Picky', () => {
 
   describe('Virtual Dropdown drawer', () => {
     it('should open if prop open is true', () => {
-      const wrapper = mount(
+      const { getByTestId } = render(
         <Picky {...corePickyProps} value={[1, 2, 3]} open={true} />
       );
-      expect(wrapper.find(sel('dropdown'))).toHaveLength(1);
+      expect(getByTestId('dropdown')).toBeTruthy();
     });
     it('should not be open if prop open is false', () => {
-      const wrapper = mount(
+      const { queryByTestId } = render(
         <Picky {...corePickyProps} value={[1, 2, 3]} open={false} />
       );
-      expect(wrapper.find(sel('dropdown'))).toHaveLength(0);
+      expect(queryByTestId('dropdown')).toBeFalsy();
     });
 
     it('should open on click of button', () => {
-      const wrapper = mount(<Picky {...corePickyProps} value={[1, 2, 3]} />);
-      expect(wrapper.find(sel('dropdown'))).toHaveLength(0);
-      wrapper.find(sel('picky-input')).simulate('click');
-      expect(wrapper.find(sel('dropdown'))).toHaveLength(1);
+      const { getByTestId, queryByTestId } = render(
+        <Picky {...corePickyProps} value={[1, 2, 3]} />
+      );
+      expect(queryByTestId('dropdown')).toBeFalsy();
+      const input = getByTestId('picky-input');
+      fireEvent.click(input);
+      expect(queryByTestId('dropdown')).toBeTruthy();
     });
     it('should open on click of button (open by prop)', () => {
-      const wrapper = mount(
+      const { getByTestId, queryByTestId } = render(
         <Picky {...corePickyProps} value={[1, 2, 3]} open={true} />
       );
-      expect(wrapper.find(sel('dropdown'))).toHaveLength(1);
-      wrapper.find(sel('picky-input')).simulate('click');
-      expect(wrapper.find(sel('dropdown'))).toHaveLength(0);
+      expect(queryByTestId('dropdown')).toBeTruthy();
+      const input = getByTestId('picky-input');
+      fireEvent.click(input);
+      expect(queryByTestId('dropdown')).toBeFalsy();
     });
     it('should have items', () => {
-      const wrapper = mount(
+      const { getAllByTestId } = render(
         <Picky
           {...corePickyProps}
           value={[1, 2, 3]}
@@ -121,11 +116,11 @@ describe('Picky', () => {
           open={true}
         />
       );
-      expect(wrapper.find(sel('option'))).toHaveLength(5);
+      expect(getAllByTestId('option')).toHaveLength(5);
     });
 
     it('should have items selected by default when supplied', () => {
-      const wrapper = mount(
+      const { getAllByTestId } = render(
         <Picky
           {...corePickyProps}
           value={[1, 2, 3]}
@@ -133,14 +128,16 @@ describe('Picky', () => {
           open={true}
         />
       );
-      const selected = wrapper.find(selSelected('option'));
+      const selected = getAllByTestId('option').filter(
+        opt => opt.dataset.selected
+      );
       expect(selected).toHaveLength(3);
-      expect(selected.at(0).text()).toEqual('1');
-      expect(selected.at(1).text()).toEqual('2');
-      expect(selected.at(2).text()).toEqual('3');
+      expect(selected[0].textContent).toEqual('1');
+      expect(selected[1].textContent).toEqual('2');
+      expect(selected[2].textContent).toEqual('3');
     });
     it('should show placeholder if value is an array and none selected', () => {
-      const wrapper = mount(
+      const { getByTestId } = render(
         <Picky
           {...corePickyProps}
           value={[]}
@@ -150,12 +147,12 @@ describe('Picky', () => {
         />
       );
 
-      expect(wrapper.find(sel('picky_placeholder')).text()).toEqual(
+      expect(getByTestId('picky_placeholder').textContent).toEqual(
         'None selected'
       );
     });
     it('should show correct placeholder with selected value, single select', () => {
-      const wrapper = mount(
+      const { getByTestId } = render(
         <Picky
           {...corePickyProps}
           value={[1]}
@@ -164,10 +161,10 @@ describe('Picky', () => {
           multiple={false}
         />
       );
-      expect(wrapper.find(sel('picky_placeholder')).text()).toEqual('1');
+      expect(getByTestId('picky_placeholder').textContent).toEqual('1');
     });
     it('should show correct placeholder with selected value, multi select', () => {
-      const wrapper = mount(
+      const { getByTestId, rerender } = render(
         <Picky
           {...corePickyProps}
           value={[1, 2, 3]}
@@ -176,9 +173,9 @@ describe('Picky', () => {
           multiple={true}
         />
       );
-      expect(wrapper.find(sel('picky_placeholder')).text()).toEqual('1, 2, 3');
+      expect(getByTestId('picky_placeholder').textContent).toEqual('1, 2, 3');
 
-      const nextWrapper = mount(
+      rerender(
         <Picky
           {...corePickyProps}
           numberDisplayed={2}
@@ -188,137 +185,7 @@ describe('Picky', () => {
           multiple={true}
         />
       );
-      expect(nextWrapper.find(sel('picky_placeholder')).text()).toEqual(
-        '3 selected'
-      );
-    });
-  });
-  describe('Plain Dropdown drawer', () => {
-    it('should open if prop open is true', () => {
-      const wrapper = mount(
-        <Picky
-          {...corePickyProps}
-          value={[1, 2, 3]}
-          open={true}
-          virtual={false}
-        />
-      );
-      expect(wrapper.find(sel('dropdown'))).toHaveLength(1);
-    });
-    it('should not be open if prop open is false', () => {
-      const wrapper = mount(
-        <Picky
-          {...corePickyProps}
-          value={[1, 2, 3]}
-          open={false}
-          virtual={false}
-        />
-      );
-      expect(wrapper.find(sel('dropdown'))).toHaveLength(0);
-    });
-
-    it('should open on click of button', () => {
-      const wrapper = mount(<Picky {...corePickyProps} value={[1, 2, 3]} />);
-      expect(wrapper.find(sel('dropdown'))).toHaveLength(0);
-      wrapper.find(sel('picky-input')).simulate('click');
-      expect(wrapper.find(sel('dropdown'))).toHaveLength(1);
-    });
-    it('should open on click of button (open by prop)', () => {
-      const wrapper = mount(
-        <Picky
-          {...corePickyProps}
-          value={[1, 2, 3]}
-          open={true}
-          virtual={false}
-        />
-      );
-      expect(wrapper.find(sel('dropdown'))).toHaveLength(1);
-      wrapper.find(sel('picky-input')).simulate('click');
-      expect(wrapper.find(sel('dropdown'))).toHaveLength(0);
-    });
-    it('should have items', () => {
-      const wrapper = mount(
-        <Picky
-          {...corePickyProps}
-          value={[1, 2, 3]}
-          options={[1, 2, 3, 4, 5]}
-          open={true}
-          virtual={false}
-        />
-      );
-      expect(wrapper.find(sel('option'))).toHaveLength(5);
-    });
-
-    it('should have items selected by default when supplied', () => {
-      const wrapper = mount(
-        <Picky
-          {...corePickyProps}
-          value={[1, 2, 3]}
-          options={[1, 2, 3, 4, 5]}
-          open={true}
-          virtual={false}
-        />
-      );
-      const selected = wrapper.find(selSelected('option'));
-      expect(selected).toHaveLength(3);
-      expect(selected.at(0).text()).toEqual('1');
-      expect(selected.at(1).text()).toEqual('2');
-      expect(selected.at(2).text()).toEqual('3');
-    });
-    it('should show placeholder if value is an array and none selected', () => {
-      const wrapper = mount(
-        <Picky
-          {...corePickyProps}
-          value={[]}
-          options={[1, 2, 3, 4, 5]}
-          open={true}
-          multiple
-          virtual={false}
-        />
-      );
-
-      expect(wrapper.find(sel('picky_placeholder')).text()).toEqual(
-        'None selected'
-      );
-    });
-    it('should show correct placeholder with selected value, single select', () => {
-      const wrapper = mount(
-        <Picky
-          {...corePickyProps}
-          value={[1]}
-          options={[1, 2, 3, 4, 5]}
-          open={true}
-          multiple={false}
-          virtual={false}
-        />
-      );
-      expect(wrapper.find(sel('picky_placeholder')).text()).toEqual('1');
-    });
-    it('should show correct placeholder with selected value, multi select', () => {
-      const wrapper = mount(
-        <Picky
-          {...corePickyProps}
-          value={[1, 2, 3]}
-          options={[1, 2, 3, 4, 5]}
-          open={true}
-          multiple={true}
-          virtual={false}
-        />
-      );
-      expect(wrapper.find(sel('picky_placeholder')).text()).toEqual('1, 2, 3');
-
-      const nextWrapper = mount(
-        <Picky
-          {...corePickyProps}
-          numberDisplayed={2}
-          value={[1, 2, 3]}
-          options={[1, 2, 3, 4, 5]}
-          open={true}
-          multiple={true}
-          virtual={false}
-        />
-      );
-      expect(nextWrapper.find(sel('picky_placeholder')).text()).toEqual(
+      expect(getByTestId('picky_placeholder').textContent).toEqual(
         '3 selected'
       );
     });
@@ -326,7 +193,7 @@ describe('Picky', () => {
 
   describe('Selecting', () => {
     it('should accept includeSelectAll option', () => {
-      const wrapper = mount(
+      const { getByTestId } = render(
         <Picky
           {...corePickyProps}
           value={[1, 2, 3]}
@@ -336,11 +203,11 @@ describe('Picky', () => {
           multiple={true}
         />
       );
-      expect(wrapper.find(sel('selectall'))).toHaveLength(1);
+      expect(getByTestId('selectall')).toBeTruthy();
     });
 
     it('should have "select all" text when no selectAllText prop provided', () => {
-      const wrapper = mount(
+      const { getByTestId } = render(
         <Picky
           {...corePickyProps}
           value={[1, 2, 3]}
@@ -350,15 +217,10 @@ describe('Picky', () => {
           multiple={true}
         />
       );
-      expect(
-        wrapper
-          .find(sel('select-all-text'))
-          .text()
-          .toLowerCase()
-      ).toEqual('Select All'.toLowerCase());
+      expect(getByTestId('select-all-text').textContent).toEqual('Select all');
     });
     it('should support select all text with selectAllText prop', () => {
-      const wrapper = mount(
+      const { getByTestId } = render(
         <Picky
           {...corePickyProps}
           value={[1, 2, 3]}
@@ -369,18 +231,15 @@ describe('Picky', () => {
           selectAllText="Select em all"
         />
       );
-      expect(
-        wrapper
-          .find(sel('select-all-text'))
-          .text()
-          .toLowerCase()
-      ).toEqual('Select em all'.toLowerCase());
+      expect(getByTestId('select-all-text').textContent).toEqual(
+        'Select em all'
+      );
     });
 
     it('should select all options when select all is clicked', () => {
       const onChange = jest.fn();
       const options = [1, 2, 3, 4, 5];
-      const wrapper = mount(
+      const { getByTestId, getAllByTestId } = render(
         <Picky
           {...corePickyProps}
           value={[1, 2, 3]}
@@ -391,18 +250,20 @@ describe('Picky', () => {
           onChange={onChange}
         />
       );
-      const selectAllItem = wrapper.find(sel('selectall')).first();
-
-      expect(wrapper.find(selSelected('option'))).toHaveLength(3);
-      selectAllItem.simulate('click');
+      const selectAllItem = getByTestId('selectall');
+      const selected = getAllByTestId('option').filter(
+        opt => opt.dataset.selected
+      );
+      expect(selected).toHaveLength(3);
+      fireEvent.click(selectAllItem);
       expect(onChange).toHaveBeenLastCalledWith(options);
-      selectAllItem.simulate('click');
+      fireEvent.click(selectAllItem);
       expect(onChange).toHaveBeenLastCalledWith([]);
     });
 
-    it('should select single value controlled', () => {
+    it('should select single value', () => {
       const onChange = jest.fn();
-      const wrapper = mount(
+      const { getAllByTestId } = render(
         <Picky
           {...corePickyProps}
           value={1}
@@ -411,34 +272,14 @@ describe('Picky', () => {
           onChange={onChange}
         />
       );
-      expect(wrapper.state('selectedValue')).toEqual(1);
-      wrapper
-        .find(sel('option'))
-        .at(1)
-        .simulate('click');
+      const secondOption = getAllByTestId('option')[1];
+      fireEvent.click(secondOption);
       expect(onChange).toHaveBeenLastCalledWith(2);
     });
 
-    it('should select single value uncontrolled', () => {
+    it('should select multiple value', () => {
       const onChange = jest.fn();
-      const wrapper = mount(
-        <Picky
-          {...corePickyProps}
-          options={[1, 2, 3, 4, 5]}
-          open={true}
-          onChange={onChange}
-        />
-      );
-      expect(wrapper.state('selectedValue')).toEqual(null);
-      wrapper
-        .find(sel('option'))
-        .at(1)
-        .simulate('click');
-      expect(onChange).toHaveBeenLastCalledWith(2);
-    });
-    it('should select multiple value controlled', () => {
-      const onChange = jest.fn();
-      const wrapper = mount(
+      const { getAllByTestId } = render(
         <Picky
           {...corePickyProps}
           value={[]}
@@ -448,17 +289,14 @@ describe('Picky', () => {
           onChange={onChange}
         />
       );
-
-      wrapper
-        .find(sel('option'))
-        .at(1)
-        .simulate('click');
+      const secondOption = getAllByTestId('option')[1];
+      fireEvent.click(secondOption);
       expect(onChange).toHaveBeenLastCalledWith([2]);
     });
 
     it('should deselect multiple value', () => {
       const onChange = jest.fn();
-      const wrapper = mount(
+      const { getAllByTestId } = render(
         <Picky
           {...corePickyProps}
           value={[2]}
@@ -468,11 +306,9 @@ describe('Picky', () => {
           onChange={onChange}
         />
       );
+      const secondOption = getAllByTestId('option')[1];
+      fireEvent.click(secondOption);
 
-      wrapper
-        .find(sel('option'))
-        .at(1)
-        .simulate('click');
       expect(onChange).toHaveBeenLastCalledWith([]);
     });
 
@@ -483,10 +319,10 @@ describe('Picky', () => {
         { id: 3, name: 'Item 3' },
       ];
       const mockOnChange = jest.fn();
-      const wrapper = mount(
+      const { getAllByTestId } = render(
         <Picky
           {...corePickyProps}
-          value={null}
+          value={undefined}
           options={options}
           open={true}
           valueKey="id"
@@ -495,28 +331,54 @@ describe('Picky', () => {
         />
       );
 
-      wrapper
-        .find(sel('option'))
-        .at(0)
-        .simulate('click');
+      fireEvent.click(getAllByTestId('option')[0]);
 
       expect(mockOnChange).toHaveBeenLastCalledWith({
         id: 1,
         name: 'Item 1',
       });
     });
+    it('should be indeterminate if some options are checked', () => {
+      const { getByTestId, getAllByTestId, rerender } = render(
+        <Picky
+          {...corePickyProps}
+          includeSelectAll
+          open
+          options={[1, 2, 3, 4]}
+          value={[]}
+          multiple
+        />
+      );
+
+      const options = getAllByTestId('option');
+      // Should have none selected
+      // Select a single option
+      fireEvent.click(options[0]);
+
+      rerender(
+        <Picky
+          {...corePickyProps}
+          includeSelectAll
+          open
+          options={[1, 2, 3, 4]}
+          value={[1]}
+          multiple
+        />
+      );
+      // Checkbox should be indeterminate
+      const checkbox: any = getByTestId('selectall-checkbox');
+      expect(checkbox.indeterminate).toBe(true);
+
+      // Should have correct styles
+
+      const selectAll = getByTestId('selectall');
+      expect(selectAll.classList.contains('selected')).toBe(false);
+    });
   });
 
   describe('Filter', () => {
-    it('should accept includeFilter prop', () => {
-      const wrapper = mount(
-        <Picky {...corePickyProps} includeFilter={true} value={[]} />
-      );
-      expect(wrapper.prop('includeFilter')).toEqual(true);
-    });
-
     it('should have filter component', () => {
-      const wrapper = mount(
+      const { getByTestId } = render(
         <Picky
           {...corePickyProps}
           includeFilter={true}
@@ -524,12 +386,78 @@ describe('Picky', () => {
           value={[]}
         />
       );
-      expect(wrapper.find(Filter)).toHaveLength(1);
+      expect(getByTestId('picky__filter__input')).toBeTruthy();
     });
 
+    it('should select only filtered when selectAllMode is "filtered"', () => {
+      // We're going to be listening for changes so we're going to need a mock function.
+      const mockOnChange = jest.fn();
+      // Specify the options that picky is going to use
+      const options = ['Boo', 'Moon', 'Cat', 'Dog'];
+
+      // Mount Picky with Enzyme
+      const { getByTestId } = render(
+        <Picky
+          {...corePickyProps}
+          options={options}
+          value={['Dog']}
+          onChange={mockOnChange}
+          multiple={true}
+          filterDebounce={0}
+          open={true}
+          selectAllMode="filtered"
+          includeFilter={true}
+          includeSelectAll={true}
+        />
+      );
+
+      /**
+       *  Lets change the filter input to 'oo', this should leave us with 2 options in the filter
+       *  - Moon
+       *  - Boo
+       */
+      const input = getByTestId('picky__filter__input');
+
+      fireEvent.change(input, { target: { value: 'oo' } });
+
+      // Find the Select All button in the DOM
+      const selectAllButton = getByTestId('selectall');
+      // Click the select all button
+      fireEvent.click(selectAllButton);
+
+      // The value should be "Moon" and "Boo"
+      // Dog was selected before so it should still be returned
+      expect(mockOnChange).toHaveBeenLastCalledWith(['Dog', 'Boo', 'Moon']);
+
+      // Deselect all
+      fireEvent.click(selectAllButton);
+
+      // Should be the original values when we deslect, as we don't want to deselect everything
+      expect(mockOnChange).toHaveBeenLastCalledWith(['Dog']);
+
+      // Remove the filter text from 'oo' to ''
+      fireEvent.change(input, { target: { value: '' } });
+      // Checkbox should be indeterminate
+      const checkbox: any = getByTestId('selectall-checkbox');
+      expect(checkbox.indeterminate).toEqual(true);
+      // Lets select all again when we have no filter
+      fireEvent.click(selectAllButton);
+
+      // Should return all values since we're no longer filtered and we can see every option
+      expect(mockOnChange).toHaveBeenLastCalledWith([
+        'Boo',
+        'Moon',
+        'Cat',
+        'Dog',
+      ]);
+
+      // Lets deselect all when we're not filtered. This should completely remove all options
+      fireEvent.click(selectAllButton);
+
+      expect(mockOnChange).toHaveBeenLastCalledWith([]);
+    });
     it('should be focused by default if defaultFocusFilter is true', () => {
-      //picky__filter__input
-      const wrapper = mount(
+      const { getByTestId } = render(
         <Picky
           {...corePickyProps}
           includeFilter={true}
@@ -538,21 +466,25 @@ describe('Picky', () => {
           open={true}
         />
       );
-      const input = wrapper.find(sel('picky__filter__input'));
+      const input = getByTestId('picky__filter__input');
 
-      expect(input.instance()).toEqual(document.activeElement);
+      expect(input).toEqual(document.activeElement);
     });
 
     it('should call onFilterChange prop when text has changed', () => {
       const onChange = jest.fn();
-      const wrapper = mount(<Filter onFilterChange={onChange} />);
-      const event = { target: { value: '123' } };
-      wrapper.find(sel('picky__filter__input')).simulate('change', event);
+      const { getByTestId } = render(
+        <Filter tabIndex={0} onFilterChange={onChange} />
+      );
+      fireEvent.change(getByTestId('picky__filter__input'), {
+        target: { value: '123' },
+      });
       expect(onChange).toHaveBeenCalledWith('123');
     });
 
     it('should filter values', () => {
-      const wrapper = mount(
+      const onFiltered = jest.fn();
+      const { getByTestId } = render(
         <Picky
           {...corePickyProps}
           options={[1, 2, 3, 4]}
@@ -561,22 +493,24 @@ describe('Picky', () => {
           filterDebounce={0}
           open={true}
           includeFilter={true}
+          onFiltered={onFiltered}
         />
       );
-      const event = { target: { value: '1' } };
-      expect(wrapper.state('filteredOptions')).toEqual([]);
-      wrapper.find(sel('picky__filter__input')).simulate('change', event);
-      expect(wrapper.state('filteredOptions')).toEqual([1]);
+      const input = getByTestId('picky__filter__input');
+      fireEvent.change(input, { target: { value: '1' } });
+      expect(onFiltered).toHaveBeenLastCalledWith([1]);
     });
 
     it('should filter values when case sensitive', () => {
+      const onFiltered = jest.fn();
+
       const options = [
         { label: 'Item 1', value: 1 },
         { label: 'item 2', value: 2 },
         { label: 'item 3', value: 3 },
         { label: 'Item 4', value: 4 },
       ];
-      const wrapper = mount(
+      const { getByTestId } = render(
         <Picky
           {...corePickyProps}
           options={options}
@@ -588,19 +522,23 @@ describe('Picky', () => {
           filterDebounce={0}
           open={true}
           includeFilter={true}
+          onFiltered={onFiltered}
         />
       );
-      const event = { target: { value: 'i' } };
-      expect(wrapper.state('filteredOptions')).toEqual([]);
-      wrapper.find(sel('picky__filter__input')).simulate('change', event);
-      expect(wrapper.state('filteredOptions')).toEqual([
+      const input = getByTestId('picky__filter__input');
+
+      fireEvent.change(input, { target: { value: 'i' } });
+
+      expect(onFiltered).toHaveBeenLastCalledWith([
         { label: 'item 2', value: 2 },
         { label: 'item 3', value: 3 },
       ]);
     });
 
     it('shouldnt filter if filter query is blank or empty string', () => {
-      const wrapper = mount(
+      const onFiltered = jest.fn();
+
+      const { getByTestId } = render(
         <Picky
           {...corePickyProps}
           options={[1, 2, 3, 4]}
@@ -609,17 +547,18 @@ describe('Picky', () => {
           filterDebounce={0}
           open={true}
           includeFilter={true}
+          onFiltered={onFiltered}
         />
       );
-      const event = { target: { value: '   ' } };
-      expect(wrapper.state('filteredOptions')).toEqual([]);
-      wrapper.find(sel('picky__filter__input')).simulate('change', event);
-      expect(wrapper.state('filteredOptions')).toEqual([]);
+      const input = getByTestId('picky__filter__input');
+      fireEvent.change(input, { target: { value: '   ' } });
+      expect(onFiltered).not.toHaveBeenCalled();
     });
 
     it('should filter object arrays', () => {
+      const onFiltered = jest.fn();
       const options = [{ id: 1, name: 'Item 1' }, { id: 2, name: 'Item 3' }];
-      const wrapper = mount(
+      const { getByTestId } = render(
         <Picky
           {...corePickyProps}
           options={options}
@@ -630,13 +569,13 @@ describe('Picky', () => {
           includeFilter={true}
           labelKey="name"
           valueKey="id"
+          onFiltered={onFiltered}
         />
       );
 
-      const event = { target: { value: '1' } };
-      expect(wrapper.state('filteredOptions')).toEqual([]);
-      wrapper.find(sel('picky__filter__input')).simulate('change', event);
-      expect(wrapper.state('filteredOptions')).toEqual([
+      const input = getByTestId('picky__filter__input');
+      fireEvent.change(input, { target: { value: '1' } });
+      expect(onFiltered).toHaveBeenLastCalledWith([
         {
           id: 1,
           name: 'Item 1',
@@ -646,7 +585,7 @@ describe('Picky', () => {
 
     it('should not call onClose on focusing with autoclose mode after select', () => {
       const onCloseMock = jest.fn();
-      const { getByTestId } = rtlRender(
+      const { getByTestId } = render(
         <Picky
           {...corePickyProps}
           options={[1, 2, 3, 4]}
@@ -672,7 +611,7 @@ describe('Picky', () => {
     });
 
     it('should not show select all when a filter has been entered', () => {
-      const wrapper = mount(
+      const { getByTestId, queryByTestId } = render(
         <Picky
           {...corePickyProps}
           value={[]}
@@ -684,16 +623,15 @@ describe('Picky', () => {
           multiple={true}
         />
       );
-      expect(wrapper.find(sel('selectall'))).toHaveLength(1);
-
-      const event = { target: { value: '1' } };
-      wrapper.find(sel('picky__filter__input')).simulate('change', event);
-
-      expect(wrapper.find(sel('selectall'))).toHaveLength(0);
+      expect(queryByTestId('selectall')).toBeTruthy();
+      fireEvent.change(getByTestId('picky__filter__input'), {
+        target: { value: '1' },
+      });
+      expect(queryByTestId('selectall')).toBeFalsy();
     });
 
     it('should show select all when a filter has been entered but selectAllMode is filtered', () => {
-      const wrapper = mount(
+      const { getByTestId } = render(
         <Picky
           {...corePickyProps}
           value={[]}
@@ -706,16 +644,17 @@ describe('Picky', () => {
           selectAllMode="filtered"
         />
       );
-      expect(wrapper.find(sel('selectall'))).toHaveLength(1);
+      expect(getByTestId('selectall')).toBeTruthy();
 
-      const event = { target: { value: '1' } };
-      wrapper.find(sel('picky__filter__input')).simulate('change', event);
+      fireEvent.change(getByTestId('picky__filter__input'), {
+        target: { value: '1' },
+      });
 
-      expect(wrapper.find(sel('selectall'))).toHaveLength(1);
+      expect(getByTestId('selectall')).toBeTruthy();
     });
 
     it('should retain filter on close', () => {
-      const wrapper = mount(
+      const { getByTestId, queryAllByTestId } = render(
         <Picky
           {...corePickyProps}
           value={[]}
@@ -727,46 +666,27 @@ describe('Picky', () => {
         />
       );
 
-      const button = sel('picky-input');
-      const option = sel('option');
-      const input = sel('picky__filter__input');
+      const button = getByTestId('picky-input');
+      const input = getByTestId('picky__filter__input');
 
-      wrapper.find(button).simulate('click');
+      fireEvent.click(button);
 
-      wrapper.find(input).simulate('change', { target: { value: 'oo' } });
-      expect(
-        wrapper
-          .find(option)
-          .at(0)
-          .text()
-      ).toEqual('Moo');
-      expect(
-        wrapper
-          .find(option)
-          .at(1)
-          .text()
-      ).toEqual('Boo');
+      fireEvent.change(input, { target: { value: 'oo' } });
+
+      expect(queryAllByTestId('option')[0].textContent).toEqual('Moo');
+      expect(queryAllByTestId('option')[1].textContent).toEqual('Boo');
 
       // Close
-      wrapper.find(button).simulate('click');
+      fireEvent.click(button);
 
       // Open
-      wrapper.find(button).simulate('click');
-      expect(
-        wrapper
-          .find(option)
-          .at(0)
-          .text()
-      ).toEqual('Moo');
-      expect(
-        wrapper
-          .find(option)
-          .at(1)
-          .text()
-      ).toEqual('Boo');
+      fireEvent.click(button);
+      expect(queryAllByTestId('option')[0].textContent).toEqual('Moo');
+      expect(queryAllByTestId('option')[1].textContent).toEqual('Boo');
     });
     it('should retain clear filter on close with clearFilterOnClose prop', () => {
-      const wrapper = mount(
+      const { getByTestId, queryAllByTestId } = render(
+        //@ts-ignore
         <Picky
           {...corePickyProps}
           clearFilterOnClose={true}
@@ -779,77 +699,33 @@ describe('Picky', () => {
         />
       );
 
-      const button = sel('picky-input');
-      const option = sel('option');
-      const input = sel('picky__filter__input');
+      const button = getByTestId('picky-input');
+      const input = getByTestId('picky__filter__input');
 
-      wrapper.find(button).simulate('click');
+      fireEvent.click(button);
 
-      wrapper.find(input).simulate('change', { target: { value: 'oo' } });
-      expect(
-        wrapper
-          .find(option)
-          .at(0)
-          .text()
-      ).toEqual('Moo');
-      expect(
-        wrapper
-          .find(option)
-          .at(1)
-          .text()
-      ).toEqual('Boo');
+      fireEvent.change(input, { target: { value: 'oo' } });
+
+      expect(queryAllByTestId('option')[0].textContent).toEqual('Moo');
+      expect(queryAllByTestId('option')[1].textContent).toEqual('Boo');
 
       // Close
-      wrapper.find(button).simulate('click');
+      fireEvent.click(button);
 
       // Open
-      wrapper.find(button).simulate('click');
+      fireEvent.click(button);
 
-      expect(
-        wrapper
-          .find(option)
-          .at(0)
-          .text()
-      ).toEqual('Moo');
-      expect(
-        wrapper
-          .find(option)
-          .at(1)
-          .text()
-      ).toEqual('Cat');
-      expect(
-        wrapper
-          .find(option)
-          .at(2)
-          .text()
-      ).toEqual('Boo');
+      expect(queryAllByTestId('option')[0].textContent).toEqual('Moo');
+      expect(queryAllByTestId('option')[1].textContent).toEqual('Cat');
+      expect(queryAllByTestId('option')[2].textContent).toEqual('Boo');
     });
   });
 
   describe('Callbacks', () => {
-    it('should call onFiltered callback', () => {
-      const onFilteredMock = jest.fn();
-      const wrapper = mount(
-        <Picky
-          {...corePickyProps}
-          options={[1, 2, 3, 4]}
-          value={[]}
-          multiple={true}
-          filterDebounce={0}
-          open={true}
-          includeFilter={true}
-          onFiltered={onFilteredMock}
-        />
-      );
-
-      const event = { target: { value: '1' } };
-      wrapper.find(sel('picky__filter__input')).simulate('change', event);
-      expect(onFilteredMock).toHaveBeenCalledWith([1]);
-    });
-
-    it('should call onOpen', () => {
+    it('should call onOpen and on close', () => {
       const onOpenMock = jest.fn();
-      const wrapper = mount(
+      const onCloseMock = jest.fn();
+      const { getByTestId } = render(
         <Picky
           {...corePickyProps}
           options={[1, 2, 3, 4]}
@@ -859,70 +735,36 @@ describe('Picky', () => {
           open={false}
           includeFilter={true}
           onOpen={onOpenMock}
-        />
-      );
-
-      wrapper.find(sel('picky-input')).simulate('click');
-      expect(onOpenMock).toHaveBeenCalled();
-    });
-    it('should call onClose', () => {
-      const onCloseMock = jest.fn();
-      const wrapper = mount(
-        <Picky
-          {...corePickyProps}
-          options={[1, 2, 3, 4]}
-          value={[]}
-          multiple={true}
-          filterDebounce={0}
-          open={true}
-          includeFilter={true}
           onClose={onCloseMock}
         />
       );
 
-      wrapper.find(sel('picky-input')).simulate('click');
+      fireEvent.click(getByTestId('picky-input'));
+      expect(onOpenMock).toHaveBeenCalled();
+      fireEvent.click(getByTestId('picky-input'));
       expect(onCloseMock).toHaveBeenCalled();
     });
   });
 
-  xit('should close when clicked outside of component', () => {
-    //Can't figure out how to test this
-    // const wrapper = mount(<Picky {...corePickyProps}  open={true} options={[1, 2, 3]} />);
-    // wrapper.mount();
-    // expect(wrapper.find(sel('dropdown'))).toHaveLength(1);
-    // wrapper.instance().handleOutsideClick({ target: '#root' });
-    // expect(wrapper.find(sel('dropdown'))).toHaveLength(0);
-  });
-  it('should select option on keyPress', () => {
-    const keyPressMock = jest.fn();
-    const wrapper = mount(
-      <Option id="option" item={1} selectValue={keyPressMock} />
-    );
-    wrapper.simulate('keyPress', {});
-    expect(keyPressMock).toHaveBeenCalledWith(1);
-  });
-
   it('should not render custom selectall when renderSelectAll prop is not supplied', () => {
-    const wrapper = mount(
+    const { getByTestId } = render(
       <Picky
         {...corePickyProps}
         options={[]}
-        virtual={false}
         open={true}
         includeSelectAll={true}
         multiple={true}
       />
     );
-    const selAllText = wrapper.find(sel('select-all-text'));
-    expect(selAllText).toHaveLength(1);
+    const selAllText = getByTestId('select-all-text');
+    expect(selAllText).toBeTruthy();
   });
   it('should not render custom selectall when renderSelectAll prop is not supplied', () => {
     const renderSelectAllMock = jest.fn();
-    mount(
+    render(
       <Picky
         {...corePickyProps}
         options={[1, 2, 3, 4]}
-        virtual={false}
         open={true}
         includeSelectAll={true}
         multiple={true}
@@ -932,17 +774,8 @@ describe('Picky', () => {
     const calledWithProps = renderSelectAllMock.mock.calls[0][0];
     expect(calledWithProps.filtered).toEqual(false);
     expect(calledWithProps.multiple).toEqual(true);
-    expect(calledWithProps.allSelected).toEqual(false);
+    expect(calledWithProps.allSelected).toEqual('none');
     expect(calledWithProps.tabIndex).toEqual(0);
-
-    // expect(renderSelectAllMock).toHaveBeenCalledWith({
-    //   filtered: false,
-    //   includeSelectAll: true,
-    //   multiple: true,
-    //   allSelected: false,
-    //   toggleSelectAll: () => {},
-    //   tabIndex: 0
-    // });
   });
 
   describe('Regressions', () => {
@@ -954,7 +787,7 @@ describe('Picky', () => {
             name: `Label ${v + 1}`,
           };
         });
-        const wrapper = mount(
+        const { getAllByTestId } = render(
           <Picky
             {...corePickyProps}
             multiple={true}
@@ -971,17 +804,18 @@ describe('Picky', () => {
             valueKey="id"
           />
         );
-        const renderedOptions = wrapper.find(sel('option'));
-        expect(wrapper.state('selectedValue')).toHaveLength(5);
-        expect(renderedOptions).toHaveLength(10);
-        expect(renderedOptions.first().prop('aria-selected')).toEqual(true);
+        const options = getAllByTestId('option');
+        const selectedOptions = options.filter(opt => opt.dataset.selected);
+        expect(selectedOptions).toHaveLength(5);
+        expect(options).toHaveLength(10);
+        expect(Boolean(options[0].getAttribute('aria-selected'))).toEqual(true);
       });
     });
 
     describe('Issue #38', () => {
       test('should set selectedValue state when async value prop updates', done => {
         const mockOnChange = jest.fn();
-        const wrapper = mount(
+        const { rerender } = render(
           <Picky
             {...corePickyProps}
             multiple
@@ -995,14 +829,18 @@ describe('Picky', () => {
           Picky.prototype,
           'UNSAFE_componentWillReceiveProps'
         );
-        expect(wrapper.state('selectedValue')).toHaveLength(0);
         setTimeout(() => {
-          wrapper.setProps({
-            value: ['1', '2'],
-            options: ['1', '2', '3', '4', '5'],
-          });
+          rerender(
+            <Picky
+              {...corePickyProps}
+              multiple
+              open
+              value={['1', '2']}
+              options={['1', '2', '3', '4', '5']}
+              onChange={mockOnChange}
+            />
+          );
           expect(componentWillUpdateSpy).toHaveBeenCalled();
-          expect(wrapper.state('allSelected')).toEqual(false);
           componentWillUpdateSpy.mockReset();
           componentWillUpdateSpy.mockRestore();
           done();
@@ -1010,7 +848,7 @@ describe('Picky', () => {
       });
       test('with async value when selecting option should not unselect all other options', done => {
         const onChangeMock = jest.fn();
-        const wrapper = mount(
+        const { rerender, getAllByTestId } = render(
           <Picky
             {...corePickyProps}
             multiple
@@ -1022,15 +860,17 @@ describe('Picky', () => {
         );
 
         setTimeout(() => {
-          wrapper.setProps({
-            value: ['1', '2'],
-            options: ['1', '2', '3', '4', '5'],
-          });
-          wrapper.update();
-          wrapper
-            .find(sel('option'))
-            .at(2)
-            .simulate('click');
+          rerender(
+            <Picky
+              {...corePickyProps}
+              multiple
+              open
+              value={['1', '2']}
+              options={['1', '2', '3', '4', '5']}
+              onChange={onChangeMock}
+            />
+          );
+          fireEvent.click(getAllByTestId('option')[2]);
 
           expect(onChangeMock).toHaveBeenCalledWith(['1', '2', '3']);
           done();
@@ -1044,7 +884,7 @@ describe('Picky', () => {
       test('select all should be false when deslecting single value', () => {
         const onChangeMock = jest.fn();
         const ALL_SELECTED_TEXT = 'All selected';
-        const wrapper = mount(
+        const { getByTestId, getAllByTestId, rerender } = render(
           <Picky
             {...corePickyProps}
             multiple
@@ -1057,17 +897,24 @@ describe('Picky', () => {
           />
         );
 
-        const selectAll = wrapper.find(sel('selectall')).first();
-        selectAll.simulate('click');
-
-        expect(wrapper.state('allSelected')).toEqual(true);
+        const selectAll = getByTestId('selectall');
+        fireEvent.click(selectAll);
+        rerender(
+          <Picky
+            {...corePickyProps}
+            multiple
+            open
+            value={[1, 2, 3, 4]}
+            options={[1, 2, 3, 4]}
+            onChange={onChangeMock}
+            includeSelectAll
+            allSelectedPlaceholder={ALL_SELECTED_TEXT}
+          />
+        );
         // Deselect single option
-        wrapper
-          .find(sel('option'))
-          .at(2)
-          .simulate('click');
+        fireEvent.click(getAllByTestId('option')[2]);
 
-        expect(wrapper.state('allSelected')).toEqual(false);
+        expect(onChangeMock).toHaveBeenLastCalledWith([1, 2, 4]);
       });
     });
     /**
@@ -1078,7 +925,7 @@ describe('Picky', () => {
       test('should retain the filter value after closing menu', () => {
         const onChangeMock = jest.fn();
 
-        const { getByTestId } = rtlRender(
+        const { getByTestId } = render(
           <Picky
             {...corePickyProps}
             multiple
@@ -1095,6 +942,7 @@ describe('Picky', () => {
         const filterInput = getByTestId('picky__filter__input');
         fireEvent.change(filterInput, { target: { value: 'Item' } });
 
+        //@ts-ignore
         expect(filterInput.value).toEqual('Item');
 
         // Close it
@@ -1103,6 +951,7 @@ describe('Picky', () => {
         // Reopen and check filter value is the same
         fireEvent.click(component);
         const newFilterInput = getByTestId('picky__filter__input');
+        //@ts-ignore
         expect(newFilterInput.value).toEqual('Item');
       });
     });
@@ -1111,7 +960,7 @@ describe('Picky', () => {
       test('should only call onChange once when pressing the checkbox', () => {
         const onChange = jest.fn();
 
-        const { getByTestId } = rtlRender(
+        const { getAllByTestId } = render(
           <Picky
             {...corePickyProps}
             multiple
@@ -1121,7 +970,7 @@ describe('Picky', () => {
             open={true}
           />
         );
-        const chk = getByTestId('option-checkbox');
+        const chk = getAllByTestId('option-checkbox')[0];
         expect(chk).toBeDefined();
         fireEvent.click(chk);
         expect(onChange).toHaveBeenCalledTimes(1);
@@ -1129,7 +978,7 @@ describe('Picky', () => {
       test('should only call onChange once when pressing the select all checkbox', () => {
         const onChange = jest.fn();
 
-        const { getByTestId } = rtlRender(
+        const { getByTestId } = render(
           <Picky
             {...corePickyProps}
             multiple
@@ -1148,7 +997,7 @@ describe('Picky', () => {
       test('should still call onChange when pressing the option', () => {
         const onChange = jest.fn();
 
-        const { getByTestId } = rtlRender(
+        const { getAllByTestId } = render(
           <Picky
             {...corePickyProps}
             multiple
@@ -1158,7 +1007,7 @@ describe('Picky', () => {
             open={true}
           />
         );
-        const option = getByTestId('option');
+        const option = getAllByTestId('option')[0];
         expect(option).toBeDefined();
         fireEvent.click(option);
         expect(onChange).toHaveBeenCalledTimes(1);
@@ -1166,7 +1015,7 @@ describe('Picky', () => {
     });
 
     test('should override filter placeholder if supplied', () => {
-      const { getByTestId } = rtlRender(
+      const { getByTestId } = render(
         <Picky
           {...corePickyProps}
           options={[1, 2, 3]}
@@ -1176,11 +1025,11 @@ describe('Picky', () => {
         />
       );
       const filter = getByTestId('picky__filter__input');
-
+      //@ts-ignore
       expect(filter.placeholder).toEqual('Hello...');
     });
     test('filter placeholder default to Filter... if not supplied', () => {
-      const { getByTestId } = rtlRender(
+      const { getByTestId } = render(
         <Picky
           {...corePickyProps}
           options={[1, 2, 3]}
@@ -1189,13 +1038,13 @@ describe('Picky', () => {
         />
       );
       const filter = getByTestId('picky__filter__input');
-
+      //@ts-ignore
       expect(filter.placeholder).toEqual('Filter...');
     });
 
     test('should correctly update allSelected when values set programmatically', () => {
       const options = [{ id: 1, name: 'Item 1' }, { id: 2, name: 'Item 2' }];
-      const { getByTestId, rerender } = rtlRender(
+      const { getByTestId, rerender } = render(
         <Picky
           {...corePickyProps}
           options={options}
@@ -1207,7 +1056,7 @@ describe('Picky', () => {
           value={[]}
         />
       );
-
+      //@ts-ignore
       expect(getByTestId('selectall-checkbox').checked).toEqual(false);
 
       rerender(
@@ -1222,12 +1071,12 @@ describe('Picky', () => {
           value={[{ id: 2, name: 'Item 2' }, { id: 1, name: 'Item 1' }]}
         />
       );
-
+      //@ts-ignore
       expect(getByTestId('selectall-checkbox').checked).toEqual(true);
     });
     test('should correctly update allSelected when values set programmatically simple options', () => {
       const options = [1, 2];
-      const { getByTestId, rerender } = rtlRender(
+      const { getByTestId, rerender } = render(
         <Picky
           {...corePickyProps}
           options={options}
@@ -1237,7 +1086,7 @@ describe('Picky', () => {
           value={[]}
         />
       );
-
+      //@ts-ignore
       expect(getByTestId('selectall-checkbox').checked).toEqual(false);
 
       rerender(
@@ -1250,13 +1099,14 @@ describe('Picky', () => {
           value={[2, 1]}
         />
       );
+      //@ts-ignore
       expect(getByTestId('selectall-checkbox').checked).toEqual(true);
     });
   });
 
   it('should be disabled when disabled prop supplied', () => {
     const options = [1, 2];
-    const { getByTestId } = rtlRender(
+    const { getByTestId } = render(
       <Picky
         {...corePickyProps}
         options={options}
@@ -1269,6 +1119,8 @@ describe('Picky', () => {
     );
 
     const selectAllCheckbox = getByTestId('selectall-checkbox');
+
+    //@ts-ignore
     expect(selectAllCheckbox.checked).toEqual(false);
     fireEvent(
       selectAllCheckbox,
@@ -1277,13 +1129,13 @@ describe('Picky', () => {
         cancelable: true,
       })
     );
-
+    //@ts-ignore
     expect(selectAllCheckbox.checked).toEqual(false);
   });
 
   it('should not have select all checked when there are no options', () => {
-    const options = [];
-    const { getByTestId } = rtlRender(
+    const options: any[] = [];
+    const { getByTestId } = render(
       <Picky
         {...corePickyProps}
         options={options}
@@ -1295,24 +1147,41 @@ describe('Picky', () => {
       />
     );
     const selectAllCheckbox = getByTestId('selectall-checkbox');
+    //@ts-ignore
     expect(selectAllCheckbox.checked).toEqual(false);
   });
 
   it('should update select all state if rendered again with additional options', () => {
-    const wrapper = mount(
-      <Picky {...corePickyProps} options={[1, 2]} value={[1, 2]} />
+    const { getByTestId, rerender } = render(
+      <Picky
+        {...corePickyProps}
+        options={[1, 2]}
+        value={[1, 2]}
+        open={true}
+        multiple={true}
+        includeSelectAll={true}
+      />
+    );
+    //@ts-ignore
+    expect(getByTestId('selectall-checkbox').checked).toBe(true);
+
+    rerender(
+      <Picky
+        {...corePickyProps}
+        options={[1, 2, 3]}
+        value={[1, 2]}
+        open={true}
+        multiple={true}
+        includeSelectAll={true}
+      />
     );
 
-    expect(wrapper.state('allSelected')).toEqual(true);
-
-    wrapper.setProps({ options: [1, 2, 3] });
-    wrapper.update();
-
-    expect(wrapper.state('allSelected')).toEqual(false);
+    //@ts-ignore
+    expect(getByTestId('selectall-checkbox').checked).toBe(false);
   });
 
   it('should pass all buttonProps to button', () => {
-    const { getByTestId } = rtlRender(
+    const { getByTestId } = render(
       <Picky
         {...corePickyProps}
         options={[1, 2]}
