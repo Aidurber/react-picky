@@ -9,6 +9,7 @@ import {
   OptionType,
   ComplexOptionType,
   SimpleOptionType,
+  SelectionState,
 } from './types';
 
 const isEmptyValue = (value: any) =>
@@ -25,7 +26,7 @@ type PlaceholderProps = {
   labelKey?: string;
   manySelectedPlaceholder?: string;
   allSelectedPlaceholder?: string;
-  allSelected: boolean;
+  allSelected: SelectionState;
 };
 const Placeholder: React.FC<PlaceholderProps> = ({
   placeholder,
@@ -56,7 +57,7 @@ const Placeholder: React.FC<PlaceholderProps> = ({
           .join(', ');
       } else {
         // if many selected and not all selected then use the placeholder
-        if (manySelectedPlaceholder && !allSelected) {
+        if (manySelectedPlaceholder && allSelected !== 'all') {
           // if it doesn't include the sprintf token then just use the placeholder
           message = includes(manySelectedPlaceholder, '%s')
             ? format(manySelectedPlaceholder, value.length)
@@ -90,7 +91,6 @@ Placeholder.defaultProps = {
   placeholder: 'None selected',
   allSelectedPlaceholder: '%s selected',
   manySelectedPlaceholder: '%s selected',
-  allSelected: false,
 };
 Placeholder.displayName = 'Picky(Placeholder)';
 export default onlyUpdateForKeys([

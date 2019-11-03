@@ -8,6 +8,7 @@ import {
   hasItemIndex,
   sortCollection,
   arraysEqual,
+  asArray,
 } from './lib/utils';
 import Placeholder from './Placeholder';
 import Filter from './Filter';
@@ -23,6 +24,7 @@ import {
   OptionsType,
   OptionType,
   ComplexOptionType,
+  SelectionState,
 } from './types';
 
 type PickyState = {
@@ -30,7 +32,7 @@ type PickyState = {
   open?: boolean;
   filtered?: boolean;
   filteredOptions: OptionsType;
-  allSelected: boolean;
+  allSelected: SelectionState;
 };
 
 type PickyProps = {
@@ -309,7 +311,7 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
       open: props.open,
       filtered: false,
       filteredOptions: [],
-      allSelected: false,
+      allSelected: 'none',
     };
     this.toggleDropDown = this.toggleDropDown.bind(this);
     this.toggleSelectAll = this.toggleSelectAll.bind(this);
@@ -415,24 +417,34 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
    * @returns {Boolean}
    * @memberof Picky
    */
-  allSelected(overrideSelected?: any[], overrideOptions?: any[]) {
+  allSelected(
+    overrideSelected?: any[],
+    overrideOptions?: any[]
+  ): SelectionState {
     const { value, options } = this.props;
     const selectedValue = overrideSelected || value;
     const selectedOptions = overrideOptions || options;
 
     // If there are no options we are getting a false positive for all items being selected
     if (selectedOptions && selectedOptions.length === 0) {
-      return false;
+      return 'none';
     }
     let copiedOptions = selectedOptions.map(this.getValue);
     let copiedValues = Array.isArray(selectedValue)
       ? selectedValue.map(this.getValue)
       : [];
 
-    return arraysEqual(
+    const areEqual = arraysEqual(
       sortCollection(copiedValues),
       sortCollection(copiedOptions)
     );
+    if (areEqual) {
+      return 'all';
+    } else if (copiedValues.length > 0) {
+      return 'partial';
+    } else {
+      return 'none';
+    }
   }
   /**
    * Toggles select all
@@ -445,13 +457,13 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
       state => {
         return {
           ...state,
-          allSelected: !this.state.allSelected,
+          allSelected: this.state.allSelected === 'all' ? 'none' : 'all',
         };
       },
       () => {
-        if (!this.state.allSelected) {
+        if (this.state.allSelected !== 'all') {
           if (this.state.filtered) {
-            let diff = ((this.props.value || []) as any[]).filter(
+            const diff = asArray(this.props.value).filter(
               item => !this.state.filteredOptions.includes(item)
             );
             this.props.onChange(diff);
@@ -561,6 +573,7 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
       return this.setState({
         filtered: false,
         filteredOptions: [],
+        allSelected: asArray(this.props.value).length > 0 ? 'partial' : 'none',
       });
     }
     const isObject = isDataObject(

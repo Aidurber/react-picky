@@ -93,7 +93,7 @@ export interface RenderSelectAllProps {
    * @type {boolean}
    * @memberof RenderSelectAllProps
    */
-  allSelected: boolean;
+  allSelected: SelectionState;
 
   /**
    * Used to trigger a select all
@@ -167,3 +167,4 @@ export interface RenderListProps {
    */
   selectValue: (item: any) => void;
 }
+export type SelectionState = 'none' | 'partial' | 'all';
