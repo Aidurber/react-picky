@@ -1,3 +1,10 @@
+## [5.0.2](https://github.com/Aidurber/react-picky/compare/v5.0.1...v5.0.2) (2019-11-13)
+
+
+### Bug Fixes
+
+* **placeholder:** set "picky__placeholder"  with a non-empty value ([63bae73](https://github.com/Aidurber/react-picky/commit/63bae73))
+
 ## [5.0.1](https://github.com/Aidurber/react-picky/compare/v5.0.0...v5.0.1) (2019-11-03)
 
 
