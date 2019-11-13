@@ -112,7 +112,10 @@ describe('Placeholder', () => {
     const { getByTestId } = render(
       //@ts-ignore
       <Placeholder
-        value={[{ id: 1, name: 'Item 1' }, { id: 2, name: 'Item 2' }]}
+        value={[
+          { id: 1, name: 'Item 1' },
+          { id: 2, name: 'Item 2' },
+        ]}
         multiple={true}
         labelKey="name"
         valueKey="id"
@@ -134,5 +137,14 @@ describe('Placeholder', () => {
     );
     const placeholder = getByTestId(PLACEHOLDER_TESTID);
     expect(placeholder.textContent).toEqual('Item 1');
+  });
+
+  it('should set class "picky__placeholder" with a non-empty value', () => {
+    const { getByTestId } = render(
+      //@ts-ignore
+      <Placeholder value={'one'} />
+    );
+    const placeholder = getByTestId(PLACEHOLDER_TESTID);
+    expect(placeholder.className).toEqual('picky__placeholder');
   });
 });

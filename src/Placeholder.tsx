@@ -82,7 +82,7 @@ const Placeholder: React.FC<PlaceholderProps> = ({
 
   return (
     <span
-      className={isEmptyValue(value) ? 'picky__placeholder' : undefined}
+      className={!isEmptyValue(value) ? 'picky__placeholder' : undefined}
       data-testid="picky_placeholder"
     >
       {message}
