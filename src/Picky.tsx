@@ -10,12 +10,12 @@ import {
   arraysEqual,
   asArray,
 } from './lib/utils';
-import Placeholder from './Placeholder';
-import Filter from './Filter';
-import Option from './Option';
+import { Placeholder } from './Placeholder';
+import { Filter } from './Filter';
+import { Option } from './Option';
 import './Picky.css';
-import SelectAll from './SelectAll';
-import Button from './Button';
+import { SelectAll } from './SelectAll';
+import { Button } from './Button';
 import {
   RenderListProps,
   SelectAllMode,
@@ -304,7 +304,7 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
     selectAllMode: 'default',
   };
   node: HTMLDivElement | null = null;
-  filter: Filter | null = null;
+  filter: HTMLInputElement | null = null;
   constructor(props: PickyProps) {
     super(props);
     this.state = {
@@ -619,23 +619,19 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
     if (this.node && this.node.contains(e.target) && keepOpen) {
       return;
     }
-    if (
-      this.filter &&
-      this.filter.filterInput &&
-      this.filter.filterInput.contains(e.target)
-    ) {
+    if (this.filter && this.filter.contains(e.target)) {
       return;
     }
     this.toggleDropDown();
   }
 
   focusFilterInput(isOpen: boolean) {
-    if (!this.filter || !this.filter.filterInput) return;
+    if (!this.filter) return;
     if (isOpen && this.props.defaultFocusFilter) {
-      this.filter.filterInput.focus();
+      this.filter.focus();
     }
     if (!isOpen && this.props.clearFilterOnClose === true) {
-      this.filter.filterInput.value = '';
+      this.filter.value = '';
     }
   }
   /**

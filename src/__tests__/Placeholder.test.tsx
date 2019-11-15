@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render } from '@testing-library/react';
-import Placeholder from '../Placeholder';
+import { Placeholder } from '../Placeholder';
 
 const PLACEHOLDER_TESTID = 'picky_placeholder';
 

@@ -35,4 +35,4 @@ const Button: React.FC<ButtonProps> = ({
 };
 
 Button.displayName = 'Picky(Button)';
-export default Button;
+export { Button };
