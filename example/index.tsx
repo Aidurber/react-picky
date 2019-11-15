@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import Picky from '../src';
+import { Picky } from '../src';
 import '../src/Picky.css';
 
 const bigList: any[] = [];
@@ -39,13 +39,13 @@ class App extends React.Component<any, any> {
               value={this.state.arrayValue}
               options={bigList}
               onChange={this.selectMultipleOption}
-              open={true}
               valueKey="id"
               labelKey="name"
               multiple={true}
               includeSelectAll={true}
               includeFilter={true}
               dropdownHeight={600}
+              defaultFocusFilter={true}
               selectAllMode="filtered"
             />
           </div>
