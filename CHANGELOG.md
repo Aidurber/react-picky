@@ -1,3 +1,10 @@
+# [5.1.0](https://github.com/Aidurber/react-picky/compare/v5.0.2...v5.1.0) (2019-11-15)
+
+
+### Features
+
+* remove recompose ([c07c1db](https://github.com/Aidurber/react-picky/commit/c07c1db))
+
 ## [5.0.2](https://github.com/Aidurber/react-picky/compare/v5.0.1...v5.0.2) (2019-11-13)
 
 
