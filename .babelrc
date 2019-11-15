@@ -1,0 +1,11 @@
+{
+  "presets": ["@babel/env", "@babel/react"],
+  "env": {
+    "production": {
+      "plugins": [
+        ["react-remove-properties", { "properties": ["data-testid"] }],
+        "transform-react-remove-prop-types"
+      ]
+    }
+  }
+}
