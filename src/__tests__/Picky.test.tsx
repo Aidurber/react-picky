@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, cleanup } from '@testing-library/react';
 import { Picky } from '../Picky';
-import Filter from '../Filter';
+import { Filter } from '../Filter';
 
 const corePickyProps = {
   id: 'picky-test-id',
@@ -54,7 +54,10 @@ describe('Picky', () => {
     const renderListProp = jest.fn();
     const renderProp = jest.fn();
     renderListProp.mockReturnValue(<p />);
-    const options = [{ id: 1, name: '1' }, { id: 2, name: '2' }];
+    const options = [
+      { id: 1, name: '1' },
+      { id: 2, name: '2' },
+    ];
     render(
       <Picky
         {...corePickyProps}
@@ -557,7 +560,10 @@ describe('Picky', () => {
 
     it('should filter object arrays', () => {
       const onFiltered = jest.fn();
-      const options = [{ id: 1, name: 'Item 1' }, { id: 2, name: 'Item 3' }];
+      const options = [
+        { id: 1, name: 'Item 1' },
+        { id: 2, name: 'Item 3' },
+      ];
       const { getByTestId } = render(
         <Picky
           {...corePickyProps}
@@ -1043,7 +1049,10 @@ describe('Picky', () => {
     });
 
     test('should correctly update allSelected when values set programmatically', () => {
-      const options = [{ id: 1, name: 'Item 1' }, { id: 2, name: 'Item 2' }];
+      const options = [
+        { id: 1, name: 'Item 1' },
+        { id: 2, name: 'Item 2' },
+      ];
       const { getByTestId, rerender } = render(
         <Picky
           {...corePickyProps}
@@ -1068,7 +1077,10 @@ describe('Picky', () => {
           labelKey="name"
           open={true}
           multiple
-          value={[{ id: 2, name: 'Item 2' }, { id: 1, name: 'Item 1' }]}
+          value={[
+            { id: 2, name: 'Item 2' },
+            { id: 1, name: 'Item 1' },
+          ]}
         />
       );
       //@ts-ignore
