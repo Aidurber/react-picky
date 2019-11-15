@@ -17,12 +17,7 @@
     "lint": "tsdx lint",
     "semantic-release": "semantic-release"
   },
-  "dependencies": {
-    "recompose": "^0.30.0"
-  },
   "devDependencies": {
-    "@babel/core": "^7.6.2",
-    "@babel/preset-react": "^7.7.0",
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
     "@semantic-release/changelog": "^3.0.5",
@@ -31,7 +26,6 @@
     "@types/jest": "^24.0.23",
     "@types/react": "^16.9.11",
     "@types/react-dom": "^16.9.4",
-    "@types/recompose": "^0.30.7",
     "concurrently": "^4.1.2",
     "cz-conventional-changelog": "^2.1.0",
     "eslint": "^6.6.0",
