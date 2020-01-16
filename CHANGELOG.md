@@ -1,3 +1,10 @@
+# [5.2.0](https://github.com/Aidurber/react-picky/compare/v5.1.0...v5.2.0) (2020-01-16)
+
+
+### Features
+
+* add filter term processor ([794924b](https://github.com/Aidurber/react-picky/commit/794924b))
+
 # [5.1.0](https://github.com/Aidurber/react-picky/compare/v5.0.2...v5.1.0) (2019-11-15)
 
 

@@ -538,6 +538,40 @@ describe('Picky', () => {
       ]);
     });
 
+    it('should process filter term', () => {
+      const onFiltered = jest.fn();
+
+      const options = [
+        { label: 'Item 1', value: 1 },
+        { label: 'Item 2', value: 2 },
+      ];
+      const processor = jest
+        .fn()
+        .mockImplementation((term: string) => term.trim());
+      const { getByTestId } = render(
+        <Picky
+          {...corePickyProps}
+          options={options}
+          value={[]}
+          valueKey="value"
+          labelKey="label"
+          multiple={true}
+          filterDebounce={0}
+          open={true}
+          filterTermProcessor={processor}
+          includeFilter={true}
+          onFiltered={onFiltered}
+        />
+      );
+      const input = getByTestId('picky__filter__input');
+      const filterValue = '  item 1  ';
+      fireEvent.change(input, { target: { value: filterValue } });
+      expect(processor).toHaveBeenCalledWith(filterValue);
+      expect(onFiltered).toHaveBeenLastCalledWith([
+        { label: 'Item 1', value: 1 },
+      ]);
+    });
+
     it('shouldnt filter if filter query is blank or empty string', () => {
       const onFiltered = jest.fn();
 
