@@ -288,6 +288,14 @@ type PickyProps = {
    * @type {boolean}
    */
   clearFilterOnClose?: boolean;
+  /**
+   * A string function which takes the filter term and returns a new filter term.
+   *
+   * Useful for trimming the filter term.
+   *
+   * @type {StringFunc}
+   */
+  filterTermProcessor?: (term: string) => string;
 };
 
 class Picky extends React.PureComponent<PickyProps, PickyState> {
@@ -302,6 +310,7 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
     keepOpen: true,
     selectAllText: 'Select all',
     selectAllMode: 'default',
+    filterTermProcessor: (term: string) => term,
   };
   node: HTMLDivElement | null = null;
   filter: HTMLInputElement | null = null;
@@ -564,13 +573,18 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
    * @memberof Picky
    */
   onFilterChange(term: string) {
+    const processedTerm =
+      typeof this.props.filterTermProcessor === 'function'
+        ? this.props.filterTermProcessor(term)
+        : term;
+
     /**
      * getFilterValue function will provide the input value of filter to the picky dropdown, so that if we have a larger list of options then we can only supply the matching options based on this value
      */
     if (this.props.getFilterValue) {
-      this.props.getFilterValue(term);
+      this.props.getFilterValue(processedTerm);
     }
-    if (!term.trim()) {
+    if (!processedTerm.trim()) {
       return this.setState({
         filtered: false,
         filteredOptions: [],
@@ -586,11 +600,11 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
       if (isObject) {
         return includes(
           option[this.props.labelKey!],
-          term,
-          this.props.caseSensitiveFilter
+          processedTerm,
+          !!this.props.caseSensitiveFilter
         );
       }
-      return includes(option, term, this.props.caseSensitiveFilter);
+      return includes(option, processedTerm, this.props.caseSensitiveFilter);
     });
     this.setState(
       {

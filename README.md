@@ -181,6 +181,7 @@ Picky.propTypes = {
 - `buttonProps` - Additional props to apply the the button component, useful for supplying class names.
 - `selectAllMode` - default: `default`. When the mode is `filtered` the Select All won't be hidden when filtering.
 - `clearFilterOnClose` - When set to true filtered options and filtered state will be cleared on close. Defaults to false.
+- `filterTermProcessor` - A function that takes a string and returns a string. Useful for trimming and processing a filter term before it filters the options. Default: (term) => term
 
 ## Custom rendering
 
