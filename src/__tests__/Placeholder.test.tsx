@@ -12,6 +12,7 @@ describe('Placeholder', () => {
     );
     const placeholder = getByTestId(PLACEHOLDER_TESTID);
     expect(placeholder.textContent).toEqual('No selected values');
+    expect(placeholder.classList.contains('picky__placeholder')).toBe(true);
   });
 
   it('should default to None Selected if no placeholder supplied', () => {
@@ -30,6 +31,7 @@ describe('Placeholder', () => {
     );
     const placeholder = getByTestId(PLACEHOLDER_TESTID);
     expect(placeholder.textContent).toEqual('1, 2');
+    expect(placeholder.classList.contains('picky__placeholder')).toBe(false);
   });
   it('should cut off if more values than  numberDisplayed', () => {
     const { getByTestId } = render(
@@ -139,12 +141,12 @@ describe('Placeholder', () => {
     expect(placeholder.textContent).toEqual('Item 1');
   });
 
-  it('should set class "picky__placeholder" with a non-empty value', () => {
+  it('should set class "picky__placeholder" with an empty value', () => {
     const { getByTestId } = render(
       //@ts-ignore
       <Placeholder value={'one'} />
     );
     const placeholder = getByTestId(PLACEHOLDER_TESTID);
-    expect(placeholder.className).toEqual('picky__placeholder');
+    expect(placeholder.classList.contains('picky__placeholder')).toBe(false);
   });
 });
