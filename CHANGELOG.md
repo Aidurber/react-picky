@@ -1,3 +1,10 @@
+## [5.2.1](https://github.com/Aidurber/react-picky/compare/v5.2.0...v5.2.1) (2020-02-24)
+
+
+### Bug Fixes
+
+* placeholder empty class ([418c7bd](https://github.com/Aidurber/react-picky/commit/418c7bd))
+
 # [5.2.0](https://github.com/Aidurber/react-picky/compare/v5.1.0...v5.2.0) (2020-01-16)
 
 
