@@ -35,7 +35,7 @@ type PickyState = {
   allSelected: SelectionState;
 };
 
-type PickyProps = {
+export type PickyProps = {
   /**
    * The ID for the component, used for accessibility
    *
