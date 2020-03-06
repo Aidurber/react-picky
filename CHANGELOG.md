@@ -1,3 +1,10 @@
+## [5.2.2](https://github.com/Aidurber/react-picky/compare/v5.2.1...v5.2.2) (2020-03-06)
+
+
+### Bug Fixes
+
+* export picky props ([c186854](https://github.com/Aidurber/react-picky/commit/c186854))
+
 ## [5.2.1](https://github.com/Aidurber/react-picky/compare/v5.2.0...v5.2.1) (2020-02-24)
 
 
