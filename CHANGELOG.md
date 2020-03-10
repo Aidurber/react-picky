@@ -1,99 +1,92 @@
-## [5.2.2](https://github.com/Aidurber/react-picky/compare/v5.2.1...v5.2.2) (2020-03-06)
-
+## [5.2.3](https://github.com/Aidurber/react-picky/compare/v5.2.2...v5.2.3) (2020-03-10)
 
 ### Bug Fixes
 
-* export picky props ([c186854](https://github.com/Aidurber/react-picky/commit/c186854))
+- remove prop-types dependency ([#207](https://github.com/Aidurber/react-picky/issues/207)) ([e61c76f](https://github.com/Aidurber/react-picky/commit/e61c76f))
+
+## [5.2.2](https://github.com/Aidurber/react-picky/compare/v5.2.1...v5.2.2) (2020-03-06)
+
+### Bug Fixes
+
+- export picky props ([c186854](https://github.com/Aidurber/react-picky/commit/c186854))
 
 ## [5.2.1](https://github.com/Aidurber/react-picky/compare/v5.2.0...v5.2.1) (2020-02-24)
 
-
 ### Bug Fixes
 
-* placeholder empty class ([418c7bd](https://github.com/Aidurber/react-picky/commit/418c7bd))
+- placeholder empty class ([418c7bd](https://github.com/Aidurber/react-picky/commit/418c7bd))
 
 # [5.2.0](https://github.com/Aidurber/react-picky/compare/v5.1.0...v5.2.0) (2020-01-16)
 
-
 ### Features
 
-* add filter term processor ([794924b](https://github.com/Aidurber/react-picky/commit/794924b))
+- add filter term processor ([794924b](https://github.com/Aidurber/react-picky/commit/794924b))
 
 # [5.1.0](https://github.com/Aidurber/react-picky/compare/v5.0.2...v5.1.0) (2019-11-15)
 
-
 ### Features
 
-* remove recompose ([c07c1db](https://github.com/Aidurber/react-picky/commit/c07c1db))
+- remove recompose ([c07c1db](https://github.com/Aidurber/react-picky/commit/c07c1db))
 
 ## [5.0.2](https://github.com/Aidurber/react-picky/compare/v5.0.1...v5.0.2) (2019-11-13)
 
-
 ### Bug Fixes
 
-* **placeholder:** set "picky__placeholder"  with a non-empty value ([63bae73](https://github.com/Aidurber/react-picky/commit/63bae73))
+- **placeholder:** set "picky\_\_placeholder" with a non-empty value ([63bae73](https://github.com/Aidurber/react-picky/commit/63bae73))
 
 ## [5.0.1](https://github.com/Aidurber/react-picky/compare/v5.0.0...v5.0.1) (2019-11-03)
 
-
 ### Bug Fixes
 
-* use correct export ([a0edbdc](https://github.com/Aidurber/react-picky/commit/a0edbdc))
+- use correct export ([a0edbdc](https://github.com/Aidurber/react-picky/commit/a0edbdc))
 
 # [5.0.0](https://github.com/Aidurber/react-picky/compare/v4.7.2...v5.0.0) (2019-11-03)
 
-
 ### Bug Fixes
 
-* add default id prop ([5a83b8d](https://github.com/Aidurber/react-picky/commit/5a83b8d))
-* add default id prop ([f937117](https://github.com/Aidurber/react-picky/commit/f937117))
-* classname warnings ([e6b97d1](https://github.com/Aidurber/react-picky/commit/e6b97d1))
-* classname warnings ([e6a1688](https://github.com/Aidurber/react-picky/commit/e6a1688))
-
+- add default id prop ([5a83b8d](https://github.com/Aidurber/react-picky/commit/5a83b8d))
+- add default id prop ([f937117](https://github.com/Aidurber/react-picky/commit/f937117))
+- classname warnings ([e6b97d1](https://github.com/Aidurber/react-picky/commit/e6b97d1))
+- classname warnings ([e6a1688](https://github.com/Aidurber/react-picky/commit/e6a1688))
 
 ### Features
 
-* increase react dep to 16.8 ([96b0234](https://github.com/Aidurber/react-picky/commit/96b0234))
-* increase react dep to 16.8 ([339c4f6](https://github.com/Aidurber/react-picky/commit/339c4f6))
-* migrate to typescript ([1ac1b6f](https://github.com/Aidurber/react-picky/commit/1ac1b6f))
-* migrate to typescript ([8ee7298](https://github.com/Aidurber/react-picky/commit/8ee7298))
-* select only filtered ([16c164b](https://github.com/Aidurber/react-picky/commit/16c164b))
-* support indeternimate select all ([7f1082d](https://github.com/Aidurber/react-picky/commit/7f1082d))
-* support indeternimate select all ([fe30273](https://github.com/Aidurber/react-picky/commit/fe30273))
-
+- increase react dep to 16.8 ([96b0234](https://github.com/Aidurber/react-picky/commit/96b0234))
+- increase react dep to 16.8 ([339c4f6](https://github.com/Aidurber/react-picky/commit/339c4f6))
+- migrate to typescript ([1ac1b6f](https://github.com/Aidurber/react-picky/commit/1ac1b6f))
+- migrate to typescript ([8ee7298](https://github.com/Aidurber/react-picky/commit/8ee7298))
+- select only filtered ([16c164b](https://github.com/Aidurber/react-picky/commit/16c164b))
+- support indeternimate select all ([7f1082d](https://github.com/Aidurber/react-picky/commit/7f1082d))
+- support indeternimate select all ([fe30273](https://github.com/Aidurber/react-picky/commit/fe30273))
 
 ### BREAKING CHANGES
 
-* Requires Hooks
-* Large re-write to TypeScript
-* Requires Hooks
-* Large re-write to TypeScript
+- Requires Hooks
+- Large re-write to TypeScript
+- Requires Hooks
+- Large re-write to TypeScript
 
 ## [4.7.2](https://github.com/Aidurber/react-picky/compare/v4.7.1...v4.7.2) (2019-10-17)
 
-
 ### Bug Fixes
 
-* failed prop type and className warnings ([b93dab9](https://github.com/Aidurber/react-picky/commit/b93dab9))
+- failed prop type and className warnings ([b93dab9](https://github.com/Aidurber/react-picky/commit/b93dab9))
 
 ## [4.7.1](https://github.com/Aidurber/react-picky/compare/v4.7.0...v4.7.1) (2019-10-10)
 
-
 ### Bug Fixes
 
-* better styling for placeholder default ([f52619e](https://github.com/Aidurber/react-picky/commit/f52619e)), closes [#144](https://github.com/Aidurber/react-picky/issues/144)
+- better styling for placeholder default ([f52619e](https://github.com/Aidurber/react-picky/commit/f52619e)), closes [#144](https://github.com/Aidurber/react-picky/issues/144)
 
 # [4.7.0](https://github.com/Aidurber/react-picky/compare/v4.6.0...v4.7.0) (2019-10-05)
 
-
 ### Bug Fixes
 
-* clear filter input on close ([247b800](https://github.com/Aidurber/react-picky/commit/247b800))
-
+- clear filter input on close ([247b800](https://github.com/Aidurber/react-picky/commit/247b800))
 
 ### Features
 
-* support clearing filter on close ([6e7106e](https://github.com/Aidurber/react-picky/commit/6e7106e))
+- support clearing filter on close ([6e7106e](https://github.com/Aidurber/react-picky/commit/6e7106e))
 
 # [4.6.0](https://github.com/Aidurber/react-picky/compare/v4.5.2...v4.6.0) (2019-10-05)
 

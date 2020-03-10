@@ -37,7 +37,6 @@ Picky provides a medium amount of flexibility, you can custom render: Options, L
 # Peer Dependencies
 
 ```
- "prop-types": "^15.6.0",
  "react": "^16.8.0",
  "react-dom": "^16.8.0"
 ```
