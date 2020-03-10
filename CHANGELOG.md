@@ -1,3 +1,10 @@
+## [5.2.3](https://github.com/Aidurber/react-picky/compare/v5.2.2...v5.2.3) (2020-03-10)
+
+
+### Bug Fixes
+
+* remove prop-types dependency ([#207](https://github.com/Aidurber/react-picky/issues/207)) ([e61c76f](https://github.com/Aidurber/react-picky/commit/e61c76f))
+
 ## [5.2.2](https://github.com/Aidurber/react-picky/compare/v5.2.1...v5.2.2) (2020-03-06)
 
 
