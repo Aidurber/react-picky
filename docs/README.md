@@ -30,7 +30,6 @@ You can also achieve the same result with a great deal of flexibility using [Pay
 # Peer Dependencies
 
 ```
- "prop-types": "^15.6.0",
  "react": "^16.5.0",
  "react-dom": "^16.5.0"
 ```
