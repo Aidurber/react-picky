@@ -1,3 +1,10 @@
+## [5.2.4](https://github.com/Aidurber/react-picky/compare/v5.2.3...v5.2.4) (2020-04-12)
+
+
+### Bug Fixes
+
+* color contrast of placeholder ([cda22c5](https://github.com/Aidurber/react-picky/commit/cda22c5))
+
 ## [5.2.3](https://github.com/Aidurber/react-picky/compare/v5.2.2...v5.2.3) (2020-03-10)
 
 ### Bug Fixes
