@@ -58,7 +58,6 @@ class App extends React.Component<any, any> {
                 value={this.state.value}
                 options={bigList}
                 onChange={this.selectOption}
-                open={true}
                 valueKey="id"
                 labelKey="name"
                 multiple={false}

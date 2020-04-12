@@ -1,14 +1,24 @@
 language: node_js
+addons:
+  apt:
+    packages:
+      # Ubuntu 16+ does not install this dependency by default, so we need to install it ourselves
+      - libgconf-2-4
 cache:
+  npm: true
   directories:
     - ~/.npm
     - node_modules
+    - ~/.cache
+install:
+  - npm ci
 notifications:
   email: false
 node_js:
   - '11'
 script:
   - npm run test
+  - npm run e2e
   - npm run build
 after_success:
   - npm run semantic-release
