@@ -15,7 +15,10 @@
     "build": "tsdx build",
     "test": "tsdx test --env=jsdom",
     "lint": "tsdx lint",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "e2e": "start-server-and-test start:example http://localhost:1234 cy:run"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
@@ -30,6 +33,7 @@
     "@types/react": "^16.9.11",
     "@types/react-dom": "^16.9.4",
     "concurrently": "^4.1.2",
+    "cypress": "^4.3.0",
     "eslint": "^6.6.0",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.1",
@@ -44,6 +48,7 @@
     "rollup-plugin-css-only": "^1.0.0",
     "rollup-plugin-filesize": "^6.2.1",
     "semantic-release": "^17.0.4",
+    "start-server-and-test": "^1.10.11",
     "tsdx": "^0.11.0",
     "tslib": "^1.10.0",
     "typescript": "^3.7.2"
