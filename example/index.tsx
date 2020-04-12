@@ -31,41 +31,44 @@ class App extends React.Component<any, any> {
   render() {
     return (
       <div className="container">
-        <div className="row">
-          <div className="col">
-            <h3>Multi select</h3>
-            <Picky
-              id="multi"
-              value={this.state.arrayValue}
-              options={bigList}
-              onChange={this.selectMultipleOption}
-              valueKey="id"
-              labelKey="name"
-              multiple={true}
-              includeSelectAll={true}
-              includeFilter={true}
-              dropdownHeight={600}
-              defaultFocusFilter={true}
-              selectAllMode="filtered"
-            />
+        <h1>Picky Sandbox</h1>
+        <main>
+          <div className="row">
+            <div className="col">
+              <h3>Multi select</h3>
+              <Picky
+                id="multi"
+                value={this.state.arrayValue}
+                options={bigList}
+                onChange={this.selectMultipleOption}
+                valueKey="id"
+                labelKey="name"
+                multiple={true}
+                includeSelectAll={true}
+                includeFilter={true}
+                dropdownHeight={600}
+                defaultFocusFilter={true}
+                selectAllMode="filtered"
+              />
+            </div>
+            <div className="col">
+              <h3>Single select</h3>
+              <Picky
+                id="single"
+                value={this.state.value}
+                options={bigList}
+                onChange={this.selectOption}
+                open={true}
+                valueKey="id"
+                labelKey="name"
+                multiple={false}
+                includeSelectAll={true}
+                includeFilter={true}
+                dropdownHeight={600}
+              />
+            </div>
           </div>
-          <div className="col">
-            <h3>Single select</h3>
-            <Picky
-              id="single"
-              value={this.state.value}
-              options={bigList}
-              onChange={this.selectOption}
-              open={true}
-              valueKey="id"
-              labelKey="name"
-              multiple={false}
-              includeSelectAll={true}
-              includeFilter={true}
-              dropdownHeight={600}
-            />
-          </div>
-        </div>
+        </main>
       </div>
     );
   }
