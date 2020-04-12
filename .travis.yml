@@ -1,3 +1,4 @@
+sudo: false
 language: node_js
 addons:
   apt:
@@ -10,6 +11,7 @@ cache:
     - ~/.npm
     - node_modules
     - ~/.cache
+install: yarn install
 notifications:
   email: false
 node_js:
