@@ -10,8 +10,6 @@ cache:
     - ~/.npm
     - node_modules
     - ~/.cache
-install:
-  - npm ci
 notifications:
   email: false
 node_js:
