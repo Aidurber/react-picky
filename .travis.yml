@@ -6,12 +6,11 @@ addons:
       # Ubuntu 16+ does not install this dependency by default, so we need to install it ourselves
       - libgconf-2-4
 cache:
-  npm: true
   directories:
     - ~/.npm
     - node_modules
     - ~/.cache
-install: yarn install & yarn prepare-example
+install: yarn install && yarn prepare-example
 notifications:
   email: false
 node_js:
