@@ -333,13 +333,11 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
     this.focusFilterInput = this.focusFilterInput.bind(this);
     this.getValue = this.getValue.bind(this);
   }
-  UNSAFE_componentWillMount() {
+
+  componentDidMount() {
     this.setState({
       allSelected: this.allSelected(),
     });
-  }
-
-  componentDidMount() {
     this.focusFilterInput(!!this.state.open);
   }
 
@@ -347,32 +345,31 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
     document.removeEventListener('click', this.handleOutsideClick, false);
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps: PickyProps) {
+  componentDidUpdate(prevProps: PickyProps) {
     if (
-      this.props.options !== nextProps.options ||
-      this.props.value !== nextProps.value
+      this.props.options !== prevProps.options ||
+      this.props.value !== prevProps.value
     ) {
-      let valuesEqual = Array.isArray(nextProps.value)
-        ? arraysEqual(nextProps.value, this.props.value as OptionsType)
-        : nextProps.value === this.props.value;
+      if (!this.props.multiple) return;
+      let valuesEqual = Array.isArray(prevProps.value)
+        ? arraysEqual(prevProps.value, this.props.value as OptionsType)
+        : prevProps.value === this.props.value;
 
-      let optsEqual = arraysEqual(nextProps.options, this.props.options);
+      let optsEqual = arraysEqual(prevProps.options, this.props.options);
       const currentOptions = this.state.filtered
         ? this.state.filteredOptions
-        : nextProps.options;
+        : this.props.options;
       const currentValues = this.state.filtered
         ? this.state.filteredOptions.filter(value => {
-            if (Array.isArray(nextProps.value)) {
-              return nextProps.value.includes(value);
+            if (Array.isArray(this.props.value)) {
+              return this.props.value.includes(value);
             }
             return true;
           })
-        : nextProps.value;
+        : this.props.value;
       this.setState({
         allSelected: !(valuesEqual && optsEqual)
-          ? // FIXME
-            //@ts-ignore
-            this.allSelected(currentValues, currentOptions)
+          ? this.allSelected(currentValues as OptionsType, currentOptions)
           : this.allSelected(),
       });
     }

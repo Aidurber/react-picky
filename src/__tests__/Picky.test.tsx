@@ -852,10 +852,10 @@ describe('Picky', () => {
       });
     });
 
-    describe('Issue #38', () => {
-      test('should set selectedValue state when async value prop updates', done => {
+    describe('Issue #39', () => {
+      test('should set selectedValue state when async value prop updates', () => {
         const mockOnChange = jest.fn();
-        const { rerender } = render(
+        const { rerender, getAllByTestId } = render(
           <Picky
             {...corePickyProps}
             multiple
@@ -865,26 +865,20 @@ describe('Picky', () => {
             onChange={mockOnChange}
           />
         );
-        const componentWillUpdateSpy = jest.spyOn(
-          Picky.prototype,
-          'UNSAFE_componentWillReceiveProps'
+
+        rerender(
+          <Picky
+            {...corePickyProps}
+            multiple
+            open
+            value={['1', '2']}
+            options={['1', '2', '3', '4', '5']}
+            onChange={mockOnChange}
+          />
         );
-        setTimeout(() => {
-          rerender(
-            <Picky
-              {...corePickyProps}
-              multiple
-              open
-              value={['1', '2']}
-              options={['1', '2', '3', '4', '5']}
-              onChange={mockOnChange}
-            />
-          );
-          expect(componentWillUpdateSpy).toHaveBeenCalled();
-          componentWillUpdateSpy.mockReset();
-          componentWillUpdateSpy.mockRestore();
-          done();
-        }, 20);
+
+        const options = getAllByTestId('option');
+        expect(options).toHaveLength(5);
       });
       test('with async value when selecting option should not unselect all other options', done => {
         const onChangeMock = jest.fn();
