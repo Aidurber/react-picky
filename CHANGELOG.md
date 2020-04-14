@@ -1,3 +1,10 @@
+## [5.2.5](https://github.com/Aidurber/react-picky/compare/v5.2.4...v5.2.5) (2020-04-14)
+
+
+### Bug Fixes
+
+* strict mode compliance ([e940925](https://github.com/Aidurber/react-picky/commit/e940925))
+
 ## [5.2.4](https://github.com/Aidurber/react-picky/compare/v5.2.3...v5.2.4) (2020-04-12)
 
 
