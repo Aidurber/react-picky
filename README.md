@@ -81,10 +81,10 @@ import 'react-picky/dist/picky.css'; // Include CSS
 
 # Examples
 
-- [Basic](./examples/basic/README.md)
-- [Custom Render: Select All](./examples/custom-selectall/README.md)
-- [Custom Render: List](./examples/custom-list/README.md)
-- [Custom Render: Option](./examples/custom-option/README.md)
+- [Basic](./examples/basic)
+- [Custom Render: Select All](./examples/custom-selectall)
+- [Custom Render: List](./examples/custom-list)
+- [Custom Render: Option](./examples/custom-option)
 
 ## Props
 
