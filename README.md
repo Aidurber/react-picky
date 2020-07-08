@@ -79,15 +79,12 @@ import 'react-picky/dist/picky.css'; // Include CSS
 />;
 ```
 
-## Sandboxes
+# Examples
 
-### Basic multiselect and single select
-
-[![Edit qq1689zk3q](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/qq1689zk3q)
-
-### Custom rendering
-
-[![Edit mmpq6z7lr8](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/mmpq6z7lr8)
+- [Basic](./examples/basic/README.md)
+- [Custom Render: Select All](./examples/custom-selectall/README.md)
+- [Custom Render: List](./examples/custom-list/README.md)
+- [Custom Render: Option](./examples/custom-option/README.md)
 
 ## Props
 

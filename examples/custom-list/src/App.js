@@ -5,7 +5,6 @@ import { options } from './makeData';
 
 function App() {
   const [multiValue, setMultiValue] = React.useState([]);
-  const [value, setValue] = React.useState(null);
   return (
     <div className="container">
       <div className="col">
@@ -19,17 +18,24 @@ function App() {
           includeSelectAll
           value={multiValue}
           onChange={setMultiValue}
-        />
-      </div>
-      <div className="col">
-        <h3>Single select</h3>
-        <Picky
-          options={options}
-          labelKey="label"
-          valueKey="value"
-          includeFilter
-          value={value}
-          onChange={setValue}
+          renderList={({
+            items,
+            selected,
+            multiple,
+            selectValue,
+            getIsSelected,
+          }) =>
+            items.map(item => {
+              const label = `${item.label} ID Even? ${
+                item.value % 2 === 0 ? 'yes' : 'no'
+              }`;
+              return (
+                <li key={item.id} onClick={() => selectValue(item)}>
+                  {getIsSelected(item) ? <strong>{label}</strong> : label}
+                </li>
+              );
+            })
+          }
         />
       </div>
     </div>
