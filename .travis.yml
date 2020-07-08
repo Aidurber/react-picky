@@ -10,7 +10,7 @@ cache:
     - ~/.npm
     - node_modules
     - ~/.cache
-install: yarn install && yarn prepare-example
+install: yarn install
 notifications:
   email: false
 node_js:

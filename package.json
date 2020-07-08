@@ -9,16 +9,12 @@
     "/dist"
   ],
   "scripts": {
-    "prepare-example": "yarn --cwd example install",
-    "start": "concurrently \"tsdx watch\" \"yarn start:example\"",
-    "start:example": "yarn --cwd example start",
     "build": "tsdx build",
     "test": "tsdx test --env=jsdom",
     "lint": "tsdx lint",
     "semantic-release": "semantic-release",
     "cy:open": "cypress open",
-    "cy:run": "cypress run",
-    "e2e": "start-server-and-test start:example http://localhost:1234 cy:run"
+    "cy:run": "cypress run"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

@@ -5,3 +5,4 @@ node_modules/
 dist/
 .rts2_*
 .docz/
+.DS_STORE
