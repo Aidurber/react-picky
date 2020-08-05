@@ -25,6 +25,7 @@ type PlaceholderProps = {
   manySelectedPlaceholder?: string;
   allSelectedPlaceholder?: string;
   allSelected: SelectionState;
+  singleSelectPlaceholder?: (value: OptionsType) => string;
 };
 const Placeholder: React.FC<PlaceholderProps> = React.memo(
   ({
@@ -36,6 +37,7 @@ const Placeholder: React.FC<PlaceholderProps> = React.memo(
     labelKey,
     manySelectedPlaceholder,
     allSelectedPlaceholder,
+    singleSelectPlaceholder,
     allSelected,
   }) => {
     let message: string = '';
@@ -71,7 +73,9 @@ const Placeholder: React.FC<PlaceholderProps> = React.memo(
         }
       } else {
         let tempValue = Array.isArray(value) ? value[0] : value;
-        if (isDataObject(tempValue, valueKey, labelKey)) {
+        if (typeof singleSelectPlaceholder === 'function') {
+          message = singleSelectPlaceholder(tempValue);
+        } else if (isDataObject(tempValue, valueKey, labelKey)) {
           message = (tempValue as ComplexOptionType)[labelKey!];
         } else {
           message = String(tempValue as SimpleOptionType);

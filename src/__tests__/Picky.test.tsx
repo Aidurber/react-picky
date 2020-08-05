@@ -166,6 +166,81 @@ describe('Picky', () => {
       );
       expect(getByTestId('picky_placeholder').textContent).toEqual('1');
     });
+
+    it('should show single select placeholder if single select and is defined', () => {
+      const singlePlaceholder = (val: any) => `You have selected ${val}`;
+      const { getByTestId, rerender } = render(
+        <Picky
+          {...corePickyProps}
+          value={2}
+          options={[1, 2, 3, 4, 5]}
+          open={true}
+          multiple={false}
+          singleSelectPlaceholder={singlePlaceholder}
+        />
+      );
+
+      expect(getByTestId('picky_placeholder').textContent).toEqual(
+        'You have selected 2'
+      );
+
+      rerender(
+        <Picky
+          {...corePickyProps}
+          value={3}
+          options={[1, 2, 3, 4, 5]}
+          open={true}
+          multiple={false}
+          singleSelectPlaceholder={singlePlaceholder}
+        />
+      );
+      expect(getByTestId('picky_placeholder').textContent).toEqual(
+        'You have selected 3'
+      );
+    });
+    it('should show single select placeholder if single select and is defined with object value', () => {
+      const singlePlaceholder = (val: any) => `You have selected ${val.label}`;
+      const { getByTestId, rerender } = render(
+        <Picky
+          {...corePickyProps}
+          value={{ value: 1, label: 'One' }}
+          options={[
+            { value: 1, label: 'One' },
+            { value: 2, label: 'Two' },
+            { value: 3, label: 'Three' },
+          ]}
+          labelKey="label"
+          valueKey="value"
+          open={true}
+          multiple={false}
+          singleSelectPlaceholder={singlePlaceholder}
+        />
+      );
+
+      expect(getByTestId('picky_placeholder').textContent).toEqual(
+        'You have selected One'
+      );
+
+      rerender(
+        <Picky
+          {...corePickyProps}
+          value={{ value: 1, label: 'Three' }}
+          options={[
+            { value: 1, label: 'One' },
+            { value: 2, label: 'Two' },
+            { value: 3, label: 'Three' },
+          ]}
+          labelKey="label"
+          valueKey="value"
+          open={true}
+          multiple={false}
+          singleSelectPlaceholder={singlePlaceholder}
+        />
+      );
+      expect(getByTestId('picky_placeholder').textContent).toEqual(
+        'You have selected Three'
+      );
+    });
     it('should show correct placeholder with selected value, multi select', () => {
       const { getByTestId, rerender } = render(
         <Picky
