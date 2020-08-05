@@ -140,6 +140,7 @@ Picky.propTypes = {
   buttonProps: PropTypes.object,
   selectAllMode: PropTypes.oneOf(['default', 'filtered']),
   clearFilterOnClose: PropTypes.bool,
+  singleSelectPlaceholder: PropTypes.func,
 };
 ```
 
@@ -178,6 +179,7 @@ Picky.propTypes = {
 - `selectAllMode` - default: `default`. When the mode is `filtered` the Select All won't be hidden when filtering.
 - `clearFilterOnClose` - When set to true filtered options and filtered state will be cleared on close. Defaults to false.
 - `filterTermProcessor` - A function that takes a string and returns a string. Useful for trimming and processing a filter term before it filters the options. Default: (term) => term
+- `singleSelectPlaceholder` - A function that takes the currently selected value and returns a string. `(val: OptionType) => string`
 
 ## Custom rendering
 

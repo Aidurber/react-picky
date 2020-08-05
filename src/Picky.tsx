@@ -296,6 +296,11 @@ export type PickyProps = {
    * @type {StringFunc}
    */
   filterTermProcessor?: (term: string) => string;
+
+  /**
+   * A call back to render the placeholder for single select. Must return a string.
+   */
+  singleSelectPlaceholder?: (value: OptionsType) => string;
 };
 
 class Picky extends React.PureComponent<PickyProps, PickyState> {
@@ -754,6 +759,7 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
             placeholder={placeholder}
             manySelectedPlaceholder={this.props.manySelectedPlaceholder}
             allSelectedPlaceholder={this.props.allSelectedPlaceholder}
+            singleSelectPlaceholder={this.props.singleSelectPlaceholder}
             value={value}
             multiple={Boolean(multiple)}
             numberDisplayed={numberDisplayed!}
