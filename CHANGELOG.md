@@ -1,3 +1,10 @@
+# [5.3.0](https://github.com/Aidurber/react-picky/compare/v5.2.5...v5.3.0) (2020-08-05)
+
+
+### Features
+
+* add single singleSelectPlaceholder ([d46cf60](https://github.com/Aidurber/react-picky/commit/d46cf60))
+
 ## [5.2.5](https://github.com/Aidurber/react-picky/compare/v5.2.4...v5.2.5) (2020-04-14)
 
 
