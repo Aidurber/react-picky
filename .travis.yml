@@ -14,7 +14,7 @@ install: yarn install
 notifications:
   email: false
 node_js:
-  - '11'
+  - '14'
 script:
   - npm run test
   - npm run build
