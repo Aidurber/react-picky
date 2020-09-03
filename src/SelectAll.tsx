@@ -21,14 +21,15 @@ const SelectAll: React.FC<SelectAllProps> = React.memo(
     visible,
   }) => {
     const checkboxRef = React.createRef<HTMLInputElement>();
+    React.useEffect(() => {
+      if (checkboxRef.current !== null) {
+        checkboxRef.current.indeterminate = allSelected === 'partial';
+      }
+    }, [allSelected]);
+
     if (!visible) {
       return null;
     }
-
-    React.useEffect(() => {
-      if (checkboxRef.current === null) return;
-      checkboxRef.current.indeterminate = allSelected === 'partial';
-    }, [allSelected]);
     return (
       <div
         tabIndex={tabIndex}
