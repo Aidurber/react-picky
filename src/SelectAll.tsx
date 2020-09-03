@@ -20,21 +20,22 @@ const SelectAll: React.FC<SelectAllProps> = React.memo(
     toggleSelectAll,
     visible,
   }) => {
-    const checkboxRef = React.createRef<HTMLInputElement>();
+    const checkboxRef = React.useRef<HTMLInputElement>();
+
+    React.useEffect(() => {
+      if (checkboxRef.current) {
+        checkboxRef.current.indeterminate = allSelected === 'partial';
+      }
+    }, [allSelected]);
     if (!visible) {
       return null;
     }
-
-    React.useEffect(() => {
-      if (checkboxRef.current === null) return;
-      checkboxRef.current.indeterminate = allSelected === 'partial';
-    }, [allSelected]);
     return (
       <div
         tabIndex={tabIndex}
         role="option"
         data-testid="selectall"
-        id={id + '-option-' + 'selectall'}
+        id={`${id}-option-selectall`}
         data-selectall="true"
         aria-selected={allSelected === 'all'}
         className={allSelected === 'all' ? 'option selected' : 'option'}

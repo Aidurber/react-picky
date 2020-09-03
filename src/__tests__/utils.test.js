@@ -20,7 +20,6 @@ describe('Utils', () => {
   });
 
   describe('hasItem', () => {
-    //@ts-ignore
     let all;
     beforeAll(() => {
       all = Array.from(Array(10).keys()).map(v => {
@@ -31,25 +30,20 @@ describe('Utils', () => {
       });
     });
     it('should return false if nothing supplied', () => {
-      //@ts-ignore
       expect(hasItem()).toBeFalsy();
     });
 
     it('should return false if no all prop supplied', () => {
-      //@ts-ignore
       expect(hasItem(undefined, 1)).toBe(false);
     });
     it('should return false if no item prop supplied', () => {
-      //@ts-ignore
       expect(hasItem(1, undefined)).toBe(false);
     });
 
     it('should return true if array of objects supplied and there is a match', () => {
-      //@ts-ignore
       expect(hasItem(all, { id: 1, name: 'Item 1' }, 'id', 'name')).toBe(true);
     });
     it('should return false if array of objects supplied and there is no match', () => {
-      //@ts-ignore
       expect(hasItem(all, { id: 101, name: 'Item 101' }, 'id', 'name')).toBe(
         false
       );
@@ -69,20 +63,16 @@ describe('Utils', () => {
     describe('Find index', () => {
       it('should find correct index', () => {
         expect(
-          //@ts-ignore
           hasItemIndex(all, { id: 1, name: 'Item 1' }, 'id', 'name')
         ).toEqual(0);
         expect(
-          //@ts-ignore
           hasItemIndex(all, { id: 10, name: 'Item 10' }, 'id', 'name')
         ).toEqual(9);
 
         expect(
-          //@ts-ignore
           hasItemIndex([1, 2, 3, 4], 1, undefined, undefined, true)
         ).toEqual(0);
         expect(
-          //@ts-ignore
           hasItemIndex([1, 2, 3, 4], 4, undefined, undefined, true)
         ).toEqual(3);
       });

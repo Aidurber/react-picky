@@ -7,7 +7,6 @@ const PLACEHOLDER_TESTID = 'picky_placeholder';
 describe('Placeholder', () => {
   it('should show placeholder if no initial values', () => {
     const { getByTestId } = render(
-      //@ts-ignore
       <Placeholder placeholder="No selected values" />
     );
     const placeholder = getByTestId(PLACEHOLDER_TESTID);
@@ -16,17 +15,13 @@ describe('Placeholder', () => {
   });
 
   it('should default to None Selected if no placeholder supplied', () => {
-    const { getByTestId } = render(
-      //@ts-ignore
-      <Placeholder />
-    );
+    const { getByTestId } = render(<Placeholder />);
     const placeholder = getByTestId(PLACEHOLDER_TESTID);
     expect(placeholder.textContent).toEqual('None selected');
   });
 
   it('should show numberDisplayed if selected values', () => {
     const { getByTestId } = render(
-      //@ts-ignore
       <Placeholder numberDisplayed={2} value={[1, 2]} multiple />
     );
     const placeholder = getByTestId(PLACEHOLDER_TESTID);
@@ -35,7 +30,6 @@ describe('Placeholder', () => {
   });
   it('should cut off if more values than  numberDisplayed', () => {
     const { getByTestId } = render(
-      //@ts-ignore
       <Placeholder numberDisplayed={2} value={[1, 2, 3]} multiple />
     );
     const placeholder = getByTestId(PLACEHOLDER_TESTID);
@@ -44,7 +38,6 @@ describe('Placeholder', () => {
 
   it('should use manySelectedPlaceholder if supplied and number of selected items greater than number displayed', () => {
     const { getByTestId } = render(
-      //@ts-ignore
       <Placeholder
         numberDisplayed={2}
         value={[1, 2, 3]}
@@ -58,7 +51,6 @@ describe('Placeholder', () => {
 
   it('should use allSelectedPlaceholder prop if supplied and all items selected', () => {
     const { getByTestId } = render(
-      //@ts-ignore
       <Placeholder
         numberDisplayed={2}
         value={[1, 2, 3]}
@@ -73,7 +65,6 @@ describe('Placeholder', () => {
 
   it('should x selected if all items selected and no allSelectedPlaceholder specified', () => {
     const { getByTestId } = render(
-      //@ts-ignore
       <Placeholder
         numberDisplayed={2}
         value={[1, 2, 3]}
@@ -86,7 +77,6 @@ describe('Placeholder', () => {
   });
   it('should cut off if more values than  numberDisplayed', () => {
     const { getByTestId } = render(
-      //@ts-ignore
       <Placeholder numberDisplayed={2} value={[1, 2, 3]} multiple />
     );
     const placeholder = getByTestId(PLACEHOLDER_TESTID);
@@ -94,25 +84,18 @@ describe('Placeholder', () => {
   });
 
   it('should show value if not multiple and a value specified', () => {
-    const { getByTestId } = render(
-      //@ts-ignore
-      <Placeholder value={'one'} />
-    );
+    const { getByTestId } = render(<Placeholder value={'one'} />);
     const placeholder = getByTestId(PLACEHOLDER_TESTID);
     expect(placeholder.textContent).toEqual('one');
   });
   it('should show first value if multiple value and not multiple set', () => {
-    const { getByTestId } = render(
-      //@ts-ignore
-      <Placeholder value={[1, 2, 3]} />
-    );
+    const { getByTestId } = render(<Placeholder value={[1, 2, 3]} />);
     const placeholder = getByTestId(PLACEHOLDER_TESTID);
     expect(placeholder.textContent).toEqual('1');
   });
 
   it('should show label if object array supplied', () => {
     const { getByTestId } = render(
-      //@ts-ignore
       <Placeholder
         value={[
           { id: 1, name: 'Item 1' },
@@ -129,7 +112,6 @@ describe('Placeholder', () => {
   });
   it('should show label if object supplied', () => {
     const { getByTestId } = render(
-      //@ts-ignore
       <Placeholder
         value={[{ id: 1, name: 'Item 1' }]}
         labelKey="name"
@@ -142,10 +124,7 @@ describe('Placeholder', () => {
   });
 
   it('should set class "picky__placeholder" with an empty value', () => {
-    const { getByTestId } = render(
-      //@ts-ignore
-      <Placeholder value={'one'} />
-    );
+    const { getByTestId } = render(<Placeholder value={'one'} />);
     const placeholder = getByTestId(PLACEHOLDER_TESTID);
     expect(placeholder.classList.contains('picky__placeholder')).toBe(false);
   });
