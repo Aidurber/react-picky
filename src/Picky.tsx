@@ -304,6 +304,19 @@ export type PickyProps = {
 };
 
 class Picky extends React.PureComponent<PickyProps, PickyState> {
+  static defaultProps = {
+    id: 'picky',
+    numberDisplayed: 3,
+    options: [],
+    filterDebounce: 150,
+    dropdownHeight: 300,
+    onChange: () => {},
+    tabIndex: 0,
+    keepOpen: true,
+    selectAllText: 'Select all',
+    selectAllMode: 'default',
+    filterTermProcessor: (term: string) => term,
+  };
   node: HTMLDivElement | null = null;
   filter: HTMLInputElement | null = null;
   constructor(props: PickyProps) {
@@ -796,19 +809,5 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
     );
   }
 }
-
-Picky.defaultProps = {
-  id: 'picky',
-  numberDisplayed: 3,
-  options: [],
-  filterDebounce: 150,
-  dropdownHeight: 300,
-  onChange: () => {},
-  tabIndex: 0,
-  keepOpen: true,
-  selectAllText: 'Select all',
-  selectAllMode: 'default',
-  filterTermProcessor: (term: string) => term,
-};
 
 export { Picky };
