@@ -6,3 +6,5 @@ dist/
 .rts2_*
 .docz/
 .DS_STORE
+.rts2*
+.eslintcache
