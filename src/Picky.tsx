@@ -746,7 +746,6 @@ class Picky extends React.PureComponent<PickyProps, PickyState> {
         aria-expanded={open}
         aria-haspopup={open}
         aria-owns={ariaOwns}
-        tabIndex={tabIndex}
       >
         <Button
           id={`${this.props.id}__button`}
