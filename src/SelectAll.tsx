@@ -10,26 +10,31 @@ type SelectAllProps = {
   toggleSelectAll(): void;
   visible: boolean;
 };
-const SelectAll: React.FC<SelectAllProps> = React.memo(
-  ({
-    tabIndex,
-    disabled,
-    allSelected,
-    id,
-    selectAllText,
-    toggleSelectAll,
-    visible,
-  }) => {
-    const checkboxRef = React.useRef<HTMLInputElement>();
 
-    React.useEffect(() => {
-      if (checkboxRef.current) {
-        checkboxRef.current.indeterminate = allSelected === 'partial';
+class SelectAll extends React.PureComponent<SelectAllProps> {
+  static displayName = 'Picky(SelectAll)';
+  checkboxRef = React.createRef<HTMLInputElement>();
+
+  componentDidUpdate(prevProps: SelectAllProps) {
+    if (prevProps.allSelected !== this.props.allSelected) {
+      if (this.checkboxRef && this.checkboxRef.current) {
+        this.checkboxRef.current.indeterminate =
+          this.props.allSelected === 'partial';
       }
-    }, [allSelected]);
-    if (!visible) {
-      return null;
     }
+  }
+  render() {
+    const {
+      tabIndex,
+      disabled,
+      allSelected,
+      id,
+      selectAllText,
+      toggleSelectAll,
+      visible,
+    } = this.props;
+
+    if (!visible) return null;
     return (
       <div
         tabIndex={tabIndex}
@@ -44,7 +49,7 @@ const SelectAll: React.FC<SelectAllProps> = React.memo(
       >
         <input
           type="checkbox"
-          ref={checkboxRef}
+          ref={this.checkboxRef}
           readOnly
           data-testid="selectall-checkbox"
           tabIndex={-1}
@@ -55,19 +60,7 @@ const SelectAll: React.FC<SelectAllProps> = React.memo(
         <span data-testid="select-all-text">{selectAllText}</span>
       </div>
     );
-  },
-  areEqual
-);
-
-SelectAll.displayName = 'Picky(SelectAll)';
-
-function areEqual(prevProps: SelectAllProps, nextProps: SelectAllProps) {
-  return (
-    prevProps.tabIndex === nextProps.tabIndex &&
-    prevProps.disabled === nextProps.disabled &&
-    prevProps.allSelected === nextProps.allSelected &&
-    prevProps.selectAllText === nextProps.selectAllText &&
-    prevProps.visible === nextProps.visible
-  );
+  }
 }
+
 export { SelectAll };
