@@ -168,7 +168,7 @@ describe('Picky', () => {
     });
 
     it('should show single select placeholder if single select and is defined', () => {
-      const singlePlaceholder = (val: any) => `You have selected ${val}`;
+      const singlePlaceholder = val => `You have selected ${val}`;
       const { getByTestId, rerender } = render(
         <Picky
           {...corePickyProps}
@@ -199,7 +199,7 @@ describe('Picky', () => {
       );
     });
     it('should show single select placeholder if single select and is defined with object value', () => {
-      const singlePlaceholder = (val: any) => `You have selected ${val.label}`;
+      const singlePlaceholder = val => `You have selected ${val.label}`;
       const { getByTestId, rerender } = render(
         <Picky
           {...corePickyProps}
@@ -444,7 +444,7 @@ describe('Picky', () => {
         />
       );
       // Checkbox should be indeterminate
-      const checkbox: any = getByTestId('selectall-checkbox');
+      const checkbox = getByTestId('selectall-checkbox');
       expect(checkbox.indeterminate).toBe(true);
 
       // Should have correct styles
@@ -516,7 +516,7 @@ describe('Picky', () => {
       // Remove the filter text from 'oo' to ''
       fireEvent.change(input, { target: { value: '' } });
       // Checkbox should be indeterminate
-      const checkbox: any = getByTestId('selectall-checkbox');
+      const checkbox = getByTestId('selectall-checkbox');
       expect(checkbox.indeterminate).toEqual(true);
       // Lets select all again when we have no filter
       fireEvent.click(selectAllButton);
@@ -620,9 +620,7 @@ describe('Picky', () => {
         { label: 'Item 1', value: 1 },
         { label: 'Item 2', value: 2 },
       ];
-      const processor = jest
-        .fn()
-        .mockImplementation((term: string) => term.trim());
+      const processor = jest.fn().mockImplementation(term => term.trim());
       const { getByTestId } = render(
         <Picky
           {...corePickyProps}
@@ -801,7 +799,6 @@ describe('Picky', () => {
     });
     it('should retain clear filter on close with clearFilterOnClose prop', () => {
       const { getByTestId, queryAllByTestId } = render(
-        //@ts-ignore
         <Picky
           {...corePickyProps}
           clearFilterOnClose={true}
@@ -1051,7 +1048,6 @@ describe('Picky', () => {
         const filterInput = getByTestId('picky__filter__input');
         fireEvent.change(filterInput, { target: { value: 'Item' } });
 
-        //@ts-ignore
         expect(filterInput.value).toEqual('Item');
 
         // Close it
@@ -1060,7 +1056,7 @@ describe('Picky', () => {
         // Reopen and check filter value is the same
         fireEvent.click(component);
         const newFilterInput = getByTestId('picky__filter__input');
-        //@ts-ignore
+
         expect(newFilterInput.value).toEqual('Item');
       });
     });
@@ -1134,7 +1130,7 @@ describe('Picky', () => {
         />
       );
       const filter = getByTestId('picky__filter__input');
-      //@ts-ignore
+
       expect(filter.placeholder).toEqual('Hello...');
     });
     test('filter placeholder default to Filter... if not supplied', () => {
@@ -1147,7 +1143,7 @@ describe('Picky', () => {
         />
       );
       const filter = getByTestId('picky__filter__input');
-      //@ts-ignore
+
       expect(filter.placeholder).toEqual('Filter...');
     });
 
@@ -1168,7 +1164,7 @@ describe('Picky', () => {
           value={[]}
         />
       );
-      //@ts-ignore
+
       expect(getByTestId('selectall-checkbox').checked).toEqual(false);
 
       rerender(
@@ -1186,7 +1182,7 @@ describe('Picky', () => {
           ]}
         />
       );
-      //@ts-ignore
+
       expect(getByTestId('selectall-checkbox').checked).toEqual(true);
     });
     test('should correctly update allSelected when values set programmatically simple options', () => {
@@ -1201,7 +1197,7 @@ describe('Picky', () => {
           value={[]}
         />
       );
-      //@ts-ignore
+
       expect(getByTestId('selectall-checkbox').checked).toEqual(false);
 
       rerender(
@@ -1214,7 +1210,7 @@ describe('Picky', () => {
           value={[2, 1]}
         />
       );
-      //@ts-ignore
+
       expect(getByTestId('selectall-checkbox').checked).toEqual(true);
     });
   });
@@ -1235,7 +1231,6 @@ describe('Picky', () => {
 
     const selectAllCheckbox = getByTestId('selectall-checkbox');
 
-    //@ts-ignore
     expect(selectAllCheckbox.checked).toEqual(false);
     fireEvent(
       selectAllCheckbox,
@@ -1244,12 +1239,12 @@ describe('Picky', () => {
         cancelable: true,
       })
     );
-    //@ts-ignore
+
     expect(selectAllCheckbox.checked).toEqual(false);
   });
 
   it('should not have select all checked when there are no options', () => {
-    const options: any[] = [];
+    const options = [];
     const { getByTestId } = render(
       <Picky
         {...corePickyProps}
@@ -1262,7 +1257,7 @@ describe('Picky', () => {
       />
     );
     const selectAllCheckbox = getByTestId('selectall-checkbox');
-    //@ts-ignore
+
     expect(selectAllCheckbox.checked).toEqual(false);
   });
 
@@ -1277,7 +1272,7 @@ describe('Picky', () => {
         includeSelectAll={true}
       />
     );
-    //@ts-ignore
+
     expect(getByTestId('selectall-checkbox').checked).toBe(true);
 
     rerender(
@@ -1291,7 +1286,6 @@ describe('Picky', () => {
       />
     );
 
-    //@ts-ignore
     expect(getByTestId('selectall-checkbox').checked).toBe(false);
   });
 
