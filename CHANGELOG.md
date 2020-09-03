@@ -1,3 +1,10 @@
+## [5.3.1](https://github.com/Aidurber/react-picky/compare/v5.3.0...v5.3.1) (2020-09-03)
+
+
+### Bug Fixes
+
+* hooks violation ([f109d37](https://github.com/Aidurber/react-picky/commit/f109d37))
+
 # [5.3.0](https://github.com/Aidurber/react-picky/compare/v5.2.5...v5.3.0) (2020-08-05)
 
 
