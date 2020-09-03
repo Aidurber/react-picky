@@ -1,3 +1,12 @@
+## [5.3.2](https://github.com/Aidurber/react-picky/compare/v5.3.1...v5.3.2) (2020-09-03)
+
+
+### Bug Fixes
+
+* effect used conditionally ([0d1da89](https://github.com/Aidurber/react-picky/commit/0d1da89))
+* useRef instead of createRef ([7652668](https://github.com/Aidurber/react-picky/commit/7652668))
+* wrapper stealing focus ([e599f8c](https://github.com/Aidurber/react-picky/commit/e599f8c)), closes [#221](https://github.com/Aidurber/react-picky/issues/221)
+
 ## [5.3.1](https://github.com/Aidurber/react-picky/compare/v5.3.0...v5.3.1) (2020-09-03)
 
 
