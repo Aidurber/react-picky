@@ -1,3 +1,8 @@
+# No longer actively maintained
+I no longer have the time nor the energy to maintain Picky. Please fork and improve. For alternatives I suggest: 
+- [react-select](https://github.com/JedWatson/react-select)
+- [downshift](https://github.com/paypal/downshif)
+
 # Picky ☜
 
 Yet another React select list.
